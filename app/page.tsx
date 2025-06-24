@@ -106,7 +106,7 @@ const LandingPage = () => {
             {/* Community Feed */}
             <div className="relative">
               <Card
-                variant="multi"
+                variant="none"
                 showRipple={false}
                 icon={{
                   icon: InstagramIcon,

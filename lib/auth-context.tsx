@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { useAuthState } from "@/hooks/use-auth-state";
 
 interface AuthContextType {
@@ -36,13 +36,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     checkAuthState();
   };
 
-  const value = {
-    isAuthenticated,
-    isLoading,
-    login,
-    logout,
-    checkAuth: checkAuthState,
-  };
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      isLoading,
+      login,
+      logout,
+      checkAuth: checkAuthState,
+    }),
+    [isAuthenticated, isLoading, checkAuthState]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

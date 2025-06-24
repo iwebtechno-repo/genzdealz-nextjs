@@ -3,7 +3,11 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { type ColorVariant } from "@/lib/morphy-ui/types";
-import { getVariantStyles, getIconColor } from "@/lib/morphy-ui/utils";
+import {
+  getVariantStyles,
+  getIconColor,
+  getRippleColor,
+} from "@/lib/morphy-ui/utils";
 import { useRipple } from "@/lib/morphy-ui/ripple";
 import { type IconWeight } from "@phosphor-icons/react";
 
@@ -61,7 +65,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
-    const { RippleContainer } = useRipple(variant);
+    const { addRipple, resetRipple, ripple } = useRipple(variant);
 
     // Get centralized styles
     const variantStyles = getVariantStyles(variant);
@@ -70,10 +74,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // Icon component
     const IconComponent = icon?.icon;
 
-    const buttonContent = (
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (showRipple) {
+        addRipple(e);
+      }
+      // Call the original onMouseEnter if it exists
+      props.onMouseEnter?.(e);
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (showRipple) {
+        resetRipple();
+      }
+      // Call the original onMouseLeave if it exists
+      props.onMouseLeave?.(e);
+    };
+
+    return (
       <Comp
-        className={cn(buttonVariants({ size }), variantStyles, className)}
+        className={cn(
+          buttonVariants({ size }),
+          variantStyles,
+          showRipple ? "relative overflow-hidden" : "",
+          className
+        )}
         ref={ref}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         {...props}
       >
         {IconComponent && (
@@ -83,15 +110,25 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           />
         )}
         {props.children}
+
+        {/* Ripple element */}
+        {showRipple && ripple && (
+          <span
+            className={cn(
+              "absolute rounded-full animate-ripple pointer-events-none",
+              getRippleColor(variant)
+            )}
+            style={{
+              left: ripple.x,
+              top: ripple.y,
+              width: ripple.size,
+              height: ripple.size,
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        )}
       </Comp>
     );
-
-    // Wrap with ripple if enabled
-    if (showRipple) {
-      return <RippleContainer>{buttonContent}</RippleContainer>;
-    }
-
-    return buttonContent;
   }
 );
 

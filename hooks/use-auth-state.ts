@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export const useAuthState = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuthState = () => {
+  const checkAuthState = useCallback(() => {
     const token = document.cookie.includes("token=");
     setIsAuthenticated((prev) => {
       if (prev !== token) return token;
       return prev;
     });
     setIsLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     checkAuthState();
@@ -33,7 +33,7 @@ export const useAuthState = () => {
       window.removeEventListener("storage", handleCookieChange);
       window.removeEventListener("focus", checkAuthState);
     };
-  }, []);
+  }, [checkAuthState]);
 
   return { isAuthenticated, isLoading, checkAuthState };
 }; 

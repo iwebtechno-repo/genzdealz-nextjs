@@ -353,10 +353,18 @@ const AnimatedTabs = ({
     setTimeout(() => setIsAnimating(false), 200);
   }, []);
 
+  // Initialize underline position on mount
   useEffect(() => {
-    // Initialize underline position
-    handleTabChange(activeTab);
-  }, [activeTab, handleTabChange]);
+    const activeRef = activeTab === "login" ? loginRef : registerRef;
+    if (activeRef.current) {
+      const { offsetLeft, offsetWidth } = activeRef.current;
+      setUnderlineStyle({
+        width: `${offsetWidth}px`,
+        left: `${offsetLeft}px`,
+      });
+      prevLeftRef.current = `${offsetLeft}px`;
+    }
+  }, []); // Only run on mount
 
   return (
     <Tabs

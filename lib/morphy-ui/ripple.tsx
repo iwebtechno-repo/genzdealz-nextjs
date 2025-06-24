@@ -13,22 +13,22 @@ export const rippleKeyframes = `
 @keyframes ripple {
   0% {
     transform: translate(-50%, -50%) scale(0);
-    opacity: 0.25;
+    opacity: 0.8;
   }
-  30% {
-    opacity: 0.2;
-  }
-  70% {
-    opacity: 0.12;
+  40% {
+    opacity: 0.6;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
   }
 }
 
 .animate-ripple {
-  animation: ripple 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: ripple 600ms cubic-bezier(0.2, 0, 0.1, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 `;
 
@@ -37,61 +37,37 @@ export const rippleKeyframes = `
 // ============================================================================
 
 export const useRipple = (variant: ColorVariant = "gradient") => {
-  const [ripples, setRipples] = useState<
-    Array<{
-      id: number;
-      x: number;
-      y: number;
-      size: number;
-    }>
-  >([]);
-  const rippleId = useRef(0);
+  const [ripple, setRipple] = useState<{
+    x: number;
+    y: number;
+    size: number;
+  } | null>(null);
+  const hasRippled = useRef(false);
 
   const addRipple = (event: React.MouseEvent<HTMLElement>) => {
+    if (hasRippled.current) return;
+
     const rect = event.currentTarget.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = event.clientX - rect.left - size / 2;
-    const y = event.clientY - rect.top - size / 2;
-    const id = rippleId.current++;
+    // Use actual mouse position relative to the element
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    // Make ripple larger to flow through entire element
+    const size = Math.max(rect.width, rect.height) * 2;
 
-    setRipples((prev) => [...prev, { id, x, y, size }]);
+    setRipple({ x, y, size });
+    hasRippled.current = true;
 
-    // Remove ripple after animation
+    // Reset after animation
     setTimeout(() => {
-      setRipples((prev) => prev.filter((ripple) => ripple.id !== id));
+      setRipple(null);
     }, 600);
   };
 
-  const RippleContainer = ({
-    children,
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLDivElement> & { children: React.ReactNode }) => (
-    <div
-      className={cn("relative overflow-hidden", className)}
-      onMouseDown={addRipple}
-      {...props}
-    >
-      {children}
-      {ripples.map((ripple) => (
-        <span
-          key={ripple.id}
-          className={cn(
-            "absolute rounded-full animate-ripple pointer-events-none",
-            getRippleColor(variant)
-          )}
-          style={{
-            left: ripple.x,
-            top: ripple.y,
-            width: ripple.size,
-            height: ripple.size,
-          }}
-        />
-      ))}
-    </div>
-  );
+  const resetRipple = () => {
+    hasRippled.current = false;
+  };
 
-  return { addRipple, RippleContainer };
+  return { addRipple, resetRipple, ripple };
 };
 
 // ============================================================================
@@ -111,11 +87,33 @@ export const Ripple = ({
   children,
   ...props
 }: RippleProps) => {
-  const { RippleContainer } = useRipple(variant);
+  const { addRipple, resetRipple, ripple } = useRipple(variant);
 
   return (
-    <RippleContainer className={className} {...props}>
+    <div
+      className={cn("relative overflow-hidden", className)}
+      onMouseEnter={(e) => {
+        // Trigger ripple only on enter
+        addRipple(e);
+      }}
+      {...props}
+    >
       {children}
-    </RippleContainer>
+      {ripple && (
+        <span
+          className={cn(
+            "absolute rounded-full animate-ripple pointer-events-none",
+            getRippleColor(variant)
+          )}
+          style={{
+            left: ripple.x,
+            top: ripple.y,
+            width: ripple.size,
+            height: ripple.size,
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      )}
+    </div>
   );
 };
