@@ -1,0 +1,241 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# GenZDealZ Core Rules (v2.3.1)
+
+## 🎯 Essential Rules
+
+### 1. Components
+
+- Use shadcn components only (`npm install` not manual files)
+- Use `shadcn@` not `shadcn-ui`
+- Always use available props (`size`, `variant`, `showRipple`, `icon`)
+- All color/gradient/glass variants must use the centralized `ColorVariant` type
+
+### 2. Code Style
+
+- **Arrow functions only** — use `const Component = () => {}`
+- Use ES6+ syntax
+- Make components reusable
+
+### 3. UI/UX
+
+- Add physics/vibe to elements (ripple effects, smooth transitions)
+- **NO hover scale effects** (no `transform: scale` on hover)
+- Use `cursor-pointer` for interactive elements
+- Add proper spacing (`px-6` to `px-16` for buttons)
+
+### 4. Effects
+
+- Use `lib/morphy-ui/morphy.tsx` for all effects and types
+- Use `showRipple={true}` for interactive elements
+- Apply glass effects using `variant="glass"` (always uses the new depth effect)
+- **Ripple colors automatically complement variant colors** — no manual configuration needed
+- Glass effect uses modern Tailwind approach with CSS variables
+
+### 5. Icons
+
+- Use **Phosphor Icons** (`@phosphor-icons/react@2.1.10`) — MIT licensed for commercial use
+- **Always use the `Icon` suffix** (e.g., `ChatCircleIcon`, `TrendUpIcon`, `CaretRightIcon`)
+- **Global icon weight management** — Use `useIconWeight()` hook or `IconWrapper` component
+- **Default weight**: `regular` (configurable via `IconThemeProvider`)
+- **Use icon prop** — Prefer `icon={{ icon: IconName }}` over manual icon rendering
+- Import like: `import { ChatCircleIcon } from "@phosphor-icons/react";`
+- **Social Icons**: Use exported social icons from morphy system (`GoogleIcon`, `AppleIcon`, `InstagramIcon`)
+
+### 6. Morphy Props Over Manual ClassNames
+
+- **NEVER use manual className when morphy props are available**
+- **Use built-in props instead of manual styling**:
+
+```typescript
+// ❌ WRONG - Manual className
+<Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-500/90 hover:to-purple-600/90">
+
+// ✅ CORRECT - Use variant prop
+<Button variant="blue">
+
+// ❌ WRONG - Manual glass styling
+<Button className="bg-white/10 backdrop-blur-md border border-white/20">
+
+// ✅ CORRECT - Use glass variant
+<Button variant="glass">
+
+// ❌ WRONG - Manual ripple styling
+<Button className="relative overflow-hidden">
+
+// ✅ CORRECT - Use showRipple prop
+<Button showRipple>
+```
+
+- **Available morphy props to use**:
+  - `variant`: centralized `ColorVariant` (`"none"`, `"link"`, `"gradient"`, `"glass"`, `"blue"`, `"purple"`, `"green"`, `"orange"`, `"multi"`)
+  - `showRipple`: boolean
+  - `size`: `"sm"`, `"default"`, `"lg"`, `"xl"`, `"icon"`, `"icon-sm"`
+  - `icon`: `{ icon: IconComponent, title?: string, subtitle?: string }`
+- **Only use className for custom positioning, layout, or unique styling not covered by morphy props**
+
+### 8. Gradient & Ripple System
+
+- All gradient and ripple logic must use the centralized utilities and `ColorVariant`
+- Ripple color is always derived from `ColorVariant`
+
+### 9. Glass Depth Effect
+
+- The glass effect uses modern Tailwind approach with CSS variables:
+  - `bg-[var(--activeGlassColor)]` — Dynamic background based on theme
+  - `shadow-[0px_10px_30px_var(--activeShadowColor)]` — Dynamic shadow
+  - `border border-[var(--fadeGrey)]` — Consistent border
+  - `backdrop-blur-[10px]` — Blur effect
+- CSS variables are defined in `globals.css` and automatically switch for light/dark mode
+- Available as `glassEffect` export from morphy-ui
+
+### 10. Component Usage Patterns
+
+```typescript
+// ============================================================================
+// BUTTON PATTERNS
+// ============================================================================
+
+// Primary action with icon
+<Button size="xl" variant="gradient" showRipple icon={{ icon: SparkleIcon }}>
+  Action
+</Button>
+
+// Icon-only button
+<Button size="icon" variant="glass" showRipple icon={{ icon: UserIcon }} />
+
+// Secondary action
+<Button size="lg" variant="glass" showRipple>
+  Action
+</Button>
+
+// Social login buttons
+<Button variant="glass" showRipple>
+  <GoogleIcon className="mr-2 h-5 w-5" />
+  Sign in with Google
+</Button>
+
+<Button variant="glass" showRipple>
+  <AppleIcon className="mr-2 h-5 w-5" />
+  Sign in with Apple
+</Button>
+
+// ============================================================================
+// CARD PATTERNS
+// ============================================================================
+
+// Card with effects and header icon
+<Card variant="multi" showRipple icon={{ icon: ChatCircleIcon, title: "Chat", subtitle: "Start a conversation" }}>
+  Content
+</Card>
+
+// Card with positioned icon
+<Card variant="glass" showRipple icon={{ icon: ChatCircleIcon, position: "top-right" }}>
+  Content
+</Card>
+
+// Simple card with glass effect
+<Card variant="glass" showRipple>
+  Content
+</Card>
+
+// ============================================================================
+// ICON PATTERNS
+// ============================================================================
+
+// Icon with global weight (when not using icon prop)
+<SparkleIcon className="h-4 w-4" weight={useIconWeight()} />
+
+// Social icons usage
+<GoogleIcon className="h-5 w-5" />
+<AppleIcon size={24} />
+<InstagramIcon className="h-5 w-5" />
+
+// Icon prop system (preferred)
+<Button variant="glass" icon={{ icon: SparkleIcon, title: "Action" }}>
+  Click me
+</Button>
+```
+
+### 11. Brand Colors & Gradients
+
+```css
+/* Primary Brand Gradient */
+bg-gradient-to-r from-[#d0427f] to-[#303293]
+hover:from-[#d0427f]/90 hover:to-[#303293]/90
+```
+
+### 12. File Structure
+
+```
+components/ui/           # shadcn components
+lib/
+  morphy-ui/             # All effects and types
+    types.ts             # Effect types and interfaces
+    gradients.ts         # Gradient presets and utilities
+    ripple.tsx           # Ripple effects (auto-complements variants)
+    utils.ts             # Effect utilities
+    icon-theme-context.tsx # Icon weight management
+    icon-utils.tsx       # Icon utilities
+    social-icons.tsx     # Social media icons (Google, Apple, Instagram)
+    morphy.tsx           # Main effects entry point
+app/                     # Next.js pages
+```
+
+### 13. Imports
+
+```typescript
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  useRipple,
+  gradientPresets,
+  createGradient,
+  getVariantGradient,
+  getRippleGradient,
+  GradientShowcase,
+  GlassShowcase,
+} from "@/lib/morphy-ui/morphy";
+import { useIconWeight } from "@/lib/morphy-ui/icon-theme-context";
+import { GoogleIcon, AppleIcon, InstagramIcon } from "@/lib/morphy-ui/morphy";
+import {
+  ChatCircleIcon,
+  TrendUpIcon,
+  CaretRightIcon,
+} from "@phosphor-icons/react";
+```
+
+### 14. Social Icons System
+
+```typescript
+// Import social icons
+import { GoogleIcon, AppleIcon, InstagramIcon, SocialIcons } from "@/lib/morphy-ui/morphy";
+
+// Available social icons
+SocialIcons.Google      // GoogleIcon component
+SocialIcons.Apple       // AppleIcon component
+SocialIcons.Instagram   // InstagramIcon component
+
+// Usage in components
+<GoogleIcon className="h-5 w-5" />
+<AppleIcon size={24} />
+<InstagramIcon className="h-5 w-5" />
+```
+
+### 15. License Compliance
+
+- **Mandatory Check**: Before installing any new dependency, its license **must** be verified to ensure it is safe for commercial use.
+- **Permitted Licenses**: `MIT`, `Apache-2.0`, `ISC`, and `BSD` are pre-approved.
+- **Requires Review**: Licenses like `LGPL` or `MPL` require team review before use.
+- **Strictly Prohibited**: `GPL`, `AGPL`, and `UNLICENSED` packages are forbidden.
+- **Verification Command**: Use `npm view <package-name> license` to quickly check a package's license from the terminal.
+
+---
+
+**Remember**: Use `ColorVariant` everywhere, glass effect uses modern Tailwind with CSS variables, ripple color is derived from `ColorVariant`, and all effects are centralized in morphy-ui.
+
+_Last Updated: 2024-07_
+_Version: 2.3.1_

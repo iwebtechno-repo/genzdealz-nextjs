@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content=" " />
+    <meta name="author" content="" />
+    <link rel="icon" href="https://genzdealz.ai/icons/logo_white_old.jpg" />
+
+    <title>GenZDealZ.ai</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link rel="stylesheet" href="./css/style_new.css?v=1.2" type="text/css" />
+    <style>
+        #loader {
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          display: none; /* Hide the loader by default */
+        }
+      </style>
+</head>
+
+<body>
+
+    <!-- <special-header></special-header> -->
+    <div id="loader">
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    <div class="margin" style="margin-bottom: 125px"><span></span></div>
+
+    <main role="main" class="container">
+
+
+    </main>
+    <!-- <special-footer></special-footer>x` -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/headerFooter.js" type="module"></script>
+
+    <script>
+        // Trigger modal on page load
+        $(document).ready(function () {
+            function showLoader() {
+      document.getElementById('loader').style.display = 'block';
+    }
+
+    function hideLoader() {
+      document.getElementById('loader').style.display = 'none';
+    }
+
+    function redirectToOSSpecificLink() {
+      var userAgent = window.navigator.userAgent;
+      showLoader();
+
+      // Check for Android
+      if (/android/i.test(userAgent)) {
+        window.location.href = "https://play.google.com/store/apps/details?id=iweb.student.marketplace&pcampaignid=web_share";
+        return;
+      }
+
+      // Check for iOS
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = "https://apps.apple.com/in/app/genzdealz-ai/id6504975486";
+        return;
+      }
+
+      const referrer = document.referrer;
+    if (referrer.includes("iweb") || referrer.includes("iums")) {
+        // console.log("User was redirected from:", referrer);
+        window.location.href = `https://genzdealz.ai?redirect=${encodeURIComponent(referrer)}`;
+    } else {
+        // console.log("No referrer - user likely came directly or referrer is not passed.");
+        window.location.href = "https://genzdealz.ai";
+    }
+      // console.log("User came from:", document.referrer);https://unidealz.in/GenZDealZApp
+      // window.location.href = "https://genzdealz.ai?redirect=iums";
+      // window.location.href = "http://127.0.0.1:5500?redirect=iums";
+      // Optional: handle other cases if needed
+    //   hideLoader();
+      // console.log("OS is neither Android nor iOS");
+    }
+
+    // Call the function to check the OS and redirect
+    redirectToOSSpecificLink();
+        });
+
+        $(document).ready(function () {
+            // $("#overlay").hide();
+        });
+        // Check if the user is authenticated
+        // if (localStorage.getItem('authenticated') === 'true') {
+        // } else {
+        //   window.location.href = './login';
+        // }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+@font-face{
+    font-family: Montserrat;
+    src: url('../fonts/Montserrat-Medium.ttf');
+}
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    /* font-family: "Rubik", sans-serif; */
+    font-optical-sizing: auto;
+    background-color: #ffffff;
+    color: #090F47;
+}
+.h1-xl{
+    font-size: 3rem;
+}
+.text-prim{
+    color: #666666 !important;
+}
+.text-second {
+    color: #4D47C3 !important;
+}
+.text-third{
+    color: #8277EE !important;
+}
+.bg-third{
+    background-color: #8277EE !important;
+}
+.bg-dark-ppl{
+    background-color: #A8A0F9;
+}
+.bg-light-ppl{
+background-color: #F0EFFF;
+}
+
+/* breakpoint section */
+@media (max-width: 1399px) {
+
+}
+@media (max-width: 1199px) {
+
+}
+@media (max-width: 991px) {
+    .h1-xl{
+        font-size: 2rem;
+    }
+    .fs-5{
+        font-size: 1rem !important;
+    }
+}
+@media (max-width: 767px) {
+
+}
+@media (max-width: 575px) {
+
+}
+@media (max-width: 479px) {
+
+}
+/* breakpoint section */

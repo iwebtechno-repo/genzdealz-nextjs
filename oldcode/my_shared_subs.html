@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PL5GVMRBH9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PL5GVMRBH9');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DS58BG5N5D">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-DS58BG5N5D');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content="Score unbeatable deals on everything you need with GenZDealZ.ai's AI-powered shopping experience. Explore curated tech gadgets, fashion must-haves, homeware, and more. Sign up for free and unlock exclusive savings" />
+    <meta name="author" content="" />
+    <link rel="icon" href="https://genzdealz.ai/icons/logo_white_old.jpg" />
+
+    <title>GenZDealZ.ai Store: AI-Powered Discounts on Tech, Fashion & More</title>
+
+    <meta name="twitter:card" content="GenZDealZ.ai_large_image" />
+    <meta name="twitter:image" content="https://genzdealz.ai/icons/logo_white_old.jpg" />
+    <!-- Other meta tags -->
+    <meta property="og:title" content="GenZDealZ.ai Store: AI-Powered Discounts on Tech, Fashion & More" />
+    <meta property="og:description"
+        content="Score unbeatable deals on everything you need with GenZDealZ.ai's AI-powered shopping experience. Explore curated tech gadgets, fashion must-haves, homeware, and more. Sign up for free and unlock exclusive savings" />
+    <meta property="og:image" content="https://genzdealz.ai/icons/logo_white_old.jpg" />
+    <meta property="og:url" content="https://genzdealz.ai/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Place your stylesheet here-->
+    <!-- <script type="text/javascript" language="javascript">
+        var versionUpdate = (new Date()).getTime();
+        var link = document.createElement("link");
+        link.href = "./css/style_new.css?v=" + versionUpdate;
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        document.head.appendChild(link);  
+    </script> -->
+    <link href="./css/style_new.css?v=1.1" rel="stylesheet" type="text/css" />
+    <link href="./css/3D_card.css" rel="stylesheet" type="text/css" />
+
+
+    <style>
+        .custom-card {
+            width: 100%;
+            background-color: #181818;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .custom-card .shared-logo {
+            width: 50%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .custom-card .card-body {
+            padding: 15px;
+        }
+
+        .custom-card h6 {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .custom-card .price {
+            color: #ffc107;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .custom-card .badge {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+        }
+
+        .custom-card .grab-btn {
+            background-color: #2e3192;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .d-flex p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <special-header></special-header>
+
+    <div class="margin" style="margin-bottom: 110px"><span></span></div>
+
+    <main role="main" class="container-lg mb-3" style="display: none;">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="my-3 text-center heading text-white">My Shared Subscriptions</h2>
+            </div>
+        </div>
+        <div class="row g-3 align-items-stretch" id="appendData">
+
+
+
+
+        </div>
+    </main>
+    <special-footer></special-footer>
+<special-chatbots></special-chatbots>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/headerFooter.js" type="module"></script>
+    <script src="./js/firebase_auth.js" type="module"></script>
+    <script src="./js/chatgpt.js"></script>
+    <script src="./js/dynamic_dropdown.js?v=1.1" type="module"></script>
+    <script src="./js/3D_card.js"></script>
+    <script>
+        // Check if the user is authenticated
+        if (localStorage.getItem('authenticated') !== 'true') {
+            const currentUrl = window.location.href;
+            localStorage.setItem('redirectAfterLogin', currentUrl);
+            window.location.href = './login';
+        }
+
+
+        function loadData() {
+            let uid = localStorage.getItem('userId');
+            // Add placeholders for loading
+            let placeholderHtml = Array(8).fill().map(() => `
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 placeholder-col">    
+        <div class="d-flex justify-content-center align-items-center h-100 align-items-stretch ">
+    <div class="card custom-card">
+        <div class="card-header text-center bg-dark p-3">
+            <p class="placeholder-glow shared-logo rounded bg-black" style="width: 50%; height: 120px;">
+                <span class="placeholder col-12 h-100 rounded"></span>
+              </p>
+        </div>
+        <div class="card-body text-center d-flex flex-column justify-content-between align-items-center h-100">
+          <div class="w-100">
+            <h6 class="card-title mb-3">
+                  <span class="placeholder-glow">
+                    <span class="placeholder col-12 mb-2"></span>
+                    <span class="placeholder col-6"></span>
+                  </span>
+                </h6>
+            </div>
+            <div class=" w-100">
+                
+                                                        <p class="placeholder-glow d-flex justify-content-between mb-2">
+                                                            <span class="placeholder bg-light col-5"></span>
+                                                            <span class="placeholder bg-danger col-5"></span>
+                                                        </p>
+                                                        <p class="placeholder-glow d-flex justify-content-between mb-2">
+                                                            <span class="placeholder bg-light col-5"></span>
+                                                            <span class="placeholder bg-success col-5"></span>
+                                                        </p>
+                                                        <p class="placeholder-glow d-flex justify-content-between mb-2">
+                                                            <span class="placeholder bg-light col-5"></span>
+                                                            <span class="placeholder bg-light col-5"></span>
+                                                        </p>
+                                                        <p class="placeholder-glow d-flex justify-content-between mb-2">
+                                                            <span class="placeholder bg-light col-5"></span>
+                                                            <span class="placeholder bg-white col-5"></span>
+                                                        </p>
+            <button class="btn mt-3 shadow w-100 rounded-5 border-0 text-white mx-auto px-md-4 fw-bold" style="background: #2e3192;"><span class="placeholder col-12"></span></button>
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+      `).join("");
+
+            $("#appendData").prepend(placeholderHtml);
+
+            // Function to fetch and display shared subscriptions
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("UID", uid);
+
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+
+            fetch("https://flashweb.iweberp.com/api/get_shared_subscription_user_data", requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (Array.isArray(data.data) && data.data.length > 0) {
+                        function formatDate(dateString) {
+                            const date = new Date(dateString);
+                            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+                            const formattedDate = date.toLocaleDateString('en-GB', options);
+
+                            let hours = date.getUTCHours();
+                            let minutes = date.getUTCMinutes();
+                            const amPm = hours >= 12 ? 'PM' : 'AM';
+
+                            hours = hours % 12 || 12; // Convert to 12-hour format
+                            minutes = minutes.toString().padStart(2, '0'); // Ensure two digits
+
+                            return `${formattedDate}, ${hours}:${minutes} ${amPm}`;
+                        }
+                        // console.log(data.data);
+                        $(".placeholder-col").fadeOut();
+
+                        let cardHtml = data.data.map(item => {
+                            let formattedPurchaseDate = formatDate(item.created_at); // Correct reference
+
+                            return `
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 real-col">    
+                                        <div class="d-flex justify-content-center align-items-center h-100 align-items-stretch">
+                                            <div class="card custom-card">
+                                                <div class="card-header text-center bg-dark p-3">
+                                                    <img src="${item.dp}" alt="Prime Video" class="shared-logo">
+                                                </div>
+                                                <div class="card-body text-center d-flex flex-column justify-content-between align-items-center h-100">
+                                                    <h5 class="text-white" id="dealName">${item.name}</h5>
+                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                        <p class="text-white-50">Discount</p>
+                                                        <p class="text-danger" id="dealDiscount">${item.discountPercentage} % OFF</p>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                        <p class="text-white-50">Price</p>
+                                                        <p class="text-success" id="dealPrice">₹ ${item.sharedPrice}</p>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                        <p class="text-white-50">Duration</p>
+                                                        <p class="text-secondary" id="dealDuration">${item.duration} ${item.durationType}</p>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                        <p class="text-white-50">Purchase Date</p>
+                                                        <p class="text-white" id="dealSharing">${formattedPurchaseDate}</p>
+                                                    </div>
+                                                    <div class="buy-button w-100 mt-3">
+                                                        <div class="d-flex justify-content-center align-items-center w-100">
+                                                            <a href="${item.finalRedirectURL}" id="chatButton" class="btn shadow w-100 rounded-5 border-0 text-white mx-auto px-md-4 fw-bold" style="background: #2e3192;">
+                                                                Chat
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+        `;
+                        }).join("");
+
+                        $("#appendData").append(cardHtml);
+                        // $("#searchInput").on("input", debounce(function () {
+                        //     $(".placeholder-col").fadeIn();
+                        //     $("#appendData").empty();
+                        // }, 300));
+                    } else {
+                        // Handle the case when no data is returned
+                        $(".placeholder-col").fadeOut();
+                        $("#appendData").empty(); // Clear existing content
+                        $("#appendData").append(`<div class="col-12 text-center bg-dark p-4 rounded-4 mt-5"><h4 class="text-white">Oops.. ${data.message}</h4></div>`);
+                    }
+
+                })
+                .catch((error) => {
+                    $(".placeholder-col").fadeOut();
+                    $("#appendData").empty(); // Clear existing content
+                    $("#appendData").append(`<div class="col-12 text-center bg-dark p-4 rounded-4 mt-5"><h4 class="text-white">Oops.. ${error}</h4></div>`);
+                });
+        }
+
+        $(document).ready(function () {
+            // User is authenticated, allow access to the content
+            $(".footer, main").show();
+            
+            $("#overlay").hide();
+            loadData();
+        });
+
+        // User is not authenticated, redirect to the login page or handle accordingly
+        // window.location.href = './login';
+
+
+    </script>
+</body>
+
+</html>

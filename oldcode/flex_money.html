@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="position-relative">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PL5GVMRBH9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PL5GVMRBH9');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DS58BG5N5D">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-DS58BG5N5D');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content="FlexMoney Loan Application" />
+    <meta name="author" content="" />
+    <link rel="icon" href="https://genzdealz.ai/icons/logo_white_old.jpg" />
+
+    <title>GenZDealZ.ai | FlexMoney Loan Application</title>
+
+    <meta name="twitter:card" content="GenZDealZ.ai_large_image" />
+    <meta name="twitter:image" content="https://genzdealz.ai/icons/logo_white_old.jpg" />
+    <!-- Other meta tags -->
+    <meta property="og:title" content="GenZDealZ.ai | FlexMoney Loan Application" />
+    <meta property="og:description"
+        content="FlexMoney Loan Application" />
+    <meta property="og:image" content="https://genzdealz.ai/icons/logo_white_old.jpg" />
+    <meta property="og:url" content="https://genzdealz.ai/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Place your stylesheet here-->
+    <!-- <script type="text/javascript" language="javascript">
+    var versionUpdate = (new Date()).getTime();
+    var link = document.createElement("link");
+    link.href = "./css/style_new.css?v=" + versionUpdate;
+    link.rel = "stylesheet"
+    link.type = "text/css"
+    document.head.appendChild(link);  
+  </script> -->
+    <link href="./css/style_new.css?v=1.1" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./css/typo.css">
+    <link rel="stylesheet" href="./css/component.css">
+    <style>
+
+
+        .validation-error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .error {
+            border-color: red;
+        }
+        
+    </style>
+    <style>
+        
+
+        .text-danger,.error-message {
+            color: rgb(255 0 24) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <special-header></special-header>
+
+    <div class="margin" style="margin-bottom: 125px"><span></span></div>
+    <div class="">
+        
+    <div class="wrapper container-lg">
+        <div class="row justify-content-center text-start">
+            <h2 class="mb-0 text-center heading text-prim fw-bold">FlexMoney Loan Application</h2>
+        </div>
+        <div class="row justify-content-center  text-start py-5">
+            <div class="col-11 col-md-8 col-xl-6 mt-0">
+                <!-- <div class="loan-img-container h-100 d-flex align-items-center" style="background-image: url('https://www.cashe.co.in/wp-content/uploads/2023/12/Homepage-banner.png');background-position: center; background-repeat: no-repeat; background-size: contain;"> -->
+                <div class="loan-img-container h-100 d-flex align-items-center">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/student-applying-for-loan-illustration-download-in-svg-png-gif-file-formats--education-scholarship-grant-operations-pack-business-illustrations-5121466.png" alt="Loan Image" class="loan-img w-100">
+                </div>
+            </div>
+            <div class="col-12 col-md-8 col-xl-5 mt-0 moving-border">
+
+                <form id="applicationForm" class="px-lg-4">
+                   
+                    <!-- Full Name -->
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light-ppl" id="name" placeholder="">
+                        <label class="text-second" for="name"><i class="fa fa-user me-3"></i> Student Name <b class="text-danger">*</b></label>
+                        <div id="nameError" class="error-message"></div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-floating mb-4">
+                        <input type="tel" maxlength="10" class="form-control bg-light-ppl" id="number" placeholder="">
+                        <label class="text-second" for="number"><i class="fa fa-phone me-3"></i> Mobile Number <b
+                                class="text-danger">*</b></label>
+                        <div id="numberError" class="error-message"></div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-floating mb-4">
+                        <input type="email" class="form-control bg-light-ppl" id="email" placeholder="">
+                        <label class="text-second" for="email"><i class="fa fa-envelope me-3"></i> Email ID <b
+                                class="text-danger">*</b></label>
+                        <div id="emailError" class="error-message"></div>
+                    </div>
+                    
+                    <!-- College Name -->
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light-ppl" id="college" placeholder="">
+                        <label class="text-second" for="college"><i class="fa fa-graduation-cap me-3"></i> College Name <b
+                                class="text-danger">*</b></label>
+                        <div id="collegeError" class="error-message"></div>
+                    </div>
+
+                    <!-- Admission Status -->
+                    <div class="form-floating mb-4">
+                        <select class="form-select bg-light-ppl text-second" id="admissionStatus" aria-label="admissionStatus">
+                            <option value="" selected class="text-second">Select Admission Status</option>
+                            <option value="Admission Received">Admission Received</option>
+                            <option value="Admission Pending">Admission Pending</option>
+                            <option value="Yet to apply">Yet to apply</option>
+                            <option value="Waiting List">Waiting List</option>
+                        </select>
+                        <label for="admissionStatus" class="text-second"><i class="fa fa-clipboard-check me-3"></i>Admission Status <b
+                            class="text-danger">*</b></label>
+                            <div id="admissionStatusError" class="error-message"></div>
+                    </div>
+
+
+                    <!-- Loan Type -->
+                    <div class="form-floating mb-4">
+                        <select class="form-select bg-light-ppl text-second" id="loanType" aria-label="loanType">
+                            <option value="" selected class="text-second">Select Loan Type</option>
+                            <option value="Education">Education</option>
+                            <option value="Travel">Travel</option>
+                            <option value="TV">TV</option>
+                            <option value="Fridge/Washing Machine">Fridge/Washing Machine</option>
+                            <option value="Bike">Bike</option>
+                            <option value="Mobile/Tab/Laptop">Mobile/Tab/Laptop</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Home Setup">Home Setup</option>
+                            <option value="Gym Equipment">Gym Equipment</option>
+                            <option value="Gaming Console">Gaming Console</option>
+                        </select>
+                        <label for="loanType" class="text-second"><i class="fa fa-building-columns me-3"></i>Loan Type <b
+                            class="text-danger">*</b></label>
+                            <div id="loanTypeError" class="error-message"></div>
+                    </div>
+
+                    <!-- Loan Amount -->
+                    <div class="form-floating mb-4">
+                        <input type="tel" maxlength="10" class="form-control bg-light-ppl" id="loanAmount" placeholder="">
+                        <label class="text-second" for="loanAmount"><i class="fa fa-indian-rupee me-3"></i> Loan Amount <b
+                                class="text-danger">*</b></label>
+                        <div id="loanAmountError" class="error-message"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center w-100">
+                        <!-- Submit Button -->
+                        <button type="button" id="submitBtn" class="btn btn-md shadow btn-prim mb-4">
+                            <div class="spinner-border text-white loader" style="height: 2rem; width: 2rem;"
+                                        role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div><span class="text-signup fw-bold">Submit</span>
+                            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Toast Container -->
+        <div id="toastContainer" class="position-fixed" style="top: 142px; right: 95px;"></div>
+
+    </div>
+</div>
+    <special-footer></special-footer>
+<special-chatbots></special-chatbots>
+
+
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/headerFooterNew.js" type="module"></script>
+
+
+    <script src="./js/firebase_auth.js" type="module"></script>
+    <!-- <script src="./js/initialize.js?v=1.1" type="module"></script> -->
+    <script src="./js/dynamic_dropdown.js?v=1.1" type="module"></script>
+
+
+    <script src="./js/3D_card.js"></script>
+    <script src="./js/chatgpt.js"></script>
+
+    <!-- JavaScript Code -->
+    <script>
+        // Function to show toast messages
+function showToast(message, type) {
+  const toastContainer = document.getElementById('toastContainer');
+
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = `alert alert-${type} alert-dismissible fade show`;
+  toast.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+
+  // Add the toast to the container
+  toastContainer.appendChild(toast);
+
+  // Remove the toast after 3 seconds
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+// Function to validate individual field
+function validateField(field, value) {
+  let errorMessage = '';
+
+  if (value === '') {
+    errorMessage = `Please enter your ${field.replace('_', ' ')}.`;
+  } else {
+    switch (field) {
+      case 'email':
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+        if (!emailRegex.test(value)) {
+          errorMessage = 'Please enter a valid email address.';
+        }
+        break;
+      case 'number':
+        const phoneRegex = /^[0-9]{10}$/; // Only 10 digits allowed
+        if (!phoneRegex.test(value)) {
+          errorMessage = 'Phone number must be exactly 10 digits.';
+        }
+        break;
+    }
+  }
+
+  document.getElementById(`${field}Error`).innerText = errorMessage;
+  return errorMessage === '';
+}
+
+// Attach real-time validation to input fields
+const fields = [
+  'name',
+  'number', 
+  'email',
+  'college',
+  'admissionStatus',
+  'loanType',
+  'loanAmount',
+];
+
+// Add event listeners to all fields
+fields.forEach(field => {
+  const inputElement = document.getElementById(field);
+  if (inputElement) {
+    // Real-time validation on input
+    inputElement.addEventListener('input', () => {
+      // For number field, restrict to digits only
+      if (field === 'number' || field === 'loanAmount') {
+        inputElement.value = inputElement.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+      }
+      validateField(field, inputElement.value.trim());
+    });
+  }
+});
+
+document.getElementById('submitBtn').addEventListener('click', async () => {
+    $(".loader").show();
+  $(".text-signup").hide();
+  let hasError = false;
+  const formData = {
+    "Student Name": document.getElementById('name').value.trim(),
+    "Mobile no": document.getElementById('number').value.trim(),
+    "email id": document.getElementById('email').value.trim(),
+    "College Name": document.getElementById('college').value.trim(),
+    "Admission status": document.getElementById('admissionStatus').value.trim(),
+    "Loan Type": document.getElementById('loanType').value.trim(),
+    "Loan amount required": document.getElementById('loanAmount').value.trim(),
+  };
+
+  // Validate all fields before submission
+  fields.forEach(field => {
+    const value = document.getElementById(field).value.trim();
+    if (!validateField(field, value)) {
+      hasError = true;
+    }
+  });
+
+  if (hasError) {
+    $(".loader").hide();
+      $(".text-signup").show();
+    showToast('Please correct the errors and try again!', 'danger');
+    return;
+  }
+
+  // Submit form if all fields are valid
+  try {
+    const response = await fetch('https://flashweb.iweberp.com/api/flex_money', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData),
+      redirect: "follow"
+    });
+
+    if (response.ok) {
+        $(".loader").hide();
+      $(".text-signup").show();
+        const successData = await response.json();
+      showToast(`${successData.message || 'Application submitted successfully!'}`, 'success');
+      document.getElementById('applicationForm').reset();
+    } else {
+        $(".loader").hide();
+      $(".text-signup").show();
+      const errorData = await response.json();
+      showToast(`${errorData.error || 'Something went wrong!'}`, 'danger');
+    }
+  } catch (error) {
+    $(".loader").hide();
+      $(".text-signup").show();
+    showToast('Network error. Please try again.', 'danger');
+  }
+});
+
+    </script>
+    <script>
+
+        // User is not authenticated, redirect to the login page or handle accordingly
+        $(document).ready(function () {
+            if (localStorage.getItem('authenticated') === 'true') {
+                let userDataF = JSON.parse(localStorage.getItem("userDataF"));
+                let name = document.getElementById("name");
+                let number = document.getElementById("number");
+                let email = document.getElementById("email");
+                name.value = userDataF.name || "";
+                number.value = userDataF.number || userDataF.phoneNumber || userDataF.mobile_no || "" ;    
+                email.value = userDataF.email || userDataF.email_id || "";
+                // Save the current URL
+                // const currentUrl = window.location.href;
+                // localStorage.setItem('redirectAfterLogin', currentUrl);
+                // window.location.href = 'login';
+            }
+            $("#overlay").hide();
+            $(".footer").show();
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

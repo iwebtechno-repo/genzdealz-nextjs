@@ -1,0 +1,13 @@
+RewriteEngine on
+
+# Check that the requested file is not a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Check if the requested file with a .html extension exists
+RewriteCond %{REQUEST_FILENAME}.html -f
+
+# Rewrite rule to append .html to the request
+RewriteRule ^(.*)$ $1.html [L]
+
+# Set Permissions-Policy header to allow microphone access
+Header set Permissions-Policy "microphone=(self)"
