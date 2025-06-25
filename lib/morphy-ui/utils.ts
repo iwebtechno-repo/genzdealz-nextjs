@@ -54,6 +54,41 @@ export const getVariantStyles = (variant: ColorVariant): string => {
 };
 
 // ============================================================================
+// VARIANT STYLES WITHOUT HOVER (FOR NON-RIPPLE CARDS)
+// ============================================================================
+
+export const getVariantStylesNoHover = (variant: ColorVariant): string => {
+  switch (variant) {
+    case "gradient":
+    
+    case "glass":
+      return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] transition-all duration-200";
+    
+    case "blue":
+      return `bg-gradient-to-r ${gradientPresets.blue} text-white shadow-lg transition-all duration-200`;
+    
+    case "purple":
+      return `bg-gradient-to-r ${gradientPresets.purple} text-white shadow-lg transition-all duration-200`;
+    
+    case "green":
+      return `bg-gradient-to-r ${gradientPresets.green} text-white shadow-lg transition-all duration-200`;
+    
+    case "orange":
+      return `bg-gradient-to-r ${gradientPresets.orange} text-white shadow-lg transition-all duration-200`;
+    
+    case "multi":
+      return `bg-gradient-to-r ${gradientPresets.multi} text-white shadow-lg transition-all duration-200`;
+    
+    case "link":
+      return "text-primary underline-offset-4 transition-colors duration-200";
+    
+    case "none":
+    default:
+      return "bg-background border border-border transition-colors duration-200";
+  }
+};
+
+// ============================================================================
 // ICON COLORS
 // ============================================================================
 

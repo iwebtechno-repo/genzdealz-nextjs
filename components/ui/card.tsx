@@ -6,6 +6,7 @@ import { type ColorVariant } from "@/lib/morphy-ui/types";
 import { type IconWeight } from "@phosphor-icons/react";
 import {
   getVariantStyles,
+  getVariantStylesNoHover,
   getIconColor,
   getRippleColor,
 } from "@/lib/morphy-ui/utils";
@@ -40,8 +41,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ) => {
     const { addRipple, resetRipple, ripple } = useRipple(variant);
 
-    // Get centralized styles
-    const variantStyles = getVariantStyles(variant);
+    // Get centralized styles - use no-hover version when ripple is disabled
+    const variantStyles = showRipple
+      ? getVariantStyles(variant)
+      : getVariantStylesNoHover(variant);
     const iconColor = getIconColor(variant);
 
     // Icon component
@@ -54,6 +57,27 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       "top-right": "absolute top-6 right-6",
       "bottom-left": "absolute bottom-6 left-6",
       "bottom-right": "absolute bottom-6 right-6",
+    };
+
+    // Calculate padding based on icon position and content
+    const getIconPadding = () => {
+      if (!IconComponent) return "";
+
+      const hasTitleOrSubtitle = icon?.title || icon?.subtitle;
+      const isTopPositioned =
+        iconPosition === "top-left" || iconPosition === "top-right";
+      const isBottomPositioned =
+        iconPosition === "bottom-left" || iconPosition === "bottom-right";
+
+      if (isTopPositioned) {
+        // Add top padding for top-positioned icons
+        return hasTitleOrSubtitle ? "pt-20" : "pt-16";
+      } else if (isBottomPositioned) {
+        // Add bottom padding for bottom-positioned icons
+        return hasTitleOrSubtitle ? "pb-20" : "pb-16";
+      }
+
+      return "";
     };
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -77,11 +101,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         className={cn(
           "rounded-lg border bg-card text-card-foreground shadow-sm relative p-6",
-          // Add extra padding-top when there's a top-positioned icon with title/subtitle
-          IconComponent &&
-            (iconPosition === "top-left" || iconPosition === "top-right") &&
-            (icon.title || icon.subtitle) &&
-            "pt-20",
+          getIconPadding(),
           variantStyles,
           showRipple ? "overflow-hidden" : "",
           className

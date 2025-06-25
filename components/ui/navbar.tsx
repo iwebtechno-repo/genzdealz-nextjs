@@ -18,7 +18,7 @@ import { UserMenu } from "./user-menu";
 import { NavbarSkeleton } from "./navbar-skeleton";
 
 export const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -89,6 +89,14 @@ export const Navbar = () => {
     );
   };
 
+  const handleThemeToggle = (checked: boolean) => {
+    if (checked) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -99,7 +107,7 @@ export const Navbar = () => {
           >
             <Image
               src={
-                theme === "dark"
+                resolvedTheme === "dark"
                   ? "/genzdealz_darkmode.svg"
                   : "/genzdealz_lightmode.svg"
               }
@@ -118,10 +126,8 @@ export const Navbar = () => {
             <div className="flex items-center space-x-2">
               <SunIcon className="h-6 w-6 text-muted-foreground" />
               <Switch
-                checked={theme === "dark"}
-                onCheckedChange={(checked: boolean) =>
-                  setTheme(checked ? "dark" : "light")
-                }
+                checked={resolvedTheme === "dark"}
+                onCheckedChange={handleThemeToggle}
               />
               <MoonIcon className="h-6 w-6 text-muted-foreground" />
             </div>
