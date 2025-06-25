@@ -11,6 +11,7 @@ import {
   getRippleColor,
 } from "@/lib/morphy-ui/utils";
 import { useRipple } from "@/lib/morphy-ui/ripple";
+import { useState } from "react";
 
 // ============================================================================
 // CARD COMPONENT
@@ -42,12 +43,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const { addRipple, resetRipple, ripple } = useRipple();
+    const [isHovered, setIsHovered] = useState(false);
 
     // Get centralized styles - use no-hover version when ripple is disabled
     const variantStyles = showRipple
       ? getVariantStyles(variant, effect)
       : getVariantStylesNoHover(variant, effect);
-    const iconColor = getIconColor(variant, effect);
 
     // Icon component
     const IconComponent = icon?.icon;
@@ -82,7 +83,51 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       return "";
     };
 
+    const getIconBoxStyle = (isHovered: boolean) => {
+      if (!isHovered) {
+        return "bg-background/50 backdrop-blur-sm border border-transparent";
+      }
+
+      switch (variant) {
+        case "gradient":
+        case "multi":
+          return "bg-gradient-to-br from-[#d0427f]/20 to-[#303293]/20 dark:from-[#d0427f]/20 dark:to-[#303293]/20 border-transparent";
+        case "blue":
+          return "bg-gradient-to-br from-blue-500/20 to-blue-600/20 dark:from-blue-400/20 dark:to-blue-500/20 border-transparent";
+        case "purple":
+          return "bg-gradient-to-br from-purple-500/20 to-purple-600/20 dark:from-purple-400/20 dark:to-purple-500/20 border-transparent";
+        case "green":
+          return "bg-gradient-to-br from-green-500/20 to-green-600/20 dark:from-green-400/20 dark:to-green-500/20 border-transparent";
+        case "orange":
+          return "bg-gradient-to-br from-orange-500/20 to-orange-600/20 dark:from-orange-400/20 dark:to-orange-500/20 border-transparent";
+        default:
+          return "bg-gradient-to-br from-gray-500/20 to-gray-600/20 dark:from-gray-400/20 dark:to-gray-500/20 border-transparent";
+      }
+    };
+
+    const getIconColor = (isHovered: boolean) => {
+      if (!isHovered) {
+        switch (variant) {
+          case "gradient":
+          case "multi":
+            return "text-[#d0427f] dark:text-[#d0427f]";
+          case "blue":
+            return "text-blue-500 dark:text-blue-400";
+          case "purple":
+            return "text-purple-500 dark:text-purple-400";
+          case "green":
+            return "text-green-500 dark:text-green-400";
+          case "orange":
+            return "text-orange-500 dark:text-orange-400";
+          default:
+            return "text-primary";
+        }
+      }
+      return "text-foreground dark:text-foreground";
+    };
+
     const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+      setIsHovered(true);
       if (showRipple) {
         addRipple(e);
       }
@@ -91,6 +136,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     };
 
     const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+      setIsHovered(false);
       if (showRipple) {
         resetRipple();
       }
@@ -119,10 +165,23 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
               iconPositionClasses[iconPosition]
             )}
           >
-            <IconComponent
-              className={cn("h-6 w-6", iconColor)}
-              weight="regular"
-            />
+            <div className="relative">
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 border",
+                  getIconBoxStyle(isHovered),
+                  !isHovered && "border-primary/20 hover:border-primary/50"
+                )}
+              >
+                <IconComponent
+                  className={cn(
+                    "h-5 w-5 transition-colors duration-300",
+                    getIconColor(isHovered)
+                  )}
+                  weight="regular"
+                />
+              </div>
+            </div>
             {(icon.title || icon.subtitle) && (
               <div className="flex flex-col">
                 {icon.title && (
