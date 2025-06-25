@@ -65,28 +65,27 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
         className={cn("border-t border-border bg-background p-4", className)}
       >
         {/* Quick Actions */}
-        {!value.trim() && !isLoading && (
-          <div className="mb-4 flex flex-wrap gap-3">
-            {[
-              "What's the latest in tech?",
-              "Help me with my studies",
-              "Tell me a joke",
-              "Explain quantum physics",
-            ].map((suggestion) => (
-              <Button
-                key={suggestion}
-                variant="glass"
-                size="default"
-                showRipple={true}
-                onClick={() => onChange(suggestion)}
-                className="rounded-full border-border hover:border-primary/50 hover:bg-accent/20 cursor-pointer"
-                icon={{ icon: SparkleIcon }}
-              >
-                {suggestion}
-              </Button>
-            ))}
-          </div>
-        )}
+        <div className="mb-4 flex flex-wrap gap-3">
+          {[
+            "What's the latest in tech?",
+            "Help me with my studies",
+            "Tell me a joke",
+            "Explain quantum physics",
+          ].map((suggestion) => (
+            <Button
+              key={suggestion}
+              variant="none"
+              effect="glass"
+              size="default"
+              showRipple={true}
+              onClick={() => onChange(suggestion)}
+              className="rounded-full border-border hover:border-primary/50 hover:bg-accent/20 cursor-pointer"
+              icon={{ icon: SparkleIcon }}
+            >
+              {suggestion}
+            </Button>
+          ))}
+        </div>
 
         <form onSubmit={handleSubmit} className="flex items-end gap-3">
           <div className="flex-1 relative">
@@ -97,20 +96,22 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={isLoading}
-              rows={1}
-              className="w-full min-h-[44px] max-h-[120px] rounded-2xl border border-border focus:border-primary/50 focus:ring-1 focus:ring-primary/20 bg-background px-4 py-3 pr-12 text-sm resize-none outline-none transition-colors"
+              rows={3}
+              className="w-full min-h-[60px] max-h-[200px] rounded-2xl border border-border focus:border-primary/50 focus:ring-1 focus:ring-primary/20 bg-background px-4 py-3 pr-20 text-sm resize-none outline-none transition-colors"
             />
 
             {/* Input Actions */}
             <div className="absolute right-2 bottom-2 flex items-center gap-1">
               <Button
-                variant="glass"
+                variant="none"
+                effect="glass"
                 size="icon"
                 showRipple={true}
                 icon={{ icon: PaperclipIcon }}
               />
               <Button
-                variant="glass"
+                variant="none"
+                effect="glass"
                 size="icon"
                 showRipple={true}
                 icon={{ icon: MicrophoneIcon }}
@@ -120,13 +121,19 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
 
           <Button
             type="submit"
-            variant={isLoading ? "glass" : "gradient"}
-            size="xl"
+            variant={isLoading ? "none" : "gradient"}
+            effect={isLoading ? "glass" : "fill"}
+            size="lg"
             showRipple={true}
             disabled={!value.trim() || isLoading}
-            className="rounded-full flex-shrink-0"
-            icon={{ icon: isLoading ? StopCircleIcon : PaperPlaneTiltIcon }}
-          />
+            className="rounded-full flex-shrink-0 h-12 w-12"
+          >
+            {isLoading ? (
+              <StopCircleIcon className="h-5 w-5" weight="regular" />
+            ) : (
+              <PaperPlaneTiltIcon className="h-5 w-5" weight="regular" />
+            )}
+          </Button>
         </form>
       </div>
     );

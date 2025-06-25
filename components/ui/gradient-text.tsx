@@ -3,26 +3,31 @@
 import type * as React from "react";
 import { cn } from "@/lib/utils";
 import { type ClassValue } from "clsx";
+import { type ColorVariant } from "@/lib/morphy-ui/types";
+import { gradientPresets } from "@/lib/morphy-ui/utils";
 
 interface GradientTextProps {
   children: React.ReactNode;
   className?: ClassValue;
-  variant?: "default" | "blue" | "purple" | "green" | "orange" | "multi";
+  variant?: ColorVariant;
 }
 
 const gradientVariants = {
-  default: "bg-gradient-to-r from-[#d0427f] to-[#303293]",
-  blue: "bg-gradient-to-r from-blue-500 to-blue-700",
-  purple: "bg-gradient-to-r from-purple-500 to-purple-700",
-  green: "bg-gradient-to-r from-green-500 to-green-700",
-  orange: "bg-gradient-to-r from-orange-500 to-orange-700",
-  multi: "bg-gradient-to-r from-blue-500 to-purple-600",
+  default: `bg-gradient-to-r ${gradientPresets.primary}`,
+  blue: `bg-gradient-to-r ${gradientPresets.blue}`,
+  purple: `bg-gradient-to-r ${gradientPresets.purple}`,
+  green: `bg-gradient-to-r ${gradientPresets.green}`,
+  orange: `bg-gradient-to-r ${gradientPresets.orange}`,
+  multi: `bg-gradient-to-r ${gradientPresets.multi}`,
+  gradient: `bg-gradient-to-r ${gradientPresets.primary}`,
+  link: `bg-gradient-to-r ${gradientPresets.primary}`,
+  none: `bg-gradient-to-r ${gradientPresets.primary}`,
 } as const;
 
 export const GradientText = ({
   children,
   className,
-  variant = "default",
+  variant = "gradient",
 }: GradientTextProps) => {
   return (
     <span

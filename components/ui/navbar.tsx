@@ -10,84 +10,24 @@ import {
   SignInIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { UserMenu } from "./user-menu";
 import { NavbarSkeleton } from "./navbar-skeleton";
 
 export const Navbar = () => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
   // Show skeleton while loading
   if (isLoading) {
     return <NavbarSkeleton />;
   }
-
-  const links = [
-    {
-      href: "/",
-      label: "Home",
-      icon: HouseIcon,
-    },
-    {
-      href: "/genzgpt",
-      label: "GenZGPT",
-      icon: ChatCircleIcon,
-    },
-  ];
-
-  // Render navigation links based on auth state
-  const renderNavLinks = () => {
-    if (isAuthenticated) {
-      return links.map((link) => {
-        const Icon = link.icon;
-        return (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={cn(
-              "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-              pathname === link.href
-                ? "text-[#d0427f]"
-                : "text-muted-foreground"
-            )}
-          >
-            <Icon className="h-5 w-5" />
-            <span>{link.label}</span>
-          </Link>
-        );
-      });
-    }
-
-    return (
-      <>
-        <Link
-          href="/"
-          className={cn(
-            "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-            pathname === "/" ? "text-[#d0427f]" : "text-muted-foreground"
-          )}
-        >
-          <HouseIcon className="h-5 w-5" />
-          <span>Home</span>
-        </Link>
-        <Link
-          href="/login"
-          className={cn(
-            "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-            pathname === "/login" ? "text-[#d0427f]" : "text-muted-foreground"
-          )}
-        >
-          <SignInIcon className="h-5 w-5" />
-          <span>Login</span>
-        </Link>
-      </>
-    );
-  };
 
   const handleThemeToggle = (checked: boolean) => {
     if (checked) {
@@ -119,17 +59,78 @@ export const Navbar = () => {
               unoptimized
             />
           </Link>
+
           <div className="flex items-center space-x-8 ml-16">
-            {renderNavLinks()}
+            <Button
+              variant="link"
+              effect="glass"
+              size="sm"
+              showRipple={false}
+              className={cn(
+                "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+                pathname === "/"
+                  ? "text-[#d0427f] underline underline-offset-4"
+                  : "text-muted-foreground"
+              )}
+              onClick={() => router.push("/")}
+            >
+              <HouseIcon className="h-5 w-5" weight="regular" />
+              <span>Home</span>
+            </Button>
+
+            {isAuthenticated && (
+              <Button
+                variant="link"
+                effect="glass"
+                size="sm"
+                showRipple={false}
+                className={cn(
+                  "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+                  pathname === "/genzgpt"
+                    ? "text-[#d0427f] underline underline-offset-4"
+                    : "text-muted-foreground"
+                )}
+                onClick={() => router.push("/genzgpt")}
+              >
+                <ChatCircleIcon className="h-5 w-5" weight="regular" />
+                <span>GenZGPT</span>
+              </Button>
+            )}
+
+            {!isAuthenticated && (
+              <Button
+                variant="link"
+                effect="glass"
+                size="sm"
+                showRipple={false}
+                className={cn(
+                  "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+                  pathname === "/login"
+                    ? "text-[#d0427f] underline underline-offset-4"
+                    : "text-muted-foreground"
+                )}
+                onClick={() => router.push("/login")}
+              >
+                <SignInIcon className="h-5 w-5" weight="regular" />
+                <span>Login</span>
+              </Button>
+            )}
           </div>
+
           <div className="ml-auto flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <SunIcon className="h-6 w-6 text-muted-foreground" />
+              <SunIcon
+                className="h-6 w-6 text-muted-foreground"
+                weight="regular"
+              />
               <Switch
                 checked={resolvedTheme === "dark"}
                 onCheckedChange={handleThemeToggle}
               />
-              <MoonIcon className="h-6 w-6 text-muted-foreground" />
+              <MoonIcon
+                className="h-6 w-6 text-muted-foreground"
+                weight="regular"
+              />
             </div>
             {isAuthenticated && <UserMenu />}
           </div>

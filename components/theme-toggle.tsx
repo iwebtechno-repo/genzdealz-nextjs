@@ -36,7 +36,8 @@ export const ThemeToggle = () => {
   if (!mounted) {
     return (
       <Button
-        variant="glass"
+        variant="none"
+        effect="glass"
         size="icon"
         showRipple={false}
         className="cursor-pointer"
@@ -63,7 +64,8 @@ export const ThemeToggle = () => {
 
   return (
     <Button
-      variant="glass"
+      variant="none"
+      effect="glass"
       size="icon"
       showRipple={true}
       onClick={toggleTheme}

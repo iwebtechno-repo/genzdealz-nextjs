@@ -76,7 +76,8 @@ const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
             {!isUser && (
               <div className="absolute -bottom-2 right-2 opacity-0 group-hover/message:opacity-100 transition-opacity duration-200 flex items-center gap-1 bg-background border border-border rounded-lg p-1 shadow-lg">
                 <Button
-                  variant="glass"
+                  variant="none"
+                  effect="glass"
                   size="icon-sm"
                   onClick={handleCopy}
                   className="hover:bg-accent"
@@ -84,7 +85,8 @@ const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
                   icon={{ icon: copied ? Check : Copy }}
                 />
                 <Button
-                  variant="glass"
+                  variant="none"
+                  effect="glass"
                   size="icon-sm"
                   onClick={() => handleFeedback("up")}
                   className={cn(
@@ -95,7 +97,8 @@ const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
                   icon={{ icon: ThumbsUp }}
                 />
                 <Button
-                  variant="glass"
+                  variant="none"
+                  effect="glass"
                   size="icon-sm"
                   onClick={() => handleFeedback("down")}
                   className={cn(

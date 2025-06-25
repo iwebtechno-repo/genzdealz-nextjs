@@ -58,7 +58,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
           {/* Deal of the Day Section */}
           <div className="mb-4">
             <Button
-              variant="glass"
+              variant="none"
+              effect="glass"
               size="lg"
               onClick={onDealOfTheDay}
               className="w-full justify-start"
@@ -75,7 +76,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
           </div>
 
           <Button
-            variant="gradient"
+            variant="none"
+            effect="glass"
             size="lg"
             onClick={onNewChat}
             className="w-full justify-start"
@@ -122,7 +124,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
-                        variant="glass"
+                        variant="none"
+                        effect="glass"
                         size="icon-sm"
                         className="opacity-0 group-hover:opacity-100"
                         showRipple
@@ -131,7 +134,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                     </PopoverTrigger>
                     <PopoverContent align="end" className="w-32 p-1">
                       <Button
-                        variant="glass"
+                        variant="none"
+                        effect="glass"
                         size="sm"
                         onClick={() => onDeleteChat(chat.id)}
                         className="w-full justify-start text-destructive"
@@ -152,7 +156,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
         <div className="p-4 border-t border-border">
           <div className="space-y-2">
             <Button
-              variant="glass"
+              variant="none"
+              effect="glass"
               size="sm"
               className="w-full justify-start text-muted-foreground hover:text-foreground"
               showRipple
@@ -161,7 +166,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               History
             </Button>
             <Button
-              variant="glass"
+              variant="none"
+              effect="glass"
               size="sm"
               className="w-full justify-start text-muted-foreground hover:text-foreground"
               showRipple

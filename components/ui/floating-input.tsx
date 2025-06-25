@@ -153,7 +153,8 @@ const FloatingInput = React.forwardRef<HTMLInputElement, FloatingInputProps>(
           )}
           {showPasswordToggle && (
             <Button
-              variant="glass"
+              variant="none"
+              effect="glass"
               size="sm"
               type="button"
               showRipple={true}

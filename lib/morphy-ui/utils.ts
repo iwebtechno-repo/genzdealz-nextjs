@@ -1,4 +1,4 @@
-import { type ColorVariant } from "./types";
+import { type ColorVariant, type ComponentEffect } from "./types";
 
 // ============================================================================
 // GRADIENT PRESETS
@@ -21,35 +21,63 @@ export const gradientPresets = {
 // VARIANT STYLES
 // ============================================================================
 
-export const getVariantStyles = (variant: ColorVariant): string => {
+export const getVariantStyles = (
+  variant: ColorVariant,
+  effect: ComponentEffect = "fill"
+): string => {
   switch (variant) {
     case "gradient":
-      return `bg-gradient-to-r ${gradientPresets.primary} hover:from-[#d0427f]/90 hover:to-[#303293]/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
-    case "glass":
-      return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.primary} hover:from-[#d0427f]/90 hover:to-[#303293]/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "blue":
-      return `bg-gradient-to-r ${gradientPresets.blue} hover:from-blue-500/90 hover:to-blue-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.blue} hover:from-blue-500/90 hover:to-blue-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "purple":
-      return `bg-gradient-to-r ${gradientPresets.purple} hover:from-purple-500/90 hover:to-purple-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.purple} hover:from-purple-500/90 hover:to-purple-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "green":
-      return `bg-gradient-to-r ${gradientPresets.green} hover:from-green-500/90 hover:to-green-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.green} hover:from-green-500/90 hover:to-green-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "orange":
-      return `bg-gradient-to-r ${gradientPresets.orange} hover:from-orange-500/90 hover:to-orange-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.orange} hover:from-orange-500/90 hover:to-orange-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "multi":
-      return `bg-gradient-to-r ${gradientPresets.multi} hover:from-blue-500/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.multi} hover:from-blue-500/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
+
     case "link":
-      return "text-primary hover:text-primary/80 underline-offset-4 hover:underline transition-colors duration-200";
-    
+      return "text-primary hover:text-primary/80 underline-offset-4 hover:underline transition-colors duration-200 bg-transparent border-none shadow-none";
+
     case "none":
     default:
-      return "bg-background border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-200";
+      if (effect === "fill") {
+        return "bg-background border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-200";
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+      }
   }
 };
 
@@ -57,34 +85,63 @@ export const getVariantStyles = (variant: ColorVariant): string => {
 // VARIANT STYLES WITHOUT HOVER (FOR NON-RIPPLE CARDS)
 // ============================================================================
 
-export const getVariantStylesNoHover = (variant: ColorVariant): string => {
+export const getVariantStylesNoHover = (
+  variant: ColorVariant,
+  effect: ComponentEffect = "fill"
+): string => {
   switch (variant) {
     case "gradient":
-    
-    case "glass":
-      return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] transition-all duration-200";
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.primary} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "blue":
-      return `bg-gradient-to-r ${gradientPresets.blue} text-white shadow-lg transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.blue} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "purple":
-      return `bg-gradient-to-r ${gradientPresets.purple} text-white shadow-lg transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.purple} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "green":
-      return `bg-gradient-to-r ${gradientPresets.green} text-white shadow-lg transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.green} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "orange":
-      return `bg-gradient-to-r ${gradientPresets.orange} text-white shadow-lg transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.orange} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "multi":
-      return `bg-gradient-to-r ${gradientPresets.multi} text-white shadow-lg transition-all duration-200`;
-    
+      if (effect === "fill") {
+        return `bg-gradient-to-r ${gradientPresets.multi} text-white shadow-lg transition-all duration-200`;
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] transition-all duration-200";
+      }
+
     case "link":
-      return "text-primary underline-offset-4 transition-colors duration-200";
-    
+      return "text-primary underline-offset-4 transition-colors duration-200 bg-transparent border-none shadow-none";
+
     case "none":
     default:
-      return "bg-background border border-border transition-colors duration-200";
+      if (effect === "fill") {
+        return "bg-background border border-border transition-colors duration-200";
+      } else {
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] transition-all duration-200";
+      }
   }
 };
 
@@ -92,7 +149,10 @@ export const getVariantStylesNoHover = (variant: ColorVariant): string => {
 // ICON COLORS
 // ============================================================================
 
-export const getIconColor = (variant: ColorVariant): string => {
+export const getIconColor = (
+  variant: ColorVariant,
+  effect: ComponentEffect = "fill"
+): string => {
   switch (variant) {
     case "gradient":
     case "blue":
@@ -100,17 +160,37 @@ export const getIconColor = (variant: ColorVariant): string => {
     case "green":
     case "orange":
     case "multi":
-      return "text-white";
-    
-    case "glass":
-      return "text-foreground";
-    
+      if (effect === "fill") {
+        return "text-white";
+      } else {
+        // For glass effect, use variant color for icons
+        switch (variant) {
+          case "gradient":
+          case "multi":
+            return "text-[#d0427f]";
+          case "blue":
+            return "text-blue-500";
+          case "purple":
+            return "text-purple-500";
+          case "green":
+            return "text-green-500";
+          case "orange":
+            return "text-orange-500";
+          default:
+            return "text-[#d0427f]";
+        }
+      }
+
     case "link":
       return "text-primary";
-    
+
     case "none":
     default:
-      return "text-foreground";
+      if (effect === "fill") {
+        return "text-foreground";
+      } else {
+        return "text-foreground";
+      }
   }
 };
 
@@ -118,35 +198,63 @@ export const getIconColor = (variant: ColorVariant): string => {
 // RIPPLE COLORS
 // ============================================================================
 
-export const getRippleColor = (variant: ColorVariant): string => {
+export const getRippleColor = (
+  variant: ColorVariant,
+  effect: ComponentEffect = "fill"
+): string => {
   switch (variant) {
     case "gradient":
-      return "bg-white/20";
-    
-    case "glass":
-      return "bg-foreground/10";
-    
+      if (effect === "fill") {
+        return "bg-white/20";
+      } else {
+        return "bg-[#d0427f]/20";
+      }
+
     case "blue":
-      return "bg-blue-400/30";
-    
+      if (effect === "fill") {
+        return "bg-blue-400/30";
+      } else {
+        return "bg-blue-500/20";
+      }
+
     case "purple":
-      return "bg-purple-400/30";
-    
+      if (effect === "fill") {
+        return "bg-purple-400/30";
+      } else {
+        return "bg-purple-500/20";
+      }
+
     case "green":
-      return "bg-green-400/30";
-    
+      if (effect === "fill") {
+        return "bg-green-400/30";
+      } else {
+        return "bg-green-500/20";
+      }
+
     case "orange":
-      return "bg-orange-400/30";
-    
+      if (effect === "fill") {
+        return "bg-orange-400/30";
+      } else {
+        return "bg-orange-500/20";
+      }
+
     case "multi":
-      return "bg-white/20";
-    
+      if (effect === "fill") {
+        return "bg-white/20";
+      } else {
+        return "bg-[#d0427f]/20";
+      }
+
     case "link":
       return "bg-primary/20";
-    
+
     case "none":
     default:
-      return "bg-foreground/10";
+      if (effect === "fill") {
+        return "bg-foreground/10";
+      } else {
+        return "bg-foreground/10";
+      }
   }
 };
 
@@ -155,7 +263,15 @@ export const getRippleColor = (variant: ColorVariant): string => {
 // ============================================================================
 
 export const createGradient = (
-  direction: "to-r" | "to-l" | "to-t" | "to-b" | "to-tr" | "to-tl" | "to-br" | "to-bl" = "to-r",
+  direction:
+    | "to-r"
+    | "to-l"
+    | "to-t"
+    | "to-b"
+    | "to-tr"
+    | "to-tl"
+    | "to-br"
+    | "to-bl" = "to-r",
   colors: string[]
 ): string => {
   return `bg-gradient-${direction} ${colors.join(" ")}`;
@@ -184,8 +300,6 @@ export const getRippleGradient = (variant: ColorVariant): string => {
   switch (variant) {
     case "gradient":
       return "from-white/20 to-white/10";
-    case "glass":
-      return "from-foreground/10 to-foreground/5";
     case "blue":
       return "from-blue-400/30 to-blue-400/15";
     case "purple":
@@ -212,4 +326,4 @@ export const glassEffect = {
   blur: "backdrop-blur-[10px]",
   hover: "hover:shadow-[0px_15px_40px_var(--activeShadowColor)]",
   transition: "transition-all duration-200",
-} as const; 
+} as const;

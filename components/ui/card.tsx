@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { type ColorVariant } from "@/lib/morphy-ui/types";
+import { type ColorVariant, type ComponentEffect } from "@/lib/morphy-ui/types";
 import { type IconWeight } from "@phosphor-icons/react";
 import {
   getVariantStyles,
@@ -18,6 +18,7 @@ import { useRipple } from "@/lib/morphy-ui/ripple";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: ColorVariant;
+  effect?: ComponentEffect;
   showRipple?: boolean;
   icon?: {
     icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
@@ -32,6 +33,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     {
       className,
       variant = "none",
+      effect = "glass",
       showRipple = false,
       icon,
       children,
@@ -39,13 +41,13 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const { addRipple, resetRipple, ripple } = useRipple(variant);
+    const { addRipple, resetRipple, ripple } = useRipple();
 
     // Get centralized styles - use no-hover version when ripple is disabled
     const variantStyles = showRipple
-      ? getVariantStyles(variant)
-      : getVariantStylesNoHover(variant);
-    const iconColor = getIconColor(variant);
+      ? getVariantStyles(variant, effect)
+      : getVariantStylesNoHover(variant, effect);
+    const iconColor = getIconColor(variant, effect);
 
     // Icon component
     const IconComponent = icon?.icon;
@@ -142,7 +144,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           <span
             className={cn(
               "absolute rounded-full animate-ripple pointer-events-none",
-              getRippleColor(variant)
+              getRippleColor(variant, effect)
             )}
             style={{
               left: ripple.x,

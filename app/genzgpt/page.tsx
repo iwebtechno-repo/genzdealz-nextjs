@@ -124,7 +124,8 @@ const GenZGPT = () => {
                     {deal.code}
                   </code>
                   <Button
-                    variant="glass"
+                    variant="none"
+                    effect="glass"
                     size="sm"
                     className="cursor-pointer"
                     onClick={() => navigator.clipboard.writeText(deal.code)}
@@ -145,7 +146,8 @@ const GenZGPT = () => {
                   Claim Deal
                 </Button>
                 <Button
-                  variant="glass"
+                  variant="none"
+                  effect="glass"
                   size="lg"
                   showRipple={true}
                   className="flex-1"

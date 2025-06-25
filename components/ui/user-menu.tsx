@@ -24,13 +24,14 @@ export const UserMenu = () => {
       <PopoverTrigger asChild>
         <Button
           variant="gradient"
+          effect="fill"
           size="icon"
           showRipple={true}
           className={isOpen ? "ring-2 ring-[#d0427f]/20" : ""}
           icon={{ icon: UserIcon }}
         />
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-56 p-0" sideOffset={8}>
+      <PopoverContent align="end" className="w-60 p-4" sideOffset={8}>
         <div className="p-3 border-b border-border">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">User</p>
@@ -39,11 +40,12 @@ export const UserMenu = () => {
             </p>
           </div>
         </div>
-        <div className="p-1">
+        <div>
           <Button
-            variant="glass"
+            variant="link"
+            effect="fill"
             size="sm"
-            showRipple={true}
+            showRipple={false}
             className="w-full justify-start"
             onClick={() => {
               // Handle profile click
@@ -54,9 +56,10 @@ export const UserMenu = () => {
             Profile
           </Button>
           <Button
-            variant="glass"
+            variant="link"
+            effect="fill"
             size="sm"
-            showRipple={true}
+            showRipple={false}
             className="w-full justify-start"
             onClick={() => {
               // Handle settings click
@@ -68,9 +71,10 @@ export const UserMenu = () => {
           </Button>
           <div className="h-px bg-border my-1" />
           <Button
-            variant="glass"
+            variant="link"
+            effect="fill"
             size="sm"
-            showRipple={true}
+            showRipple={false}
             className="w-full justify-start text-destructive hover:text-destructive"
             onClick={handleLogout}
             icon={{ icon: SignOutIcon }}

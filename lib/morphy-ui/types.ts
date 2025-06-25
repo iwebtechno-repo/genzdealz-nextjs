@@ -9,12 +9,14 @@ export type ColorVariant =
   | "none"
   | "link"
   | "gradient"
-  | "glass"
   | "blue"
   | "purple"
   | "green"
   | "orange"
   | "multi";
+
+// New effect type for component styling
+export type ComponentEffect = "fill" | "glass";
 
 // ============================================================================
 // DIRECTION & GRADIENT TYPES
@@ -34,7 +36,11 @@ export type GradientDirection =
 // ICON & UI TYPES
 // ============================================================================
 
-export type IconPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
+export type IconPosition =
+  | "top-right"
+  | "top-left"
+  | "bottom-right"
+  | "bottom-left";
 
 export interface IconConfig {
   icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
@@ -50,7 +56,6 @@ export interface IconConfig {
 export type ButtonVariant =
   | "link"
   | "gradient"
-  | "glass"
   | "blue"
   | "purple"
   | "green"
@@ -59,7 +64,7 @@ export type ButtonVariant =
 
 export type CardVariant =
   | "none"
-  | "glass"
+  | "gradient"
   | "blue"
   | "purple"
   | "green"
@@ -95,7 +100,13 @@ export interface RippleProps {
 export interface RippleHookReturn {
   ripple: RippleState | null;
   isHovered: boolean;
-  handleMouseEnter: (e: React.MouseEvent<HTMLElement>, ref: React.RefObject<HTMLElement>) => void;
+  handleMouseEnter: (
+    e: React.MouseEvent<HTMLElement>,
+    ref: React.RefObject<HTMLElement>
+  ) => void;
   handleMouseLeave: () => void;
-  handleClick: (e: React.MouseEvent<HTMLElement>, ref: React.RefObject<HTMLElement>) => void;
-} 
+  handleClick: (
+    e: React.MouseEvent<HTMLElement>,
+    ref: React.RefObject<HTMLElement>
+  ) => void;
+}

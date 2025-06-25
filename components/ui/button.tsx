@@ -2,7 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { type ColorVariant } from "@/lib/morphy-ui/types";
+import { type ColorVariant, type ComponentEffect } from "@/lib/morphy-ui/types";
 import {
   getVariantStyles,
   getIconColor,
@@ -43,6 +43,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   variant?: ColorVariant;
+  effect?: ComponentEffect;
   showRipple?: boolean;
   icon?: {
     icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
@@ -56,23 +57,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       className,
       variant = "gradient",
+      effect = "glass",
       size,
       asChild = false,
       showRipple = false,
       icon,
+      children,
       ...props
     },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
-    const { addRipple, resetRipple, ripple } = useRipple(variant);
+    const { addRipple, resetRipple, ripple } = useRipple();
 
     // Get centralized styles
-    const variantStyles = getVariantStyles(variant);
-    const iconColor = getIconColor(variant);
+    const variantStyles = getVariantStyles(variant, effect);
+    const iconColor = getIconColor(variant, effect);
 
     // Icon component
     const IconComponent = icon?.icon;
+
+    // Determine if this is an icon-only button
+    const hasTextContent = children && React.Children.count(children) > 0;
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (showRipple) {
@@ -105,18 +111,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {IconComponent && (
           <IconComponent
-            className={cn("mr-2 h-4 w-4", iconColor)}
+            className={cn(
+              "h-4 w-4",
+              // Apply margin only when there's text content
+              hasTextContent ? "mr-2.5" : "",
+              iconColor
+            )}
             weight="regular"
           />
         )}
-        {props.children}
+        {children}
 
         {/* Ripple element */}
         {showRipple && ripple && (
           <span
             className={cn(
               "absolute rounded-full animate-ripple pointer-events-none",
-              getRippleColor(variant)
+              getRippleColor(variant, effect)
             )}
             style={{
               left: ripple.x,

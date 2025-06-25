@@ -177,7 +177,8 @@ const LoginFormWithSearchParams = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <Button
-          variant="glass"
+          variant="none"
+          effect="glass"
           type="button"
           onClick={() => handleSocialLogin("google")}
           showRipple
@@ -187,7 +188,8 @@ const LoginFormWithSearchParams = () => {
           Google
         </Button>
         <Button
-          variant="glass"
+          variant="none"
+          effect="glass"
           type="button"
           onClick={() => handleSocialLogin("apple")}
           showRipple
@@ -455,7 +457,7 @@ const LoginPage = () => {
         <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col items-center justify-center text-center">
             <h1 className="text-3xl font-bold mb-4">
-              <GradientText variant="default">
+              <GradientText variant="gradient">
                 Your AI-powered shopping journey begins here
               </GradientText>
             </h1>
@@ -511,7 +513,8 @@ const LoginPage = () => {
               </div>
               <Button className="w-full">Verify</Button>
               <Button
-                variant="glass"
+                variant="none"
+                effect="glass"
                 className="w-full"
                 onClick={() => setShowOtpModal(false)}
               >

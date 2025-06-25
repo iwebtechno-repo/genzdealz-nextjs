@@ -20,7 +20,7 @@ const features = [
     icon: SparkleIcon,
     title: "AI Magic",
     description: "Deals that match your vibe, no cap fr fr",
-    variant: "purple" as const,
+    variant: "gradient" as const,
   },
   {
     icon: MapPinIcon,
@@ -38,7 +38,7 @@ const features = [
     icon: UsersIcon,
     title: "Squad Goals",
     description: "Share the best finds with your crew",
-    variant: "orange" as const,
+    variant: "purple" as const,
   },
 ];
 
@@ -55,7 +55,7 @@ const LandingPage = () => {
               <div className="max-w-2xl">
                 <h1 className="text-5xl md:text-7xl font-bold mb-6">
                   <GradientText
-                    variant="default"
+                    variant="gradient"
                     className="text-5xl md:text-7xl"
                   >
                     GenZDealZ.ai
@@ -64,11 +64,13 @@ const LandingPage = () => {
                 <p className="text-xl md:text-2xl text-muted-foreground font-medium mb-8">
                   Your AI-powered shopping journey begins here.
                   <br />
-                  <span className="text-primary">No cap, just vibes.</span>
+                  <GradientText variant="gradient">
+                    No cap, just vibes.
+                  </GradientText>
                 </p>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
                       <SparkleIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"
@@ -77,7 +79,7 @@ const LandingPage = () => {
                     <span className="text-lg">AI-powered deal discovery</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
                       <MapPinIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"
@@ -86,7 +88,7 @@ const LandingPage = () => {
                     <span className="text-lg">Local campus deals</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
                       <UsersIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"
@@ -96,7 +98,7 @@ const LandingPage = () => {
                   </div>
                 </div>
                 <Link href="/genzgpt">
-                  <Button variant="multi" size="lg" showRipple>
+                  <Button variant="gradient" effect="fill" size="lg" showRipple>
                     Ask GenZGPT
                   </Button>
                 </Link>
@@ -174,7 +176,8 @@ const LandingPage = () => {
                           </p>
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <Button
-                              variant="glass"
+                              variant="none"
+                              effect="glass"
                               size="sm"
                               showRipple
                               icon={{ icon: HeartIcon }}
@@ -182,7 +185,8 @@ const LandingPage = () => {
                               <span>{post.likes}</span>
                             </Button>
                             <Button
-                              variant="glass"
+                              variant="none"
+                              effect="glass"
                               size="sm"
                               showRipple
                               icon={{ icon: ChatCircleIcon }}
@@ -190,7 +194,8 @@ const LandingPage = () => {
                               <span>Comment</span>
                             </Button>
                             <Button
-                              variant="glass"
+                              variant="none"
+                              effect="glass"
                               size="sm"
                               showRipple
                               icon={{ icon: ShareIcon }}
@@ -206,7 +211,8 @@ const LandingPage = () => {
 
                 <div className="mt-6 pt-4 border-t border-border">
                   <Button
-                    variant="glass"
+                    variant="none"
+                    effect="glass"
                     size="sm"
                     showRipple
                     className="w-full"
@@ -226,7 +232,7 @@ const LandingPage = () => {
         <div className="container px-4 mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <GradientText variant="default">
+              <GradientText variant="gradient">
                 Why We&apos;re Different
               </GradientText>
             </h2>
@@ -240,6 +246,7 @@ const LandingPage = () => {
               <div key={feature.title}>
                 <Card
                   variant={feature.variant}
+                  effect="glass"
                   className="h-full rounded-2xl"
                   showRipple
                   icon={{
@@ -249,7 +256,7 @@ const LandingPage = () => {
                 >
                   <div className="space-y-4">
                     <h3 className="text-2xl font-bold">
-                      <GradientText variant={feature.variant}>
+                      <GradientText variant="gradient">
                         {feature.title}
                       </GradientText>
                     </h3>

@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { type ColorVariant } from "./types";
 import { getRippleColor } from "./utils";
 
 // ============================================================================
@@ -36,7 +35,7 @@ export const rippleKeyframes = `
 // RIPPLE EFFECT HOOK
 // ============================================================================
 
-export const useRipple = (variant: ColorVariant = "gradient") => {
+export const useRipple = () => {
   const [ripple, setRipple] = useState<{
     x: number;
     y: number;
@@ -75,19 +74,13 @@ export const useRipple = (variant: ColorVariant = "gradient") => {
 // ============================================================================
 
 interface RippleProps {
-  variant?: ColorVariant;
   className?: string;
   children: React.ReactNode;
   [key: string]: unknown;
 }
 
-export const Ripple = ({
-  variant = "gradient",
-  className,
-  children,
-  ...props
-}: RippleProps) => {
-  const { addRipple, resetRipple, ripple } = useRipple(variant);
+export const Ripple = ({ className, children, ...props }: RippleProps) => {
+  const { addRipple, ripple } = useRipple();
 
   return (
     <div
@@ -103,7 +96,7 @@ export const Ripple = ({
         <span
           className={cn(
             "absolute rounded-full animate-ripple pointer-events-none",
-            getRippleColor(variant)
+            getRippleColor("gradient")
           )}
           style={{
             left: ripple.x,
