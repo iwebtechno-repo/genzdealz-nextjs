@@ -3,31 +3,32 @@ description:
 globs: 
 alwaysApply: true
 ---
-# GenZDealZ Core Rules (v2.3.1)
+# GenZDealZ Design System (v3.1)
 
-## 🎯 Essential Rules
+## 🎯 Core Rules
 
-### 1. Components
+### 1. **Components**
 
-- Use shadcn components only (`npm install` not manual files)
+- Use **shadcn/ui** components only (`npm install` not manual files)
 - Use `shadcn@` not `shadcn-ui`
 - Always use available props (`size`, `variant`, `showRipple`, `icon`)
 - All color/gradient/glass variants must use the centralized `ColorVariant` type
 
-### 2. Code Style
+### 2. **Code Style**
 
 - **Arrow functions only** — use `const Component = () => {}`
 - Use ES6+ syntax
 - Make components reusable
 
-### 3. UI/UX
+### 3. **UI/UX**
 
 - Add physics/vibe to elements (ripple effects, smooth transitions)
 - **NO hover scale effects** (no `transform: scale` on hover)
 - Use `cursor-pointer` for interactive elements
 - Add proper spacing (`px-6` to `px-16` for buttons)
+- **Text overflow tooltips**: Always add `title` attribute to elements with `truncate` class for automatic overflow detection
 
-### 4. Effects
+### 4. **Effects**
 
 - Use `lib/morphy-ui/morphy.tsx` for all effects and types
 - Use `showRipple={true}` for interactive elements
@@ -35,7 +36,7 @@ alwaysApply: true
 - **Ripple colors automatically complement variant colors** — no manual configuration needed
 - Glass effect uses modern Tailwind approach with CSS variables
 
-### 5. Icons
+### 5. **Icons**
 
 - Use **Phosphor Icons** (`@phosphor-icons/react@2.1.10`) — MIT licensed for commercial use
 - **Always use the `Icon` suffix** (e.g., `ChatCircleIcon`, `TrendUpIcon`, `CaretRightIcon`)
@@ -45,7 +46,7 @@ alwaysApply: true
 - Import like: `import { ChatCircleIcon } from "@phosphor-icons/react";`
 - **Social Icons**: Use exported social icons from morphy system (`GoogleIcon`, `AppleIcon`, `InstagramIcon`)
 
-### 6. Morphy Props Over Manual ClassNames
+### 6. **Morphy Props Over Manual ClassNames**
 
 - **NEVER use manual className when morphy props are available**
 - **Use built-in props instead of manual styling**:
@@ -77,38 +78,20 @@ alwaysApply: true
   - `icon`: `{ icon: IconComponent, title?: string, subtitle?: string }`
 - **Only use className for custom positioning, layout, or unique styling not covered by morphy props**
 
-### 8. Gradient & Ripple System
+## 🧩 Component Patterns
 
-- All gradient and ripple logic must use the centralized utilities and `ColorVariant`
-- Ripple color is always derived from `ColorVariant`
-
-### 9. Glass Depth Effect
-
-- The glass effect uses modern Tailwind approach with CSS variables:
-  - `bg-[var(--activeGlassColor)]` — Dynamic background based on theme
-  - `shadow-[0px_10px_30px_var(--activeShadowColor)]` — Dynamic shadow
-  - `border border-[var(--fadeGrey)]` — Consistent border
-  - `backdrop-blur-[10px]` — Blur effect
-- CSS variables are defined in `globals.css` and automatically switch for light/dark mode
-- Available as `glassEffect` export from morphy-ui
-
-### 10. Component Usage Patterns
+### 7. **Button Component**
 
 ```typescript
-// ============================================================================
-// BUTTON PATTERNS
-// ============================================================================
+import { Button } from "@/components/ui/button";
 
-// Primary action with icon
-<Button size="xl" variant="gradient" showRipple icon={{ icon: SparkleIcon }}>
-  Action
-</Button>
-
-// Icon-only button
-<Button size="icon" variant="glass" showRipple icon={{ icon: UserIcon }} />
-
-// Secondary action
-<Button size="lg" variant="glass" showRipple>
+// Complete button with all props
+<Button
+  size="xl"
+  variant="gradient"
+  showRipple
+  icon={{ icon: SparkleIcon, title: "Action" }}
+>
   Action
 </Button>
 
@@ -117,41 +100,38 @@ alwaysApply: true
   <GoogleIcon className="mr-2 h-5 w-5" />
   Sign in with Google
 </Button>
+```
 
-<Button variant="glass" showRipple>
-  <AppleIcon className="mr-2 h-5 w-5" />
-  Sign in with Apple
-</Button>
+### 8. **Card Component**
 
-// ============================================================================
-// CARD PATTERNS
-// ============================================================================
+```typescript
+import { Card } from "@/components/ui/card";
 
-// Card with effects and header icon
-<Card variant="multi" showRipple icon={{ icon: ChatCircleIcon, title: "Chat", subtitle: "Start a conversation" }}>
+// Complete card with all props
+<Card
+  variant="multi"
+  showRipple
+  icon={{
+    icon: ChatCircleIcon,
+    title: "Chat",
+    subtitle: "Start a conversation",
+  }}
+>
   Content
-</Card>
+</Card>;
+```
 
-// Card with positioned icon
-<Card variant="glass" showRipple icon={{ icon: ChatCircleIcon, position: "top-right" }}>
-  Content
-</Card>
+### 9. **Icon Patterns**
 
-// Simple card with glass effect
-<Card variant="glass" showRipple>
-  Content
-</Card>
+```typescript
+import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
 
-// ============================================================================
-// ICON PATTERNS
-// ============================================================================
-
-// Icon with global weight (when not using icon prop)
+// Standard icon usage
 <SparkleIcon className="h-4 w-4" weight={useIconWeight()} />
 
-// Social icons usage
+// Social icons - consistent sizing
 <GoogleIcon className="h-5 w-5" />
-<AppleIcon size={24} />
+<AppleIcon className="h-5 w-5" />
 <InstagramIcon className="h-5 w-5" />
 
 // Icon prop system (preferred)
@@ -160,7 +140,9 @@ alwaysApply: true
 </Button>
 ```
 
-### 11. Brand Colors & Gradients
+## 🎨 Brand Colors & Gradients
+
+### 10. **Primary Brand Gradient**
 
 ```css
 /* Primary Brand Gradient */
@@ -168,7 +150,9 @@ bg-gradient-to-r from-[#d0427f] to-[#303293]
 hover:from-[#d0427f]/90 hover:to-[#303293]/90
 ```
 
-### 12. File Structure
+## 📁 File Structure
+
+### 11. **Project Organization**
 
 ```
 components/ui/           # shadcn components
@@ -185,7 +169,9 @@ lib/
 app/                     # Next.js pages
 ```
 
-### 13. Imports
+## 📦 Imports
+
+### 12. **Standard Imports**
 
 ```typescript
 import { Button } from "@/components/ui/button";
@@ -208,7 +194,9 @@ import {
 } from "@phosphor-icons/react";
 ```
 
-### 14. Social Icons System
+## 🔧 Social Icons System
+
+### 13. **Social Icons Usage**
 
 ```typescript
 // Import social icons
@@ -219,13 +207,15 @@ SocialIcons.Google      // GoogleIcon component
 SocialIcons.Apple       // AppleIcon component
 SocialIcons.Instagram   // InstagramIcon component
 
-// Usage in components
-<GoogleIcon className="h-5 w-5" />
-<AppleIcon size={24} />
-<InstagramIcon className="h-5 w-5" />
+// Usage in components - consistent sizing
+<GoogleIcon />
+<AppleIcon />
+<InstagramIcon />
 ```
 
-### 15. License Compliance
+## ⚖️ License Compliance
+
+### 14. **Dependency Licensing**
 
 - **Mandatory Check**: Before installing any new dependency, its license **must** be verified to ensure it is safe for commercial use.
 - **Permitted Licenses**: `MIT`, `Apache-2.0`, `ISC`, and `BSD` are pre-approved.
@@ -237,5 +227,25 @@ SocialIcons.Instagram   // InstagramIcon component
 
 **Remember**: Use `ColorVariant` everywhere, glass effect uses modern Tailwind with CSS variables, ripple color is derived from `ColorVariant`, and all effects are centralized in morphy-ui.
 
-_Last Updated: 2024-07_
-_Version: 2.3.1_
+_Last Updated: 2024-12_
+_Version: 3.1_
+
+### 4. **Text Overflow & Tooltips**
+
+- **Always add tooltips for truncated text**: Use native HTML `title` attribute with `truncate` class
+- **Automatic overflow detection**: Browser will only show tooltip when text is actually truncated
+- **Implementation pattern**:
+
+```typescript
+// ✅ CORRECT - Native tooltip for overflow
+<p className="truncate" title="Full text content">
+  Truncated text content
+</p>
+
+// ❌ WRONG - No tooltip for truncated text
+<p className="truncate">
+  Truncated text content
+</p>
+```
+
+- **Use cases**: Chat titles, button labels, card titles, navigation items, any text that might overflow

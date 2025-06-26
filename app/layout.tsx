@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NavbarWrapper } from "@/components/navbar-wrapper";
 import { AuthProvider } from "@/lib/auth-context";
 import { IconThemeProvider } from "@/lib/morphy-ui/icon-theme-context";
+import { GlobalTooltipProvider } from "@/lib/morphy-ui/morphy";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +25,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster position="top-center" richColors closeButton />
           <IconThemeProvider defaultWeight="regular">
             <AuthProvider>
-              <NavbarWrapper />
-              <main className="pt-28">{children}</main>
+              <GlobalTooltipProvider>
+                <NavbarWrapper />
+                <main className="pt-28">{children}</main>
+              </GlobalTooltipProvider>
             </AuthProvider>
           </IconThemeProvider>
         </ThemeProvider>

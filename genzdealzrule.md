@@ -1,70 +1,143 @@
-# GenZDealZ Design System (v3.0)
+# GenZDealZ Design System (v3.1)
 
-## 🎯 Core Principles
+## 🎯 Core Rules
 
-### 1. **Component Architecture**
+### 1. **Components**
 
-- Use **shadcn/ui** components as the foundation
-- Extend with **morphy-ui** effects and variants
-- Keep components simple and composable
-- Use TypeScript for type safety
+- Use **shadcn/ui** components only (`npm install` not manual files)
+- Use `shadcn@` not `shadcn-ui`
+- Always use available props (`size`, `variant`, `showRipple`, `icon`)
+- All color/gradient/glass variants must use the centralized `ColorVariant` type
 
 ### 2. **Code Style**
 
-- **Arrow functions only**: `const Component = () => {}`
-- **ES6+ syntax** with modern React patterns
-- **Consistent naming**: PascalCase for components, camelCase for functions
-- **Clean imports**: Group and organize imports logically
+- **Arrow functions only** — use `const Component = () => {}`
+- Use ES6+ syntax
+- Make components reusable
 
-### 3. **File Structure**
+### 3. **UI/UX**
 
-```
-app/                    # Next.js App Router
-├── layout.tsx         # Root layout with providers
-├── page.tsx           # Landing page
-├── globals.css        # Global styles
-├── genzgpt/           # AI chat feature
-└── login/             # Authentication
+- Add physics/vibe to elements (ripple effects, smooth transitions)
+- **NO hover scale effects** (no `transform: scale` on hover)
+- Use `cursor-pointer` for interactive elements
+- Add proper spacing (`px-6` to `px-16` for buttons)
+- **Text overflow tooltips**: Always add `title` attribute to elements with `truncate` class for automatic overflow detection
 
-components/
-├── ui/                # shadcn components
-│   ├── button.tsx     # Extended with morphy variants
-│   ├── card.tsx       # Extended with morphy variants
-│   └── ...            # Other UI components
-├── theme-toggle.tsx   # Theme switching
-└── navbar-wrapper.tsx # Navigation wrapper
+### 4. **Effects**
 
-lib/
-├── morphy-ui/         # Design system core
-│   ├── types.ts       # Centralized type definitions
-│   ├── utils.ts       # Variant styles and utilities
-│   ├── ripple.tsx     # Ripple effects
-│   └── morphy.tsx     # Main exports
-├── auth-context.tsx   # Authentication state
-└── utils.ts           # General utilities
+- Use `lib/morphy-ui/morphy.tsx` for all effects and types
+- Use `showRipple={true}` for interactive elements
+- Apply glass effects using `variant="glass"` (always uses the new depth effect)
+- **Ripple colors automatically complement variant colors** — no manual configuration needed
+- Glass effect uses modern Tailwind approach with CSS variables
 
-hooks/                 # Custom React hooks
-public/                # Static assets
-```
+### 5. **Icons**
 
-## 🎨 Design System
+- Use **Phosphor Icons** (`@phosphor-icons/react@2.1.10`) — MIT licensed for commercial use
+- **Always use the `Icon` suffix** (e.g., `ChatCircleIcon`, `TrendUpIcon`, `CaretRightIcon`)
+- **Global icon weight management** — Use `useIconWeight()` hook or `IconWrapper` component
+- **Default weight**: `regular` (configurable via `IconThemeProvider`)
+- **Use icon prop** — Prefer `icon={{ icon: IconName }}` over manual icon rendering
+- Import like: `import { ChatCircleIcon } from "@phosphor-icons/react";`
+- **Social Icons**: Use exported social icons from morphy system (`GoogleIcon`, `AppleIcon`, `InstagramIcon`)
 
-### 4. **Color Variants**
+### 6. **Morphy Props Over Manual ClassNames**
+
+- **NEVER use manual className when morphy props are available**
+- **Use built-in props instead of manual styling**:
 
 ```typescript
-type ColorVariant =
-  | "none" // Default styling
-  | "link" // Text link styling
-  | "gradient" // Brand gradient
-  | "glass" // Glassmorphism effect
-  | "blue" // Blue gradient
-  | "purple" // Purple gradient
-  | "green" // Green gradient
-  | "orange" // Orange gradient
-  | "multi"; // Multi-color gradient
+// ❌ WRONG - Manual className
+<Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-500/90 hover:to-purple-600/90">
+
+// ✅ CORRECT - Use variant prop
+<Button variant="blue">
+
+// ❌ WRONG - Manual glass styling
+<Button className="bg-white/10 backdrop-blur-md border border-white/20">
+
+// ✅ CORRECT - Use glass variant
+<Button variant="glass">
+
+// ❌ WRONG - Manual ripple styling
+<Button className="relative overflow-hidden">
+
+// ✅ CORRECT - Use showRipple prop
+<Button showRipple>
 ```
 
-### 5. **Brand Colors**
+- **Available morphy props to use**:
+  - `variant`: centralized `ColorVariant` (`"none"`, `"link"`, `"gradient"`, `"glass"`, `"blue"`, `"purple"`, `"green"`, `"orange"`, `"multi"`)
+  - `showRipple`: boolean
+  - `size`: `"sm"`, `"default"`, `"lg"`, `"xl"`, `"icon"`, `"icon-sm"`
+  - `icon`: `{ icon: IconComponent, title?: string, subtitle?: string }`
+- **Only use className for custom positioning, layout, or unique styling not covered by morphy props**
+
+## 🧩 Component Patterns
+
+### 7. **Button Component**
+
+```typescript
+import { Button } from "@/components/ui/button";
+
+// Complete button with all props
+<Button
+  size="xl"
+  variant="gradient"
+  showRipple
+  icon={{ icon: SparkleIcon, title: "Action" }}
+>
+  Action
+</Button>
+
+// Social login buttons
+<Button variant="glass" showRipple>
+  <GoogleIcon className="mr-2 h-5 w-5" />
+  Sign in with Google
+</Button>
+```
+
+### 8. **Card Component**
+
+```typescript
+import { Card } from "@/components/ui/card";
+
+// Complete card with all props
+<Card
+  variant="multi"
+  showRipple
+  icon={{
+    icon: ChatCircleIcon,
+    title: "Chat",
+    subtitle: "Start a conversation",
+  }}
+>
+  Content
+</Card>;
+```
+
+### 9. **Icon Patterns**
+
+```typescript
+import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
+
+// Standard icon usage
+<SparkleIcon className="h-4 w-4" weight={useIconWeight()} />
+
+// Social icons - consistent sizing
+<GoogleIcon className="h-5 w-5" />
+<AppleIcon className="h-5 w-5" />
+<InstagramIcon className="h-5 w-5" />
+
+// Icon prop system (preferred)
+<Button variant="glass" icon={{ icon: SparkleIcon, title: "Action" }}>
+  Click me
+</Button>
+```
+
+## 🎨 Brand Colors & Gradients
+
+### 10. **Primary Brand Gradient**
 
 ```css
 /* Primary Brand Gradient */
@@ -72,205 +145,102 @@ bg-gradient-to-r from-[#d0427f] to-[#303293]
 hover:from-[#d0427f]/90 hover:to-[#303293]/90
 ```
 
-## 🧩 Component Patterns
+## 📁 File Structure
 
-### 6. **Button Component**
+### 11. **Project Organization**
+
+```
+components/ui/           # shadcn components
+lib/
+  morphy-ui/             # All effects and types
+    types.ts             # Effect types and interfaces
+    gradients.ts         # Gradient presets and utilities
+    ripple.tsx           # Ripple effects (auto-complements variants)
+    utils.ts             # Effect utilities
+    icon-theme-context.tsx # Icon weight management
+    icon-utils.tsx       # Icon utilities
+    social-icons.tsx     # Social media icons (Google, Apple, Instagram)
+    morphy.tsx           # Main effects entry point
+app/                     # Next.js pages
+```
+
+## 📦 Imports
+
+### 12. **Standard Imports**
 
 ```typescript
 import { Button } from "@/components/ui/button";
-
-// Basic usage
-<Button variant="gradient" size="lg" showRipple>
-  Click me
-</Button>
-
-// With icon
-<Button
-  variant="glass"
-  size="xl"
-  showRipple
-  icon={{ icon: SparkleIcon, title: "Action" }}
->
-  Action
-</Button>
-
-// Social login
-<Button variant="glass" showRipple>
-  <GoogleIcon className="mr-2 h-5 w-5" />
-  Sign in with Google
-</Button>
-```
-
-### 7. **Card Component**
-
-```typescript
 import { Card } from "@/components/ui/card";
-
-// Basic card
-<Card variant="glass" showRipple>
-  Content here
-</Card>
-
-// With header icon
-<Card
-  variant="multi"
-  showRipple
-  icon={{ icon: ChatCircleIcon, title: "Chat", subtitle: "Start conversation" }}
->
-  Content here
-</Card>
-
-// With positioned icon
-<Card
-  variant="glass"
-  showRipple
-  icon={{ icon: SparkleIcon, position: "top-right" }}
->
-  Content here
-</Card>
+import {
+  useRipple,
+  gradientPresets,
+  createGradient,
+  getVariantGradient,
+  getRippleGradient,
+  GradientShowcase,
+  GlassShowcase,
+} from "@/lib/morphy-ui/morphy";
+import { useIconWeight } from "@/lib/morphy-ui/icon-theme-context";
+import { GoogleIcon, AppleIcon, InstagramIcon } from "@/lib/morphy-ui/morphy";
+import {
+  ChatCircleIcon,
+  TrendUpIcon,
+  CaretRightIcon,
+} from "@phosphor-icons/react";
 ```
 
-### 8. **Icon System**
+## 🔧 Social Icons System
+
+### 13. **Social Icons Usage**
 
 ```typescript
-import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
+// Import social icons
+import { GoogleIcon, AppleIcon, InstagramIcon, SocialIcons } from "@/lib/morphy-ui/morphy";
 
-// Use Icon suffix for Phosphor icons
-<SparkleIcon className="h-4 w-4" weight="regular" />
+// Available social icons
+SocialIcons.Google      // GoogleIcon component
+SocialIcons.Apple       // AppleIcon component
+SocialIcons.Instagram   // InstagramIcon component
 
-// Icon prop system (preferred)
-<Button icon={{ icon: SparkleIcon, title: "Action" }}>
-  Click me
-</Button>
+// Usage in components - consistent sizing
+<GoogleIcon />
+<AppleIcon />
+<InstagramIcon />
 ```
 
-## ⚡ Effects & Interactions
+## ⚖️ License Compliance
 
-### 9. **Ripple Effects**
+### 14. **Dependency Licensing**
 
-- **Automatic**: Use `showRipple={true}` prop
-- **Positioned**: Ripple starts from mouse entry point
-- **Themed**: Colors automatically match component variant
-- **Smooth**: 600ms animation with easing
-
-### 10. **Glass Effects**
-
-- **Modern**: Uses CSS variables for dynamic theming
-- **Responsive**: Automatically adapts to light/dark mode
-- **Consistent**: Centralized implementation in morphy-ui
-
-### 11. **Hover States**
-
-- **Conditional**: Only active when `showRipple={true}`
-- **Smooth**: 200ms transitions
-- **Themed**: Colors match component variants
-
-## 🎭 Theme System
-
-### 12. **Theme Provider Setup**
-
-```typescript
-// app/layout.tsx
-<ThemeProvider
-  attribute="class"
-  defaultTheme="system"
-  enableSystem
-  disableTransitionOnChange
->
-  {/* App content */}
-</ThemeProvider>
-```
-
-### 13. **Theme Toggle**
-
-```typescript
-// Uses Switch component with resolvedTheme
-<Switch
-  checked={resolvedTheme === "dark"}
-  onCheckedChange={handleThemeToggle}
-/>
-```
-
-### 14. **Theme-Aware Components**
-
-```typescript
-// Logo switching
-<Image
-  src={
-    resolvedTheme === "dark"
-      ? "/genzdealz_darkmode.svg"
-      : "/genzdealz_lightmode.svg"
-  }
-  alt="GenZDealZ.ai Logo"
-/>
-```
-
-## 📦 Dependencies
-
-### 15. **Core Dependencies**
-
-- **Next.js 15**: App Router with React 19
-- **Tailwind CSS 4**: Utility-first styling
-- **shadcn/ui**: Component foundation
-- **Phosphor Icons**: MIT licensed icon library
-- **next-themes**: Theme management
-- **Radix UI**: Accessible primitives
-
-### 16. **Design System**
-
-- **class-variance-authority**: Component variants
-- **clsx/tailwind-merge**: Class name utilities
-- **tailwindcss-animate**: Animation utilities
-
-## 🚀 Best Practices
-
-### 17. **Component Development**
-
-1. **Start with shadcn**: Use existing shadcn components as base
-2. **Extend with morphy**: Add variants and effects through morphy-ui
-3. **Type everything**: Use TypeScript interfaces for props
-4. **Keep it simple**: Avoid over-engineering
-
-### 18. **Styling Approach**
-
-1. **Use variants**: Prefer `variant="glass"` over custom classes
-2. **Leverage props**: Use `showRipple`, `size`, `icon` props
-3. **Minimal custom CSS**: Only add custom classes when necessary
-4. **Consistent spacing**: Use Tailwind spacing scale
-
-### 19. **Performance**
-
-1. **Lazy load**: Use dynamic imports for heavy components
-2. **Optimize images**: Use Next.js Image component
-3. **Minimize re-renders**: Use React.memo and useCallback
-4. **Bundle size**: Keep dependencies minimal
-
-## 🔧 Development Workflow
-
-### 20. **Adding New Components**
-
-1. Create in `components/ui/` following shadcn patterns
-2. Add morphy variants in `lib/morphy-ui/utils.ts`
-3. Export from `lib/morphy-ui/morphy.tsx`
-4. Document usage patterns
-
-### 21. **Adding New Variants**
-
-1. Update `ColorVariant` type in `lib/morphy-ui/types.ts`
-2. Add styles in `lib/morphy-ui/utils.ts`
-3. Test across light/dark themes
-4. Update documentation
-
-### 22. **Theme Changes**
-
-1. Update CSS variables in `app/globals.css`
-2. Test in both light and dark modes
-3. Verify all components respond correctly
-4. Check for contrast and accessibility
+- **Mandatory Check**: Before installing any new dependency, its license **must** be verified to ensure it is safe for commercial use.
+- **Permitted Licenses**: `MIT`, `Apache-2.0`, `ISC`, and `BSD` are pre-approved.
+- **Requires Review**: Licenses like `LGPL` or `MPL` require team review before use.
+- **Strictly Prohibited**: `GPL`, `AGPL`, and `UNLICENSED` packages are forbidden.
+- **Verification Command**: Use `npm view <package-name> license` to quickly check a package's license from the terminal.
 
 ---
 
-**Remember**: Keep it simple, consistent, and focused on the user experience. The design system should enhance development speed, not complicate it.
+**Remember**: Use `ColorVariant` everywhere, glass effect uses modern Tailwind with CSS variables, ripple color is derived from `ColorVariant`, and all effects are centralized in morphy-ui.
 
 _Last Updated: 2024-12_
-_Version: 3.0_
+_Version: 3.1_
+
+### 4. **Text Overflow & Tooltips**
+
+- **Always add tooltips for truncated text**: Use native HTML `title` attribute with `truncate` class
+- **Automatic overflow detection**: Browser will only show tooltip when text is actually truncated
+- **Implementation pattern**:
+
+```typescript
+// ✅ CORRECT - Native tooltip for overflow
+<p className="truncate" title="Full text content">
+  Truncated text content
+</p>
+
+// ❌ WRONG - No tooltip for truncated text
+<p className="truncate">
+  Truncated text content
+</p>
+```
+
+- **Use cases**: Chat titles, button labels, card titles, navigation items, any text that might overflow

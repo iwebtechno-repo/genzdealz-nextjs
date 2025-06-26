@@ -24,6 +24,12 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { useAuth } from "@/lib/auth-context";
 import { LoadingSpinner } from "@/components/ui/loading-bars";
 import { GoogleIcon, AppleIcon } from "@/lib/morphy-ui/morphy";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -68,6 +74,8 @@ const LoginFormWithSearchParams = () => {
       // Use the auth context to login
       login("mock_token_123");
 
+      toast.success("Login successful! Welcome back.");
+
       // Redirect to the original requested page or default to genzgpt
       const from = searchParams.get("from") || "/genzgpt";
       router.push(from);
@@ -86,6 +94,7 @@ const LoginFormWithSearchParams = () => {
 
       const token = `mock_${provider}_token`;
       login(token);
+      toast.success("Login successful! Welcome back.");
       router.push("/genzgpt");
     } catch (error) {
       console.error(`${provider} login error:`, error);
@@ -148,6 +157,7 @@ const LoginFormWithSearchParams = () => {
       <Button
         type="submit"
         variant="gradient"
+        effect="fill"
         size="default"
         showRipple={true}
         disabled={isLoggingIn}
@@ -183,8 +193,11 @@ const LoginFormWithSearchParams = () => {
           onClick={() => handleSocialLogin("google")}
           showRipple
           className="w-full"
-          icon={{ icon: GoogleIcon }}
+          icon={undefined}
         >
+          <span className="inline-flex items-center justify-center h-5 w-5 mr-2">
+            <GoogleIcon className="h-5 w-5" />
+          </span>
           Google
         </Button>
         <Button
@@ -194,8 +207,9 @@ const LoginFormWithSearchParams = () => {
           onClick={() => handleSocialLogin("apple")}
           showRipple
           className="w-full"
-          icon={{ icon: AppleIcon }}
+          icon={undefined}
         >
+          <AppleIcon className="h-5 w-5 text-black dark:text-white" />
           Apple
         </Button>
       </div>
@@ -235,6 +249,8 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
 
       // Use the auth context to login after registration
       login("mock_token_123");
+
+      toast.success("Account created! Welcome to GenZDealZ.");
 
       // Call success callback to show OTP modal
       onSuccess();
@@ -300,9 +316,9 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
       <Button
         type="submit"
         variant="gradient"
-        size="xl"
+        effect="fill"
+        size="default"
         showRipple={true}
-        disabled={isRegistering}
         className="w-full"
         icon={!isRegistering ? { icon: ArrowRightIcon } : undefined}
       >

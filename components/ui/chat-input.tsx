@@ -10,6 +10,12 @@ import {
   SparkleIcon,
   StopCircleIcon,
 } from "@phosphor-icons/react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ChatInputProps {
   value: string;
@@ -62,7 +68,10 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
     return (
       <div
         ref={ref}
-        className={cn("border-t border-border bg-background p-4", className)}
+        className={cn(
+          "border-t border-border bg-background p-4 pt-28",
+          className
+        )}
       >
         {/* Quick Actions */}
         <div className="mb-4 flex flex-wrap gap-3">
@@ -88,52 +97,68 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
         </div>
 
         <form onSubmit={handleSubmit} className="flex items-end gap-3">
-          <div className="flex-1 relative">
-            <textarea
+          <div className="flex-1 flex items-end gap-2">
+            <Textarea
               ref={textareaRef}
               value={value}
-              onChange={(e) => onChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                onChange(e.target.value)
+              }
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={isLoading}
               rows={3}
-              className="w-full min-h-[60px] max-h-[200px] rounded-2xl border border-border focus:border-primary/50 focus:ring-1 focus:ring-primary/20 bg-background px-4 py-3 pr-20 text-sm resize-none outline-none transition-colors"
             />
-
-            {/* Input Actions */}
-            <div className="absolute right-2 bottom-2 flex items-center gap-1">
-              <Button
-                variant="none"
-                effect="glass"
-                size="icon"
-                showRipple={true}
-                icon={{ icon: PaperclipIcon }}
-              />
-              <Button
-                variant="none"
-                effect="glass"
-                size="icon"
-                showRipple={true}
-                icon={{ icon: MicrophoneIcon }}
-              />
-            </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="none"
+                  effect="glass"
+                  size="icon"
+                  showRipple={true}
+                  icon={{ icon: PaperclipIcon }}
+                  tabIndex={-1}
+                  aria-label="Attach file"
+                />
+              </TooltipTrigger>
+              <TooltipContent>Attach file</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="none"
+                  effect="glass"
+                  size="icon"
+                  showRipple={true}
+                  icon={{ icon: MicrophoneIcon }}
+                  tabIndex={-1}
+                  aria-label="Record voice"
+                />
+              </TooltipTrigger>
+              <TooltipContent>Record voice</TooltipContent>
+            </Tooltip>
           </div>
-
-          <Button
-            type="submit"
-            variant={isLoading ? "none" : "gradient"}
-            effect={isLoading ? "glass" : "fill"}
-            size="lg"
-            showRipple={true}
-            disabled={!value.trim() || isLoading}
-            className="rounded-full flex-shrink-0 h-12 w-12"
-          >
-            {isLoading ? (
-              <StopCircleIcon className="h-5 w-5" weight="regular" />
-            ) : (
-              <PaperPlaneTiltIcon className="h-5 w-5" weight="regular" />
-            )}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="submit"
+                variant={isLoading ? "none" : "gradient"}
+                effect={isLoading ? "glass" : "fill"}
+                size="icon"
+                showRipple={true}
+                disabled={!value.trim() || isLoading}
+                className="rounded-full flex-shrink-0"
+                aria-label="Send"
+              >
+                {isLoading ? (
+                  <StopCircleIcon className="h-4 w-4" weight="regular" />
+                ) : (
+                  <PaperPlaneTiltIcon className="h-4 w-4" weight="regular" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Send message</TooltipContent>
+          </Tooltip>
         </form>
       </div>
     );

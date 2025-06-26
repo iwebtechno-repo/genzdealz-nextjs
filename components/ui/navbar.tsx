@@ -17,6 +17,11 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { UserMenu } from "./user-menu";
 import { NavbarSkeleton } from "./navbar-skeleton";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 export const Navbar = () => {
   const { setTheme, resolvedTheme } = useTheme();
@@ -118,20 +123,19 @@ export const Navbar = () => {
           </div>
 
           <div className="ml-auto flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <SunIcon
-                className="h-6 w-6 text-muted-foreground"
-                weight="regular"
-              />
-              <Switch
-                checked={resolvedTheme === "dark"}
-                onCheckedChange={handleThemeToggle}
-              />
-              <MoonIcon
-                className="h-6 w-6 text-muted-foreground"
-                weight="regular"
-              />
-            </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <SunIcon className="h-6 w-6 text-muted-foreground" />
+                  <Switch
+                    checked={resolvedTheme === "dark"}
+                    onCheckedChange={handleThemeToggle}
+                  />
+                  <MoonIcon className="h-6 w-6 text-muted-foreground" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>Toggle light/dark mode</TooltipContent>
+            </Tooltip>
             {isAuthenticated && <UserMenu />}
           </div>
         </div>
