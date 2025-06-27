@@ -39,14 +39,6 @@ export {
   SocialIcons,
 } from "./social-icons";
 
-// Auto overflow tooltip
-export {
-  AutoOverflowTooltip,
-  TruncateText,
-  useOverflowDetection,
-  GlobalTooltipProvider,
-} from "./auto-overflow-tooltip";
-
 // Utilities
 export {
   gradientPresets,

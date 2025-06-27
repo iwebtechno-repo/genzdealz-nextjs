@@ -68,13 +68,10 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "border-t border-border bg-background p-4 pt-28",
-          className
-        )}
+        className={cn("bg-background p-1 border-t border-border/50", className)}
       >
         {/* Quick Actions */}
-        <div className="mb-4 flex flex-wrap gap-3">
+        <div className="mb-2 flex flex-wrap gap-2">
           {[
             "What's the latest in tech?",
             "Help me with my studies",
@@ -96,7 +93,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex items-end gap-3">
+        <form onSubmit={handleSubmit} className="flex items-end gap-2">
           <div className="flex-1 flex items-end gap-2">
             <Textarea
               ref={textareaRef}
@@ -107,7 +104,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={isLoading}
-              rows={3}
+              rows={2}
             />
             <Tooltip>
               <TooltipTrigger asChild>

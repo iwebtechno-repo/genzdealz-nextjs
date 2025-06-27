@@ -26,26 +26,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { isAuthenticated, isLoading, checkAuthState } = useAuthState();
 
-  const login = (token: string) => {
-    document.cookie = `token=${token}; path=/; max-age=86400`; // 24 hours
-    checkAuthState();
-  };
+  const value = useMemo(() => {
+    const login = (token: string) => {
+      document.cookie = `token=${token}; path=/; max-age=86400`; // 24 hours
+      checkAuthState();
+    };
 
-  const logout = () => {
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    checkAuthState();
-  };
+    const logout = () => {
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      checkAuthState();
+    };
 
-  const value = useMemo(
-    () => ({
+    return {
       isAuthenticated,
       isLoading,
       login,
       logout,
       checkAuth: checkAuthState,
-    }),
-    [isAuthenticated, isLoading, checkAuthState]
-  );
+    };
+  }, [isAuthenticated, isLoading, checkAuthState]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -4,18 +4,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useIconWeight } from "@/lib/morphy-ui/icon-theme-context";
-import { TruncateText } from "@/lib/morphy-ui/morphy";
 import {
   PlusIcon,
-  ClockIcon,
-  GearIcon,
   TrashIcon,
   DotsThreeOutlineIcon,
   GiftIcon,
-  ListIcon,
-  ChatCircleIcon,
-  RobotIcon,
-  CodeIcon,
   CaretLeftIcon,
 } from "@phosphor-icons/react";
 import {
@@ -34,12 +27,6 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 interface ChatHistory {
   id: string;
@@ -69,27 +56,13 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
     },
     ref
   ) => {
-    // Function to get appropriate icon based on chat title
-    const getChatIcon = (title: string) => {
-      const lowerTitle = title.toLowerCase();
-      if (lowerTitle.includes("getting started") || lowerTitle.includes("ai")) {
-        return <RobotIcon className="h-5 w-5 flex-shrink-0" />;
-      }
-      if (
-        lowerTitle.includes("coding") ||
-        lowerTitle.includes("code") ||
-        lowerTitle.includes("project")
-      ) {
-        return <CodeIcon className="h-5 w-5 flex-shrink-0" />;
-      }
-      return <ChatCircleIcon className="h-5 w-5 flex-shrink-0" />;
-    };
+    const iconWeight = useIconWeight();
 
     return (
       <SidebarProvider>
         <Sidebar
           collapsible="icon"
-          className={cn("bg-sidebar text-sidebar-foreground pt-28", className)}
+          className={cn("bg-sidebar text-sidebar-foreground", className)}
           ref={ref}
         >
           <SidebarHeader className="flex items-center justify-between gap-2">
@@ -101,7 +74,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               aria-label="Toggle sidebar"
               className="ml-auto"
             >
-              <CaretLeftIcon className="h-4 w-4" weight={useIconWeight()} />
+              <CaretLeftIcon className="h-4 w-4" weight={iconWeight} />
             </SidebarTrigger>
             <div className="flex items-center justify-between w-full mt-2">
               <Button
@@ -112,51 +85,80 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                 showRipple
                 icon={{ icon: PlusIcon, title: "New Chat" }}
                 aria-label="New Chat"
-                className="flex-1 justify-start"
+                className="w-full justify-start"
               >
-                <span className="group-data-[collapsible=icon]:hidden">
+                <span className="group-data-[collapsible=icon]:hidden flex items-center gap-2">
                   New Chat
+                  <span className="text-xs text-muted-foreground">
+                    ({chatHistory.length})
+                  </span>
                 </span>
               </Button>
-              <span className="group-data-[collapsible=icon]:hidden text-xs text-muted-foreground ml-2">
-                {chatHistory.length} chats
-              </span>
             </div>
           </SidebarHeader>
-          <SidebarContent className="flex-1 overflow-y-auto px-2 space-y-2">
+          <SidebarContent className="flex-1 overflow-y-auto px-2">
             <SidebarMenu>
               {chatHistory.map((chat, index) => (
-                <SidebarMenuItem key={chat.id}>
+                <SidebarMenuItem key={chat.id} className="py-0.5">
                   <SidebarMenuButton
                     isActive={chat.isActive}
                     onClick={() => onSelectChat(chat.id)}
                     tooltip={chat.title}
-                    className="w-full text-left flex items-center gap-3 p-3 rounded-lg"
+                    variant={chat.isActive ? "outline" : "default"}
+                    size="lg"
+                    className={cn(
+                      "w-full text-left flex items-center p-3 rounded-lg transition-all duration-200",
+                      chat.isActive
+                        ? "bg-primary/20 border-primary/50 text-primary shadow-md hover:bg-primary/25"
+                        : "hover:bg-muted/50 hover:text-foreground"
+                    )}
                     aria-label={chat.title}
                   >
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted text-muted-foreground text-xs font-medium flex-shrink-0">
+                    <span
+                      className={cn(
+                        "flex items-center justify-center w-5 h-5 rounded-full text-xs font-medium flex-shrink-0",
+                        chat.isActive
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "bg-muted text-muted-foreground group-hover:bg-foreground/10"
+                      )}
+                    >
                       {index + 1}
                     </span>
                     <div className="group-data-[collapsible=icon]:hidden flex-1 min-w-0 text-left">
-                      <TruncateText as="p" className="text-sm font-medium">
+                      <p
+                        className={cn(
+                          "text-sm font-medium truncate",
+                          chat.isActive
+                            ? "text-primary font-semibold"
+                            : "text-foreground group-hover:text-foreground"
+                        )}
+                      >
                         {chat.title}
-                      </TruncateText>
-                      <p className="text-xs text-muted-foreground">
+                      </p>
+                      <p className="text-xs text-muted-foreground font-normal leading-none">
                         {chat.timestamp.toLocaleDateString()}
                       </p>
                     </div>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button
-                          variant="none"
-                          effect="glass"
-                          size="icon-sm"
-                          className="opacity-0 group-hover:opacity-100 flex-shrink-0"
-                          showRipple
-                          icon={{ icon: DotsThreeOutlineIcon }}
-                          aria-label="More actions"
+                        <div
+                          className="opacity-0 group-hover:opacity-100 flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
                           onClick={(e) => e.stopPropagation()}
-                        />
+                          role="button"
+                          tabIndex={0}
+                          aria-label="More actions"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              e.currentTarget.click();
+                            }
+                          }}
+                        >
+                          <DotsThreeOutlineIcon
+                            className="h-4 w-4"
+                            weight={iconWeight}
+                          />
+                        </div>
                       </PopoverTrigger>
                       <PopoverContent align="end" className="w-32 p-1">
                         <Button
@@ -164,7 +166,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                           effect="glass"
                           size="sm"
                           onClick={() => onDeleteChat(chat.id)}
-                          className="w-full justify-start text-destructive"
+                          className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive"
                           showRipple
                           icon={{ icon: TrashIcon }}
                           aria-label="Delete chat"
@@ -180,8 +182,8 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
           </SidebarContent>
           <SidebarFooter className="p-4 space-y-2">
             <Button
-              variant="none"
-              effect="glass"
+              variant="gradient"
+              effect="fill"
               size="lg"
               onClick={onDealOfTheDay}
               showRipple
@@ -190,12 +192,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               className="w-full justify-start"
             >
               <div className="group-data-[collapsible=icon]:hidden flex-1 min-w-0 text-left">
-                <TruncateText as="p" className="text-base font-semibold">
-                  Deal of the Day
-                </TruncateText>
-                <TruncateText as="p" className="text-xs text-muted-foreground">
-                  Special offers just for you
-                </TruncateText>
+                <p className="text-base font-semibold">Deal of the Day</p>
               </div>
             </Button>
           </SidebarFooter>

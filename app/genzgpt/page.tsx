@@ -67,7 +67,7 @@ const GenZGPT = () => {
   // Dynamic Deal Template - this will be replaced with actual metadata later
   const renderDealCard = (deal: DealData) => {
     return (
-      <div className="h-full flex flex-col p-4 space-y-4">
+      <div className="flex flex-col p-4 space-y-4">
         {/* Deal Header */}
         <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-[#d0427f]/10 to-[#303293]/10 rounded-lg">
           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
@@ -82,7 +82,7 @@ const GenZGPT = () => {
         </div>
 
         {/* Main Content Area - Split into two columns */}
-        <div className="flex-1 flex gap-6 min-h-0">
+        <div className="flex gap-6">
           {/* Left Column - Deal Details with Thumbnail */}
           <div className="w-1/2 space-y-4">
             {/* Thumbnail Image */}
@@ -161,7 +161,7 @@ const GenZGPT = () => {
 
           {/* Right Column - Rich Text Area */}
           <div className="w-1/2">
-            <Card className="h-full p-4">
+            <Card className="p-4">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
                   <GiftIcon className="h-4 w-4 text-white" />
@@ -170,7 +170,7 @@ const GenZGPT = () => {
               </div>
 
               {/* Rich Text Area */}
-              <div className="bg-muted/50 rounded-lg p-4 h-[calc(100%-3rem)] overflow-y-auto">
+              <div className="bg-muted/50 rounded-lg p-4 max-h-96 overflow-y-auto">
                 <div className="prose prose-sm max-w-none">
                   <h4 className="text-base font-semibold mb-3">
                     About This Deal
@@ -340,12 +340,12 @@ Just let me know what's on your mind!`,
   };
 
   return (
-    <div className="flex h-[calc(100vh-7rem)] bg-background overflow-hidden">
+    <div className="flex bg-background h-screen -mt-28">
       {/* Sidebar */}
       <div
         className={cn(
           "transition-all duration-300 ease-in-out flex-shrink-0",
-          sidebarOpen ? "w-80" : "w-0"
+          sidebarOpen ? "w-64" : "w-0"
         )}
       >
         <div className="h-full">
@@ -360,48 +360,48 @@ Just let me know what's on your mind!`,
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col px-4 pt-28">
         {/* Messages Area */}
         <div
           className={cn(
-            "flex-1 p-4 space-y-4 min-h-0",
-            messages.length > 0 && "overflow-y-auto"
+            "flex-1 p-2 space-y-4 overflow-y-auto",
+            messages.length === 0 &&
+              !showDealOfTheDay &&
+              "flex items-center justify-center"
           )}
         >
           {messages.length === 0 && !showDealOfTheDay ? (
-            <div className="flex items-center justify-center h-full">
-              <Card
-                className="max-w-md text-center"
-                variant="multi"
-                showRipple={true}
-                icon={{ icon: SparkleIcon }}
-              >
-                <p className="text-muted-foreground mb-4">
-                  Your AI assistant ready to help with anything you need. Start
-                  a conversation below!
-                </p>
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <ChatCircleIcon className="h-4 w-4" />
-                  <span>Powered by advanced AI</span>
-                </div>
-              </Card>
-            </div>
+            <Card
+              className="max-w-md text-center"
+              variant="multi"
+              showRipple={true}
+              icon={{ icon: SparkleIcon }}
+            >
+              <p className="text-muted-foreground mb-4">
+                Your AI assistant ready to help with anything you need. Start a
+                conversation below!
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <ChatCircleIcon className="h-4 w-4" />
+                <span>Powered by advanced AI</span>
+              </div>
+            </Card>
           ) : showDealOfTheDay ? (
             renderDealCard(dealOfTheDay)
           ) : (
-            <>
+            <div className="space-y-4">
               {messages.map((message) => (
                 <ChatMessage key={message.id} message={message} />
               ))}
               {isLoading && <ChatLoading />}
-            </>
+              <div ref={messagesEndRef} />
+            </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area */}
+        {/* Input Area - Fixed at bottom */}
         {!showDealOfTheDay && (
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 py-4">
             <ChatInput
               value={input}
               onChange={setInput}

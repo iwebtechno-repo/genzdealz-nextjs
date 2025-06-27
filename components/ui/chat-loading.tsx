@@ -14,7 +14,7 @@ const ChatLoading = React.forwardRef<HTMLDivElement, ChatLoadingProps>(
   ({ className }, ref) => {
     return (
       <div ref={ref} className={cn("flex justify-start", className)}>
-        <div className="flex gap-3 max-w-[85%]">
+        <div className="flex gap-3 max-w-[80%] lg:max-w-[70%]">
           {/* Avatar */}
           <Card
             variant="multi"

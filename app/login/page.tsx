@@ -24,11 +24,6 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { useAuth } from "@/lib/auth-context";
 import { LoadingSpinner } from "@/components/ui/loading-bars";
 import { GoogleIcon, AppleIcon } from "@/lib/morphy-ui/morphy";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 const loginSchema = z.object({
@@ -382,7 +377,7 @@ const AnimatedTabs = ({
       });
       prevLeftRef.current = `${offsetLeft}px`;
     }
-  }, []); // Only run on mount
+  }, [activeTab]); // Add activeTab to dependencies
 
   return (
     <Tabs

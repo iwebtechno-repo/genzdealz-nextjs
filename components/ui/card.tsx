@@ -7,7 +7,6 @@ import { type IconWeight } from "@phosphor-icons/react";
 import {
   getVariantStyles,
   getVariantStylesNoHover,
-  getIconColor,
   getRippleColor,
 } from "@/lib/morphy-ui/utils";
 import { useRipple } from "@/lib/morphy-ui/ripple";

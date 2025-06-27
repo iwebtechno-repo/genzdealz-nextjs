@@ -56,7 +56,7 @@ const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
           className
         )}
       >
-        <div className="max-w-[85%]">
+        <div className="max-w-[80%] lg:max-w-[70%]">
           <Card
             showRipple={true}
             variant={isUser ? "multi" : "none"}
