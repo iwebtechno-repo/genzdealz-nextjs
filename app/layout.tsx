@@ -27,8 +27,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <Toaster position="top-center" richColors closeButton />
           <IconThemeProvider defaultWeight="regular">
             <AuthProvider>
+              <main>
+                <div className="min-h-screen pb-20">{children}</div>
+              </main>
               <NavbarWrapper />
-              <main className="mt-28">{children}</main>
             </AuthProvider>
           </IconThemeProvider>
         </ThemeProvider>

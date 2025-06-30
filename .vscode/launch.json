@@ -1,0 +1,71 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: debug server-side",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "args": ["dev"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_OPTIONS": "--inspect",
+        "NEXT_TELEMETRY_DISABLED": "1"
+      },
+      "serverReadyAction": {
+        "pattern": "✓ Ready in .+",
+        "uriFormat": "http://localhost:3000",
+        "action": "debugWithEdge"
+      }
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    },
+    {
+      "name": "Next.js: debug server only",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "args": ["dev"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_OPTIONS": "--inspect",
+        "NEXT_TELEMETRY_DISABLED": "1"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Next.js: debug full stack (stable)",
+      "configurations": ["Next.js: debug server-side"],
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "Next.js",
+        "order": 1
+      }
+    },
+    {
+      "name": "Next.js: debug server + manual client",
+      "configurations": [
+        "Next.js: debug server only",
+        "Next.js: debug client-side"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "Next.js",
+        "order": 2
+      }
+    }
+  ]
+}

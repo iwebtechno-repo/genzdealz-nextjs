@@ -59,13 +59,16 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
     const iconWeight = useIconWeight();
 
     return (
-      <SidebarProvider>
+      <SidebarProvider className="h-full">
         <Sidebar
           collapsible="icon"
-          className={cn("bg-sidebar text-sidebar-foreground", className)}
+          className={cn(
+            "bg-sidebar text-sidebar-foreground flex flex-col mb-0 h-full max-h-[calc(100vh-5rem)]",
+            className
+          )}
           ref={ref}
         >
-          <SidebarHeader className="flex items-center justify-between gap-2">
+          <SidebarHeader className="flex items-center justify-between gap-2 flex-shrink-0">
             <SidebarTrigger
               variant="none"
               effect="glass"
@@ -76,7 +79,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
             >
               <CaretLeftIcon className="h-4 w-4" weight={iconWeight} />
             </SidebarTrigger>
-            <div className="flex items-center justify-between w-full mt-2">
+            <div className="flex items-center justify-between w-full">
               <Button
                 variant="none"
                 effect="glass"
@@ -96,7 +99,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               </Button>
             </div>
           </SidebarHeader>
-          <SidebarContent className="flex-1 overflow-y-auto px-2">
+          <SidebarContent className="flex-1 overflow-y-auto px-2 min-h-0">
             <SidebarMenu>
               {chatHistory.map((chat, index) => (
                 <SidebarMenuItem key={chat.id} className="py-0.5">
@@ -107,7 +110,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                     variant={chat.isActive ? "outline" : "default"}
                     size="lg"
                     className={cn(
-                      "w-full text-left flex items-center p-3 rounded-lg transition-all duration-200",
+                      "w-full text-left flex items-center p-3 rounded-lg transition-all duration-200 cursor-pointer",
                       chat.isActive
                         ? "bg-primary/20 border-primary/50 text-primary shadow-md hover:bg-primary/25"
                         : "hover:bg-muted/50 hover:text-foreground"
@@ -180,7 +183,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               ))}
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter className="p-4 space-y-2">
+          <SidebarFooter className="p-4 space-y-2 flex-shrink-0">
             <Button
               variant="gradient"
               effect="fill"

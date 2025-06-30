@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import React from "react";
 import { ChatSidebar } from "@/components/ui/chat-sidebar";
 import { ChatMessage } from "@/components/ui/chat-message";
 import { ChatInput } from "@/components/ui/chat-input";
@@ -9,12 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SparkleIcon, ChatCircleIcon, GiftIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
+import DealsGrid from "@/components/ui/deals-grid";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  deals?: any[]; // Store deals data with the message
 }
 
 interface ChatHistory {
@@ -22,6 +25,7 @@ interface ChatHistory {
   title: string;
   timestamp: Date;
   isActive?: boolean;
+  messageCount?: number;
 }
 
 interface DealData {
@@ -39,20 +43,139 @@ const GenZGPT = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen] = useState(true);
   const [showDealOfTheDay, setShowDealOfTheDay] = useState(false);
-  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([
-    {
-      id: "1",
-      title: "Getting started with AI",
-      timestamp: new Date(Date.now() - 86400000),
-      isActive: true,
-    },
-    {
-      id: "2",
-      title: "Help with coding project",
-      timestamp: new Date(Date.now() - 172800000),
-    },
-  ]);
-  const [currentChatId, setCurrentChatId] = useState("1");
+  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
+  const [currentChatId, setCurrentChatId] = useState("");
+  const [showDealsGrid, setShowDealsGrid] = useState<React.ReactNode>(null);
+
+  // Load chat history from localStorage on component mount
+  useEffect(() => {
+    const loadChatHistory = () => {
+      try {
+        const savedHistory = localStorage.getItem("genzgpt_chat_history");
+        if (savedHistory) {
+          const parsedHistory = JSON.parse(savedHistory).map((chat: any) => ({
+            ...chat,
+            timestamp: new Date(chat.timestamp),
+          }));
+          setChatHistory(parsedHistory);
+
+          // Set current chat to the active one or the first one
+          const activeChat = parsedHistory.find(
+            (chat: ChatHistory) => chat.isActive
+          );
+          if (activeChat) {
+            setCurrentChatId(activeChat.id);
+            loadMessagesForChat(activeChat.id);
+          } else if (parsedHistory.length > 0) {
+            setCurrentChatId(parsedHistory[0].id);
+            loadMessagesForChat(parsedHistory[0].id);
+          }
+        } else {
+          // Create default chat if no history exists
+          const defaultChat: ChatHistory = {
+            id: Date.now().toString(),
+            title: "New Chat",
+            timestamp: new Date(),
+            isActive: true,
+            messageCount: 0,
+          };
+          setChatHistory([defaultChat]);
+          setCurrentChatId(defaultChat.id);
+          saveChatHistory([defaultChat]);
+        }
+      } catch (error) {
+        console.error("Error loading chat history:", error);
+        // Create default chat on error
+        const defaultChat: ChatHistory = {
+          id: Date.now().toString(),
+          title: "New Chat",
+          timestamp: new Date(),
+          isActive: true,
+          messageCount: 0,
+        };
+        setChatHistory([defaultChat]);
+        setCurrentChatId(defaultChat.id);
+      }
+    };
+
+    loadChatHistory();
+  }, []);
+
+  // Load messages for a specific chat
+  const loadMessagesForChat = (chatId: string) => {
+    try {
+      const savedMessages = localStorage.getItem(`genzgpt_messages_${chatId}`);
+      if (savedMessages) {
+        const parsedMessages = JSON.parse(savedMessages).map((msg: any) => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp),
+        }));
+        setMessages(parsedMessages);
+
+        // Check if the last assistant message has deals and recreate the grid
+        const lastAssistantMessage = parsedMessages
+          .filter((msg: Message) => msg.role === "assistant")
+          .pop();
+
+        if (
+          lastAssistantMessage?.deals &&
+          lastAssistantMessage.deals.length > 0
+        ) {
+          setShowDealsGrid(<DealsGrid deals={lastAssistantMessage.deals} />);
+        } else {
+          setShowDealsGrid(null);
+        }
+      } else {
+        setMessages([]);
+        setShowDealsGrid(null);
+      }
+    } catch (error) {
+      console.error("Error loading messages:", error);
+      setMessages([]);
+      setShowDealsGrid(null);
+    }
+  };
+
+  // Save chat history to localStorage
+  const saveChatHistory = (history: ChatHistory[]) => {
+    try {
+      localStorage.setItem("genzgpt_chat_history", JSON.stringify(history));
+    } catch (error) {
+      console.error("Error saving chat history:", error);
+    }
+  };
+
+  // Save messages for a specific chat
+  const saveMessagesForChat = (chatId: string, messages: Message[]) => {
+    try {
+      localStorage.setItem(
+        `genzgpt_messages_${chatId}`,
+        JSON.stringify(messages)
+      );
+    } catch (error) {
+      console.error("Error saving messages:", error);
+    }
+  };
+
+  // Update chat title based on first user message
+  const updateChatTitle = (chatId: string, firstMessage: string) => {
+    const newTitle =
+      firstMessage.trim().slice(0, 30) +
+      (firstMessage.length > 30 ? "..." : "");
+    setChatHistory((prev) => {
+      const updated = prev.map((chat) =>
+        chat.id === chatId
+          ? {
+              ...chat,
+              title: newTitle,
+              messageCount: (chat.messageCount || 0) + 1,
+            }
+          : chat
+      );
+      saveChatHistory(updated);
+      return updated;
+    });
+  };
 
   // Deal of the Day data
   const dealOfTheDay: DealData = {
@@ -264,39 +387,82 @@ const GenZGPT = () => {
 
     // Update chat title if it's the first message
     if (messages.length === 0) {
-      setChatHistory((prev) =>
-        prev.map((chat) =>
-          chat.id === currentChatId
-            ? {
-                ...chat,
-                title:
-                  input.trim().slice(0, 30) + (input.length > 30 ? "..." : ""),
-              }
-            : chat
-        )
-      );
+      updateChatTitle(currentChatId, input.trim());
     }
 
-    // Simulate API call
-    setTimeout(() => {
+    // Secure API call to our backend
+    try {
+      const userId = localStorage.getItem("userId") || "";
+
+      const response = await fetch("/api/genzgpt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "user-id": userId,
+        },
+        body: JSON.stringify({
+          message: userMessage.content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const botMessage = data.message; // Get the bot message if available
+      const deals = data.deals; // Get deals if available
+      const textResponse = data.response; // Get response text if available
+
+      let assistantContent = "";
+      let dealsGrid = null;
+
+      if (Array.isArray(deals) && deals.length > 0) {
+        // Handle deals response
+        assistantContent = botMessage || "Here are some deals for you:";
+        dealsGrid = <DealsGrid deals={deals} />;
+      } else if (textResponse) {
+        assistantContent = textResponse;
+      } else {
+        assistantContent =
+          "No deals available right now. How else can I help you?";
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: `Thanks for your message! I'm GenZGPT, your AI assistant. I'm here to help you with anything you need - from answering questions to helping with projects. What would you like to explore today?
+        content: assistantContent,
+        timestamp: new Date(),
+        deals: deals, // Store deals data with the message
+      };
 
-I can help with:
-• Learning new topics
-• Problem solving
-• Creative writing
-• Code assistance
-• And much more!
+      setMessages((prev) => [...prev, assistantMessage]);
+      // Show deals grid if deals exist and not showDealOfTheDay
+      if (dealsGrid && !showDealOfTheDay) {
+        setShowDealsGrid(() => dealsGrid);
+      } else {
+        setShowDealsGrid(null);
+      }
 
-Just let me know what's on your mind!`,
+      // Save messages to localStorage
+      const updatedMessages = [...messages, userMessage, assistantMessage];
+      saveMessagesForChat(currentChatId, updatedMessages);
+    } catch (error) {
+      console.error("GenZGPT API error:", error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Sorry, something went wrong. Please try again later.",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
+
+      // Save error message to localStorage
+      const updatedMessages = [...messages, userMessage, errorMessage];
+      saveMessagesForChat(currentChatId, updatedMessages);
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   const handleNewChat = () => {
@@ -306,29 +472,47 @@ Just let me know what's on your mind!`,
       title: "New Chat",
       timestamp: new Date(),
       isActive: true,
+      messageCount: 0,
     };
 
-    setChatHistory((prev) => [
-      ...prev.map((chat) => ({ ...chat, isActive: false })),
-      newChat,
-    ]);
+    setChatHistory((prev) => {
+      const updated = [
+        ...prev.map((chat) => ({ ...chat, isActive: false })),
+        newChat,
+      ];
+      saveChatHistory(updated);
+      return updated;
+    });
     setCurrentChatId(newChatId);
     setMessages([]);
     setShowDealOfTheDay(false);
+    setShowDealsGrid(null);
   };
 
   const handleSelectChat = (chatId: string) => {
-    setChatHistory((prev) =>
-      prev.map((chat) => ({ ...chat, isActive: chat.id === chatId }))
-    );
+    setChatHistory((prev) => {
+      const updated = prev.map((chat) => ({
+        ...chat,
+        isActive: chat.id === chatId,
+      }));
+      saveChatHistory(updated);
+      return updated;
+    });
     setCurrentChatId(chatId);
-    // TODO: Load messages for this chat
-    setMessages([]);
+    loadMessagesForChat(chatId);
     setShowDealOfTheDay(false);
   };
 
   const handleDeleteChat = (chatId: string) => {
-    setChatHistory((prev) => prev.filter((chat) => chat.id !== chatId));
+    setChatHistory((prev) => {
+      const updated = prev.filter((chat) => chat.id !== chatId);
+      saveChatHistory(updated);
+      return updated;
+    });
+
+    // Remove messages from localStorage
+    localStorage.removeItem(`genzgpt_messages_${chatId}`);
+
     if (currentChatId === chatId) {
       const remainingChats = chatHistory.filter((chat) => chat.id !== chatId);
       if (remainingChats.length > 0) {
@@ -340,27 +524,25 @@ Just let me know what's on your mind!`,
   };
 
   return (
-    <div className="flex bg-background h-screen -mt-28">
+    <div className="flex bg-background h-[calc(100vh-5rem)]">
       {/* Sidebar */}
       <div
         className={cn(
-          "transition-all duration-300 ease-in-out flex-shrink-0",
+          "transition-all duration-300 ease-in-out flex-shrink-0 h-full",
           sidebarOpen ? "w-64" : "w-0"
         )}
       >
-        <div className="h-full">
-          <ChatSidebar
-            chatHistory={chatHistory}
-            onNewChat={handleNewChat}
-            onSelectChat={handleSelectChat}
-            onDeleteChat={handleDeleteChat}
-            onDealOfTheDay={handleDealOfTheDay}
-          />
-        </div>
+        <ChatSidebar
+          chatHistory={chatHistory}
+          onNewChat={handleNewChat}
+          onSelectChat={handleSelectChat}
+          onDeleteChat={handleDeleteChat}
+          onDealOfTheDay={handleDealOfTheDay}
+        />
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col px-4 pt-28">
+      <div className="flex-1 flex flex-col px-4 pt-4">
         {/* Messages Area */}
         <div
           className={cn(
@@ -394,6 +576,7 @@ Just let me know what's on your mind!`,
                 <ChatMessage key={message.id} message={message} />
               ))}
               {isLoading && <ChatLoading />}
+              {showDealsGrid}
               <div ref={messagesEndRef} />
             </div>
           )}
@@ -401,7 +584,7 @@ Just let me know what's on your mind!`,
 
         {/* Input Area - Fixed at bottom */}
         {!showDealOfTheDay && (
-          <div className="flex-shrink-0 py-4">
+          <div className="flex-shrink-0 pt-4">
             <ChatInput
               value={input}
               onChange={setInput}

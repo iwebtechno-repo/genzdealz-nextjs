@@ -1,7 +1,6 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import Link from "next/link";
 import {
   MoonIcon,
   SunIcon,
@@ -9,7 +8,6 @@ import {
   HouseIcon,
   SignInIcon,
 } from "@phosphor-icons/react";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
@@ -22,12 +20,14 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import { useIconWeight } from "@/lib/morphy-ui/icon-theme-context";
 
 export const Navbar = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
+  const iconWeight = useIconWeight();
 
   // Show skeleton while loading
   if (isLoading) {
@@ -43,101 +43,87 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex items-center justify-between h-28">
-          <Link
-            href="/"
-            className="flex items-center hover:opacity-80 transition-opacity duration-200"
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 safe-area-inset-bottom">
+      <div className="flex items-center justify-between px-4 py-3">
+        {/* Navigation Items */}
+        <div className="flex items-center space-x-6">
+          <Button
+            variant="link"
+            effect="glass"
+            size="sm"
+            showRipple={false}
+            className={cn(
+              "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+              pathname === "/" ? "text-[#d0427f]" : "text-muted-foreground"
+            )}
+            onClick={() => router.push("/")}
           >
-            <Image
-              src={
-                resolvedTheme === "dark"
-                  ? "/genzdealz_darkmode.svg"
-                  : "/genzdealz_lightmode.svg"
-              }
-              alt="GenZDealZ.ai Logo"
-              width={180}
-              height={48}
-              className="h-16 w-auto"
-              priority
-              unoptimized
+            <HouseIcon
+              className="h-5 w-5"
+              weight={pathname === "/" ? "fill" : iconWeight}
             />
-          </Link>
+            <span>Home</span>
+          </Button>
 
-          <div className="flex items-center space-x-8 ml-16">
+          {isAuthenticated ? (
             <Button
               variant="link"
               effect="glass"
               size="sm"
               showRipple={false}
               className={cn(
-                "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-                pathname === "/"
-                  ? "text-[#d0427f] underline underline-offset-4"
+                "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+                pathname === "/genzgpt"
+                  ? "text-[#d0427f]"
                   : "text-muted-foreground"
               )}
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/genzgpt")}
             >
-              <HouseIcon className="h-5 w-5" weight="regular" />
-              <span>Home</span>
+              <ChatCircleIcon
+                className="h-5 w-5"
+                weight={pathname === "/genzgpt" ? "fill" : iconWeight}
+              />
+              <span>GenZGPT</span>
             </Button>
+          ) : (
+            <Button
+              variant="link"
+              effect="glass"
+              size="sm"
+              showRipple={false}
+              className={cn(
+                "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
+                pathname === "/login"
+                  ? "text-[#d0427f]"
+                  : "text-muted-foreground"
+              )}
+              onClick={() => router.push("/login")}
+            >
+              <SignInIcon
+                className="h-5 w-5"
+                weight={pathname === "/login" ? "fill" : iconWeight}
+              />
+              <span>Login</span>
+            </Button>
+          )}
+        </div>
 
-            {isAuthenticated && (
-              <Button
-                variant="link"
-                effect="glass"
-                size="sm"
-                showRipple={false}
-                className={cn(
-                  "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-                  pathname === "/genzgpt"
-                    ? "text-[#d0427f] underline underline-offset-4"
-                    : "text-muted-foreground"
-                )}
-                onClick={() => router.push("/genzgpt")}
-              >
-                <ChatCircleIcon className="h-5 w-5" weight="regular" />
-                <span>GenZGPT</span>
-              </Button>
-            )}
-
-            {!isAuthenticated && (
-              <Button
-                variant="link"
-                effect="glass"
-                size="sm"
-                showRipple={false}
-                className={cn(
-                  "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200",
-                  pathname === "/login"
-                    ? "text-[#d0427f] underline underline-offset-4"
-                    : "text-muted-foreground"
-                )}
-                onClick={() => router.push("/login")}
-              >
-                <SignInIcon className="h-5 w-5" weight="regular" />
-                <span>Login</span>
-              </Button>
-            )}
-          </div>
-
-          <div className="ml-auto flex items-center space-x-4">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center space-x-2 cursor-pointer">
-                  <SunIcon className="h-6 w-6 text-muted-foreground" />
-                  <Switch
-                    checked={resolvedTheme === "dark"}
-                    onCheckedChange={handleThemeToggle}
-                  />
-                  <MoonIcon className="h-6 w-6 text-muted-foreground" />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>Toggle light/dark mode</TooltipContent>
-            </Tooltip>
-            {isAuthenticated && <UserMenu />}
-          </div>
+        {/* Theme Toggle and User Menu */}
+        <div className="flex items-center space-x-4">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center space-x-2 cursor-pointer">
+                <SunIcon className="h-5 w-5 text-muted-foreground" />
+                <Switch
+                  checked={resolvedTheme === "dark"}
+                  onCheckedChange={handleThemeToggle}
+                />
+                <MoonIcon className="h-5 w-5 text-muted-foreground" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>Toggle light/dark mode</TooltipContent>
+          </Tooltip>
+          {isAuthenticated && <UserMenu />}
         </div>
       </div>
     </nav>
