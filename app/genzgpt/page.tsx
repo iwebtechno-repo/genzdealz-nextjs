@@ -17,7 +17,7 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  deals?: any[]; // Store deals data with the message
+  deals?: DealData[]; // Store deals data with the message
 }
 
 interface ChatHistory {
@@ -53,11 +53,18 @@ const GenZGPT = () => {
       try {
         const savedHistory = localStorage.getItem("genzgpt_chat_history");
         if (savedHistory) {
-          const parsedHistory = JSON.parse(savedHistory).map((chat: any) => ({
-            ...chat,
-            timestamp: new Date(chat.timestamp),
-          }));
-          setChatHistory(parsedHistory);
+          const parsedHistory = JSON.parse(savedHistory).map(
+            (chat: ChatHistory) => ({
+              ...chat,
+              timestamp: new Date(chat.timestamp),
+            })
+          );
+          // Sort by timestamp in descending order (newest first)
+          const sortedHistory = parsedHistory.sort(
+            (a: ChatHistory, b: ChatHistory) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
+          setChatHistory(sortedHistory);
 
           // Set current chat to the active one or the first one
           const activeChat = parsedHistory.find(
@@ -106,10 +113,12 @@ const GenZGPT = () => {
     try {
       const savedMessages = localStorage.getItem(`genzgpt_messages_${chatId}`);
       if (savedMessages) {
-        const parsedMessages = JSON.parse(savedMessages).map((msg: any) => ({
-          ...msg,
-          timestamp: new Date(msg.timestamp),
-        }));
+        const parsedMessages = JSON.parse(savedMessages).map(
+          (msg: Message) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp),
+          })
+        );
         setMessages(parsedMessages);
 
         // Check if the last assistant message has deals and recreate the grid
@@ -466,6 +475,30 @@ const GenZGPT = () => {
   };
 
   const handleNewChat = () => {
+    // Check if the first chat is already a "New Chat" with no messages
+    const firstChat = chatHistory[0];
+    if (
+      firstChat &&
+      firstChat.title === "New Chat" &&
+      firstChat.messageCount === 0
+    ) {
+      // If there's already an empty "New Chat" at the top, just make it active
+      setChatHistory((prev) => {
+        const updated = prev.map((chat) => ({
+          ...chat,
+          isActive: chat.id === firstChat.id,
+        }));
+        saveChatHistory(updated);
+        return updated;
+      });
+      setCurrentChatId(firstChat.id);
+      setMessages([]);
+      setShowDealOfTheDay(false);
+      setShowDealsGrid(null);
+      return;
+    }
+
+    // Otherwise, create a new chat
     const newChatId = Date.now().toString();
     const newChat: ChatHistory = {
       id: newChatId,
@@ -477,8 +510,8 @@ const GenZGPT = () => {
 
     setChatHistory((prev) => {
       const updated = [
-        ...prev.map((chat) => ({ ...chat, isActive: false })),
         newChat,
+        ...prev.map((chat) => ({ ...chat, isActive: false })),
       ];
       saveChatHistory(updated);
       return updated;
@@ -529,7 +562,7 @@ const GenZGPT = () => {
       <div
         className={cn(
           "transition-all duration-300 ease-in-out flex-shrink-0 h-full",
-          sidebarOpen ? "w-64" : "w-0"
+          sidebarOpen ? "w-64 sm:w-72" : "w-0"
         )}
       >
         <ChatSidebar
@@ -542,11 +575,11 @@ const GenZGPT = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col px-4 pt-4">
+      <div className="flex-1 flex flex-col px-2 sm:px-4 pt-2 sm:pt-4">
         {/* Messages Area */}
         <div
           className={cn(
-            "flex-1 p-2 space-y-4 overflow-y-auto",
+            "flex-1 p-1 sm:p-2 space-y-3 sm:space-y-4 overflow-y-auto",
             messages.length === 0 &&
               !showDealOfTheDay &&
               "flex items-center justify-center"

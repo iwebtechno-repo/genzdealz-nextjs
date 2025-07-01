@@ -462,12 +462,12 @@ const LoginPage = () => {
   const [showOtpModal, setShowOtpModal] = useState(false);
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center p-8">
-        <div className="w-full max-w-md space-y-8">
+      <div className="w-full lg:w-1/2 flex flex-col items-center p-4 sm:p-6 lg:p-8">
+        <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8">
           <div className="flex flex-col items-center justify-center text-center">
-            <h1 className="text-3xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
               <GradientText variant="gradient">
                 Your AI-powered shopping journey begins here
               </GradientText>

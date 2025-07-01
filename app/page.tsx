@@ -48,20 +48,20 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/20 backdrop-blur-sm" />
-        <div className="container relative z-10 px-4 mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container relative z-10 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Hero Content */}
             <div className="flex flex-col items-start text-left space-y-8">
               <div className="max-w-2xl">
-                <h1 className="text-5xl md:text-7xl font-bold mb-6">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6">
                   <GradientText
                     variant="gradient"
-                    className="text-5xl md:text-7xl"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
                   >
                     GenZDealZ.ai
                   </GradientText>
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground font-medium mb-8">
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-medium mb-6 sm:mb-8">
                   Your AI-powered shopping journey begins here.
                   <br />
                   <GradientText variant="gradient">

@@ -71,7 +71,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
         className={cn("bg-background p-1 border-t border-border/50", className)}
       >
         {/* Quick Actions */}
-        <div className="mb-2 flex flex-wrap gap-2">
+        <div className="mb-2 flex flex-wrap gap-1 sm:gap-2">
           {[
             "What's the latest in tech?",
             "Help me with my studies",
@@ -85,7 +85,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
               size="default"
               showRipple={true}
               onClick={() => onChange(suggestion)}
-              className="rounded-full border-border hover:border-primary/50 hover:bg-accent/20 cursor-pointer"
+              className="rounded-full border-border hover:border-primary/50 hover:bg-accent/20 cursor-pointer text-xs sm:text-sm"
               icon={{ icon: SparkleIcon }}
             >
               {suggestion}

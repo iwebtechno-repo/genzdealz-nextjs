@@ -40,48 +40,6 @@ interface DealsGridProps {
   className?: string;
 }
 
-const getCategoryIcon = (category: string | null) => {
-  if (!category) return "🎯";
-
-  switch (category.toLowerCase()) {
-    case "food":
-      return "🍕";
-    case "shopping":
-      return "🛍️";
-    case "entertainment":
-      return "🎬";
-    case "travel":
-      return "✈️";
-    case "fashion":
-      return "👗";
-    case "electronics":
-      return "📱";
-    default:
-      return "🎯";
-  }
-};
-
-const getCategoryColor = (category: string | null) => {
-  if (!category) return "bg-gray-500/10 text-gray-600 border-gray-200";
-
-  switch (category.toLowerCase()) {
-    case "food":
-      return "bg-orange-500/10 text-orange-600 border-orange-200";
-    case "shopping":
-      return "bg-blue-500/10 text-blue-600 border-blue-200";
-    case "entertainment":
-      return "bg-purple-500/10 text-purple-600 border-purple-200";
-    case "travel":
-      return "bg-green-500/10 text-green-600 border-green-200";
-    case "fashion":
-      return "bg-pink-500/10 text-pink-600 border-pink-200";
-    case "electronics":
-      return "bg-gray-500/10 text-gray-600 border-gray-200";
-    default:
-      return "bg-gray-500/10 text-gray-600 border-gray-200";
-  }
-};
-
 const DealsGrid = ({ deals, className }: DealsGridProps) => {
   return (
     <div className={cn("space-y-6", className)}>
@@ -110,6 +68,8 @@ const DealsGrid = ({ deals, className }: DealsGridProps) => {
                     src={deal.image}
                     alt={deal.brandName}
                     className="w-full h-full object-cover transition-transform duration-300"
+                    width={400}
+                    height={225}
                     loading="lazy"
                   />
                 ) : (

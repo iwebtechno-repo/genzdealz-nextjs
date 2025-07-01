@@ -63,7 +63,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
         <Sidebar
           collapsible="icon"
           className={cn(
-            "bg-sidebar text-sidebar-foreground flex flex-col mb-0 h-full max-h-[calc(100vh-5rem)]",
+            "bg-sidebar text-sidebar-foreground flex flex-col mb-0 h-full max-h-[calc(100vh-5rem)] w-64 sm:w-72",
             className
           )}
           ref={ref}
@@ -125,7 +125,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                           : "bg-muted text-muted-foreground group-hover:bg-foreground/10"
                       )}
                     >
-                      {index + 1}
+                      {chatHistory.length - index}
                     </span>
                     <div className="group-data-[collapsible=icon]:hidden flex-1 min-w-0 text-left">
                       <p

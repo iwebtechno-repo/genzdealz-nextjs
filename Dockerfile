@@ -1,23 +1,30 @@
-# Use Node.js 18 Alpine for smaller image size
-FROM node:18-alpine
-
-# Set working directory
+# Install dependencies only when needed
+FROM node:18-alpine AS deps
 WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy all source code
+# Rebuild the source code only when needed
+FROM node:18-alpine AS builder
+WORKDIR /app
 COPY . .
-
-# Build the app
+COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
-# Expose port 3000
+# Production image, copy only necessary files
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# If you use .env.production, uncomment the next line
+# COPY .env.production .env
+
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
 EXPOSE 3000
 
-# Start the app
 CMD ["npm", "start"] 
