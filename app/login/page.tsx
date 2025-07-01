@@ -340,118 +340,23 @@ const AnimatedTabs = ({
 }: {
   onRegisterSuccess: () => void;
 }) => {
-  const [activeTab, setActiveTab] = useState("login");
-  const [underlineStyle, setUnderlineStyle] = useState({
-    width: "0%",
-    left: "0%",
-  });
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState<"left" | "right">("right");
-  const loginRef = useRef<HTMLButtonElement>(null);
-  const registerRef = useRef<HTMLButtonElement>(null);
-  const prevLeftRef = useRef<string>("0%");
-
-  const handleTabChange = useCallback((value: string) => {
-    setActiveTab(value);
-    setIsAnimating(true);
-    const activeRef = value === "login" ? loginRef : registerRef;
-    if (activeRef.current) {
-      const { offsetLeft, offsetWidth } = activeRef.current;
-      // Determine direction based on previous position
-      setDirection(
-        offsetLeft > parseInt(prevLeftRef.current) ? "right" : "left"
-      );
-      setUnderlineStyle({
-        width: `${offsetWidth}px`,
-        left: `${offsetLeft}px`,
-      });
-      prevLeftRef.current = `${offsetLeft}px`;
-    }
-    // Reset animation state after animation completes
-    setTimeout(() => setIsAnimating(false), 200);
-  }, []);
-
-  // Initialize underline position on mount
-  useEffect(() => {
-    const activeRef = activeTab === "login" ? loginRef : registerRef;
-    if (activeRef.current) {
-      const { offsetLeft, offsetWidth } = activeRef.current;
-      setUnderlineStyle({
-        width: `${offsetWidth}px`,
-        left: `${offsetLeft}px`,
-      });
-      prevLeftRef.current = `${offsetLeft}px`;
-    }
-  }, [activeTab]); // Add activeTab to dependencies
-
   return (
-    <Tabs
-      defaultValue="login"
-      className="w-full"
-      onValueChange={handleTabChange}
-    >
+    <Tabs defaultValue="login" className="w-full">
       <div className="relative">
-        <TabsList className="grid w-full grid-cols-2 mb-8">
+        <TabsList className="grid w-full grid-cols-2 mb-8 bg-transparent h-auto p-0">
           <TabsTrigger
-            ref={loginRef}
             value="login"
-            className="relative h-10 px-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none ring-0 ring-offset-0 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-0 cursor-pointer"
+            className="relative h-10 px-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none ring-0 ring-offset-0 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-0 data-[state=active]:text-[#d0427f] cursor-pointer transition-all duration-200 bg-transparent hover:bg-transparent data-[state=active]:transform-none data-[state=active]:translate-y-0 data-[state=active]:after:content-[''] data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:right-0 data-[state=active]:after:h-0.5 data-[state=active]:after:bg-[#d0427f]"
           >
             Login
           </TabsTrigger>
           <TabsTrigger
-            ref={registerRef}
             value="register"
-            className="relative h-10 px-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none ring-0 ring-offset-0 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-0 cursor-pointer"
+            className="relative h-10 px-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none ring-0 ring-offset-0 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-0 data-[state=active]:text-[#d0427f] cursor-pointer transition-all duration-200 bg-transparent hover:bg-transparent data-[state=active]:transform-none data-[state=active]:translate-y-0 data-[state=active]:after:content-[''] data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:right-0 data-[state=active]:after:h-0.5 data-[state=active]:after:bg-[#d0427f]"
           >
             Register
           </TabsTrigger>
         </TabsList>
-        <div
-          className={`absolute bottom-0 h-[2px] bg-[#d0427f] transition-all duration-200 ease-in-out ${
-            isAnimating ? `animate-underline-${direction}` : ""
-          }`}
-          style={{
-            width: underlineStyle.width,
-            left: underlineStyle.left,
-          }}
-        />
-        <style jsx>{`
-          @keyframes underline-right {
-            0% {
-              transform: scaleX(1);
-              transform-origin: left;
-            }
-            30% {
-              transform: scaleX(1.5);
-              transform-origin: left;
-            }
-            100% {
-              transform: scaleX(1);
-              transform-origin: left;
-            }
-          }
-          @keyframes underline-left {
-            0% {
-              transform: scaleX(1);
-              transform-origin: right;
-            }
-            30% {
-              transform: scaleX(1.5);
-              transform-origin: right;
-            }
-            100% {
-              transform: scaleX(1);
-              transform-origin: right;
-            }
-          }
-          .animate-underline-right {
-            animation: underline-right 200ms ease-in-out;
-          }
-          .animate-underline-left {
-            animation: underline-left 200ms ease-in-out;
-          }
-        `}</style>
       </div>
       <TabsContent value="login">
         <LoginForm />
@@ -478,7 +383,11 @@ const LoginPage = () => {
               </GradientText>
             </h1>
           </div>
-          <Card variant="none" showRipple={false}>
+          <Card
+            variant="none"
+            showRipple={false}
+            className="bg-transparent border-0 shadow-none"
+          >
             <AnimatedTabs onRegisterSuccess={() => setShowOtpModal(true)} />
           </Card>
         </div>
