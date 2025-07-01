@@ -73,6 +73,7 @@ const LoginFormWithSearchParams = () => {
 
       // Redirect to the original requested page or default to genzgpt
       const from = searchParams.get("from") || "/genzgpt";
+      console.log("Regular login - Redirecting to:", from);
       router.push(from);
     } catch (error) {
       console.error("Login error:", error);
@@ -90,7 +91,11 @@ const LoginFormWithSearchParams = () => {
       const token = `mock_${provider}_token`;
       login(token);
       toast.success("Login successful! Welcome back.");
-      router.push("/genzgpt");
+
+      // Redirect to the original requested page or default to genzgpt
+      const from = searchParams.get("from") || "/genzgpt";
+      console.log("Social login - Redirecting to:", from);
+      router.push(from);
     } catch (error) {
       console.error(`${provider} login error:`, error);
     } finally {
