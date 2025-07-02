@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 const publicRoutes = ["/", "/login", "/favicon.ico"];
 
 // List of protected routes that require authentication
-const protectedRoutes = ["/genzgpt"];
+const protectedRoutes = ["/genzgpt", "/recharge", "/giftcards"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

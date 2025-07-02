@@ -34,6 +34,5 @@ export const useAuthState = () => {
       window.removeEventListener("focus", checkAuthState);
     };
   }, [checkAuthState]);
-
   return { isAuthenticated, isLoading, checkAuthState };
-}; 
+};

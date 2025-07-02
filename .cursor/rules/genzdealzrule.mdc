@@ -109,7 +109,11 @@ alwaysApply: true
 
 - **Only one `<Toaster />` (Sonner) should be mounted in the app, and it must be placed in `app/layout.tsx`.**
 - **Do NOT add `<Toaster />` to individual app router pages.**
-- All toast notifications throughout the app will use this global Toaster and inherit its props (e.g., `variant`, `showGlass`).
+- All toast notifications throughout the app will use this global Toaster and inherit its props (e.g., `variant`).
+- **Sonner toasts use fill effect only** - no glass effect implementation, consistent with Button component styling.
+- **Use `router.push()` for navigation after toasts** - This preserves React app state and keeps toasts visible during navigation.
+- **Avoid `window.location.href` after toasts** - This causes full page reloads that unmount the React app and dismiss toasts.
+- **Toast duration**: Use `duration: 4000` (4 seconds) for success messages, let error/warning toasts auto-dismiss.
 - This ensures consistent toast styling, avoids duplication, and prevents conflicts.
 
 ## 🧩 Component Patterns

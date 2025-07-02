@@ -14,6 +14,7 @@ import {
   ShareIcon,
 } from "@phosphor-icons/react";
 import { InstagramIcon } from "@/lib/morphy-ui/morphy";
+import { getVariantGradient } from "@/lib/morphy-ui/utils";
 
 const features = [
   {
@@ -70,7 +71,11 @@ const LandingPage = () => {
                 </p>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                    <div
+                      className={`w-8 h-8 rounded-full bg-gradient-to-r ${getVariantGradient(
+                        "blue"
+                      )} flex items-center justify-center`}
+                    >
                       <SparkleIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"
@@ -79,7 +84,11 @@ const LandingPage = () => {
                     <span className="text-lg">AI-powered deal discovery</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
+                    <div
+                      className={`w-8 h-8 rounded-full bg-gradient-to-r ${getVariantGradient(
+                        "green"
+                      )} flex items-center justify-center`}
+                    >
                       <MapPinIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"
@@ -88,7 +97,11 @@ const LandingPage = () => {
                     <span className="text-lg">Local campus deals</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                    <div
+                      className={`w-8 h-8 rounded-full bg-gradient-to-r ${getVariantGradient(
+                        "purple"
+                      )} flex items-center justify-center`}
+                    >
                       <UsersIcon
                         className="h-4 w-4 text-white"
                         weight="duotone"

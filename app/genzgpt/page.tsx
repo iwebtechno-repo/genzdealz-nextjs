@@ -9,6 +9,7 @@ import { ChatLoading } from "@/components/ui/chat-loading";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SparkleIcon, ChatCircleIcon, GiftIcon } from "@phosphor-icons/react";
+import { getVariantGradient } from "@/lib/morphy-ui/utils";
 import { cn } from "@/lib/utils";
 import DealsGrid from "@/components/ui/deals-grid";
 import { useMorphyToast } from "@/lib/morphy-ui/morphy";
@@ -210,8 +211,16 @@ const GenZGPT = () => {
     return (
       <div className="flex flex-col p-4 space-y-4">
         {/* Deal Header */}
-        <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-[#d0427f]/10 to-[#303293]/10 rounded-lg">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
+        <div
+          className={`flex items-center gap-3 p-4 bg-gradient-to-r ${getVariantGradient(
+            "gradient"
+          )}/10 rounded-lg`}
+        >
+          <div
+            className={`w-12 h-12 rounded-full bg-gradient-to-r ${getVariantGradient(
+              "gradient"
+            )} flex items-center justify-center`}
+          >
             <GiftIcon className="h-6 w-6 text-white" />
           </div>
           <div>
@@ -228,10 +237,18 @@ const GenZGPT = () => {
           <div className="w-1/2 space-y-4">
             {/* Thumbnail Image */}
             <Card className="overflow-hidden">
-              <div className="aspect-video bg-gradient-to-br from-[#d0427f]/20 to-[#303293]/20 relative">
+              <div
+                className={`aspect-video bg-gradient-to-br ${getVariantGradient(
+                  "gradient"
+                )}/20 relative`}
+              >
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-20 h-20 bg-gradient-to-r from-[#d0427f] to-[#303293] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <div
+                      className={`w-20 h-20 bg-gradient-to-r ${getVariantGradient(
+                        "gradient"
+                      )} rounded-full flex items-center justify-center mx-auto mb-3`}
+                    >
                       <GiftIcon className="h-10 w-10 text-white" />
                     </div>
                     <p className="text-sm text-muted-foreground">
@@ -249,7 +266,11 @@ const GenZGPT = () => {
 
               {/* Deal Badges */}
               <div className="flex items-center justify-between mb-4">
-                <div className="bg-[#d0427f] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div
+                  className={`bg-gradient-to-r ${getVariantGradient(
+                    "gradient"
+                  )} text-white px-3 py-1 rounded-full text-sm font-semibold`}
+                >
                   {deal.discount}
                 </div>
                 <div className="text-sm text-muted-foreground">
@@ -261,7 +282,7 @@ const GenZGPT = () => {
               <div className="bg-muted rounded-lg p-3 mb-4">
                 <p className="text-sm text-muted-foreground mb-1">Use code:</p>
                 <div className="flex items-center gap-2">
-                  <code className="bg-background px-3 py-1 rounded text-sm font-mono font-semibold text-[#d0427f]">
+                  <code className="bg-background px-3 py-1 rounded text-sm font-mono font-semibold text-primary">
                     {deal.code}
                   </code>
                   <Button
@@ -304,7 +325,11 @@ const GenZGPT = () => {
           <div className="w-1/2">
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#d0427f] to-[#303293] flex items-center justify-center">
+                <div
+                  className={`w-8 h-8 rounded-full bg-gradient-to-r ${getVariantGradient(
+                    "gradient"
+                  )} flex items-center justify-center`}
+                >
                   <GiftIcon className="h-4 w-4 text-white" />
                 </div>
                 <h3 className="font-semibold">Deal Details</h3>
@@ -327,19 +352,19 @@ const GenZGPT = () => {
                   </h4>
                   <ul className="text-sm text-muted-foreground space-y-2 mb-4">
                     <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#d0427f] rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       Access to premium course content
                     </li>
                     <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#d0427f] rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       Professional certifications
                     </li>
                     <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#d0427f] rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       Lifetime access to materials
                     </li>
                     <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#d0427f] rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       Student support and guidance
                     </li>
                   </ul>
@@ -359,7 +384,11 @@ const GenZGPT = () => {
                     <li>4. Start learning immediately!</li>
                   </ol>
 
-                  <div className="bg-gradient-to-r from-[#d0427f]/10 to-[#303293]/10 rounded-lg p-3">
+                  <div
+                    className={`bg-gradient-to-r ${getVariantGradient(
+                      "gradient"
+                    )}/10 rounded-lg p-3`}
+                  >
                     <p className="text-xs text-muted-foreground">
                       <strong>Note:</strong> This offer is valid for students
                       only. Please have your student ID ready for verification.

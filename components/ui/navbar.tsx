@@ -7,6 +7,7 @@ import {
   MagnifyingGlassIcon,
   HouseIcon,
   SignInIcon,
+  CreditCardIcon,
 } from "@phosphor-icons/react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -66,25 +67,49 @@ export const Navbar = () => {
           </Button>
 
           {isAuthenticated ? (
-            <Button
-              variant="link"
-              effect="glass"
-              size="sm"
-              showRipple={false}
-              className={cn(
-                "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
-                pathname === "/genzgpt"
-                  ? "text-[#d0427f]"
-                  : "text-muted-foreground"
-              )}
-              onClick={() => router.push("/genzgpt")}
-            >
-              <MagnifyingGlassIcon
-                className="h-5 w-5"
-                weight={pathname === "/genzgpt" ? "fill" : iconWeight}
-              />
-              <span>GenZGPT</span>
-            </Button>
+            <>
+              <Button
+                variant="link"
+                effect="glass"
+                size="sm"
+                showRipple={false}
+                className={cn(
+                  "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+                  pathname.startsWith("/recharge")
+                    ? "text-[#d0427f]"
+                    : "text-muted-foreground"
+                )}
+                onClick={() => router.push("/recharge")}
+                title="Recharge & Bills"
+              >
+                <CreditCardIcon
+                  className="h-5 w-5"
+                  weight={
+                    pathname.startsWith("/recharge") ? "fill" : iconWeight
+                  }
+                />
+                <span>Recharge</span>
+              </Button>
+              <Button
+                variant="link"
+                effect="glass"
+                size="sm"
+                showRipple={false}
+                className={cn(
+                  "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+                  pathname === "/genzgpt"
+                    ? "text-[#d0427f]"
+                    : "text-muted-foreground"
+                )}
+                onClick={() => router.push("/genzgpt")}
+              >
+                <MagnifyingGlassIcon
+                  className="h-5 w-5"
+                  weight={pathname === "/genzgpt" ? "fill" : iconWeight}
+                />
+                <span>GenZGPT</span>
+              </Button>
+            </>
           ) : (
             <Button
               variant="link"
