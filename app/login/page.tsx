@@ -19,12 +19,11 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { FloatingInput } from "@/components/ui/floating-input";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { GradientText } from "@/components/ui/gradient-text";
 import { useAuth } from "@/lib/auth-context";
 import { LoadingSpinner } from "@/components/ui/loading-bars";
 import { GoogleIcon, AppleIcon } from "@/lib/morphy-ui/morphy";
-import { useMorphyToast } from "@/lib/morphy-ui/morphy";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -50,10 +49,8 @@ type RegisterForm = z.infer<typeof registerSchema>;
 const LoginFormWithSearchParams = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
-  const toast = useMorphyToast();
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   });
@@ -75,14 +72,8 @@ const LoginFormWithSearchParams = () => {
       console.log("Regular login - Redirecting to:", from);
       console.log("Current URL before redirect:", window.location.href);
 
-      // Show success toast first
-      toast.success("Login successful! Welcome back.", {
-        description: "You've been successfully logged in",
-        duration: 4000, // Show for 4 seconds
-      });
-
-      // Use Next.js router for client-side navigation (preserves React state)
-      router.push(from);
+      // Use window.location for non-client/server redirect
+      window.location.href = from;
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -104,14 +95,8 @@ const LoginFormWithSearchParams = () => {
       console.log("Social login - Redirecting to:", from);
       console.log("Current URL before redirect:", window.location.href);
 
-      // Show success toast first
-      toast.success("Login successful! Welcome back.", {
-        description: `Successfully logged in with ${provider}`,
-        duration: 4000, // Show for 4 seconds
-      });
-
-      // Use Next.js router for client-side navigation (preserves React state)
-      router.push(from);
+      // Use window.location for non-client/server redirect
+      window.location.href = from;
     } catch (error) {
       console.error(`${provider} login error:`, error);
     } finally {
@@ -250,7 +235,6 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const { login } = useAuth();
-  const toast = useMorphyToast();
   const registerForm = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
   });
@@ -266,10 +250,6 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
 
       // Use the auth context to login after registration
       login("mock_token_123");
-
-      toast.success("Account created! Welcome to GenZDealZ.", {
-        description: "Your account has been successfully created",
-      });
 
       // Call success callback to show OTP modal
       onSuccess();

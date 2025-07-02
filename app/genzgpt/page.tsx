@@ -47,10 +47,56 @@ const GenZGPT = () => {
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
   const [currentChatId, setCurrentChatId] = useState("");
   const [showDealsGrid, setShowDealsGrid] = useState<React.ReactNode>(null);
-  const [hasShownWelcomeToast, setHasShownWelcomeToast] = useState(false);
   const toast = useMorphyToast();
 
-  // Load chat history from localStorage on component mount
+  // Memoize loadMessagesForChat to prevent infinite loop
+  const loadMessagesForChat = useCallback((chatId: string) => {
+    try {
+      const savedMessages = localStorage.getItem(`genzgpt_messages_${chatId}`);
+      if (savedMessages) {
+        const parsedMessages = JSON.parse(savedMessages).map(
+          (msg: Message) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp),
+          })
+        );
+        setMessages(parsedMessages);
+        // Update chat message count when loading
+        setChatHistory((prev) => {
+          const updated = prev.map((chat) =>
+            chat.id === chatId
+              ? {
+                  ...chat,
+                  messageCount: parsedMessages.length,
+                }
+              : chat
+          );
+          saveChatHistory(updated);
+          return updated;
+        });
+        // Check if the last assistant message has deals and recreate the grid
+        const lastAssistantMessage = parsedMessages
+          .filter((msg: Message) => msg.role === "assistant")
+          .pop();
+        if (
+          lastAssistantMessage?.deals &&
+          lastAssistantMessage.deals.length > 0
+        ) {
+          setShowDealsGrid(<DealsGrid deals={lastAssistantMessage.deals} />);
+        } else {
+          setShowDealsGrid(null);
+        }
+      } else {
+        setMessages([]);
+        setShowDealsGrid(null);
+      }
+    } catch (error) {
+      console.error("Error loading messages:", error);
+      setMessages([]);
+      setShowDealsGrid(null);
+    }
+  }, []);
+
   useEffect(() => {
     const loadChatHistory = () => {
       try {
@@ -68,7 +114,6 @@ const GenZGPT = () => {
               new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
           );
           setChatHistory(sortedHistory);
-
           // Set current chat to the active one or the first one
           const activeChat = parsedHistory.find(
             (chat: ChatHistory) => chat.isActive
@@ -92,19 +137,6 @@ const GenZGPT = () => {
           setChatHistory([defaultChat]);
           setCurrentChatId(defaultChat.id);
           saveChatHistory([defaultChat]);
-
-          // Show welcome toast for new users only once
-          if (!hasShownWelcomeToast) {
-            toast.success(
-              "Welcome to GenZGPT! Start your first conversation below.",
-              {
-                description:
-                  "Your AI assistant is ready to help with anything you need.",
-                duration: 5000,
-              }
-            );
-            setHasShownWelcomeToast(true);
-          }
         }
       } catch (error) {
         console.error("Error loading chat history:", error);
@@ -120,60 +152,8 @@ const GenZGPT = () => {
         setCurrentChatId(defaultChat.id);
       }
     };
-
     loadChatHistory();
-  }, []);
-
-  // Load messages for a specific chat
-  const loadMessagesForChat = (chatId: string) => {
-    try {
-      const savedMessages = localStorage.getItem(`genzgpt_messages_${chatId}`);
-      if (savedMessages) {
-        const parsedMessages = JSON.parse(savedMessages).map(
-          (msg: Message) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp),
-          })
-        );
-        setMessages(parsedMessages);
-
-        // Update chat message count when loading
-        setChatHistory((prev) => {
-          const updated = prev.map((chat) =>
-            chat.id === chatId
-              ? {
-                  ...chat,
-                  messageCount: parsedMessages.length,
-                }
-              : chat
-          );
-          saveChatHistory(updated);
-          return updated;
-        });
-
-        // Check if the last assistant message has deals and recreate the grid
-        const lastAssistantMessage = parsedMessages
-          .filter((msg: Message) => msg.role === "assistant")
-          .pop();
-
-        if (
-          lastAssistantMessage?.deals &&
-          lastAssistantMessage.deals.length > 0
-        ) {
-          setShowDealsGrid(<DealsGrid deals={lastAssistantMessage.deals} />);
-        } else {
-          setShowDealsGrid(null);
-        }
-      } else {
-        setMessages([]);
-        setShowDealsGrid(null);
-      }
-    } catch (error) {
-      console.error("Error loading messages:", error);
-      setMessages([]);
-      setShowDealsGrid(null);
-    }
-  };
+  }, [loadMessagesForChat]);
 
   // Save chat history to localStorage
   const saveChatHistory = (history: ChatHistory[]) => {
