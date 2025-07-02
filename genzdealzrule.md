@@ -100,9 +100,20 @@
 - **Focus management**: Ensure proper focus order and visible focus indicators
 - **Screen reader support**: Use semantic HTML and proper ARIA attributes
 
+### 10. **Toast Notifications (Sonner)**
+
+- **Only one `<Toaster />` (Sonner) should be mounted in the app, and it must be placed in `app/layout.tsx`.**
+- **Do NOT add `<Toaster />` to individual app router pages.**
+- All toast notifications throughout the app will use this global Toaster and inherit its props (e.g., `variant`).
+- **Sonner toasts use fill effect only** - no glass effect implementation, consistent with Button component styling.
+- **Use `router.push()` for navigation after toasts** - This preserves React app state and keeps toasts visible during navigation.
+- **Avoid `window.location.href` after toasts** - This causes full page reloads that unmount the React app and dismiss toasts.
+- **Toast duration**: Use `duration: 4000` (4 seconds) for success messages, let error/warning toasts auto-dismiss.
+- This ensures consistent toast styling, avoids duplication, and prevents conflicts.
+
 ## 🧩 Component Patterns
 
-### 10. **Button Component**
+### 11. **Button Component**
 
 ```typescript
 import { Button } from "@/components/ui/button";
@@ -124,7 +135,7 @@ import { Button } from "@/components/ui/button";
 </Button>
 ```
 
-### 11. **Card Component**
+### 12. **Card Component**
 
 ```typescript
 import { Card } from "@/components/ui/card";
@@ -143,7 +154,7 @@ import { Card } from "@/components/ui/card";
 </Card>;
 ```
 
-### 12. **Icon Patterns**
+### 13. **Icon Patterns**
 
 ```typescript
 import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
@@ -162,7 +173,7 @@ import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
 </Button>
 ```
 
-### 13. **Chat Interface Patterns**
+### 14. **Chat Interface Patterns**
 
 ```typescript
 // Chat sidebar with proper state management
@@ -199,7 +210,7 @@ import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
 
 ## 🎨 Brand Colors & Gradients
 
-### 14. **Primary Brand Gradient**
+### 15. **Primary Brand Gradient**
 
 ```css
 /* Primary Brand Gradient */
@@ -209,7 +220,7 @@ hover:from-[#d0427f]/90 hover:to-[#303293]/90
 
 ## 📁 File Structure
 
-### 15. **Project Organization**
+### 16. **Project Organization**
 
 ```
 components/ui/           # shadcn components
@@ -228,7 +239,7 @@ app/                     # Next.js pages
 
 ## 📦 Imports
 
-### 16. **Standard Imports**
+### 17. **Standard Imports**
 
 ```typescript
 import { Button } from "@/components/ui/button";
@@ -253,7 +264,7 @@ import {
 
 ## 🔧 Social Icons System
 
-### 17. **Social Icons Usage**
+### 18. **Social Icons Usage**
 
 ```typescript
 // Import social icons
@@ -272,7 +283,7 @@ SocialIcons.Instagram   // InstagramIcon component
 
 ## ⚖️ License Compliance
 
-### 18. **Dependency Licensing**
+### 19. **Dependency Licensing**
 
 - **Mandatory Check**: Before installing any new dependency, its license **must** be verified to ensure it is safe for commercial use.
 - **Permitted Licenses**: `MIT`, `Apache-2.0`, `ISC`, and `BSD` are pre-approved.

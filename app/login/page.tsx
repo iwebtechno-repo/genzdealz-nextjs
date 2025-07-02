@@ -24,7 +24,7 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { useAuth } from "@/lib/auth-context";
 import { LoadingSpinner } from "@/components/ui/loading-bars";
 import { GoogleIcon, AppleIcon } from "@/lib/morphy-ui/morphy";
-import { toast } from "sonner";
+import { useMorphyToast } from "@/lib/morphy-ui/morphy";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -53,6 +53,7 @@ const LoginFormWithSearchParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
+  const toast = useMorphyToast();
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   });
@@ -69,11 +70,18 @@ const LoginFormWithSearchParams = () => {
       // Use the auth context to login
       login("mock_token_123");
 
-      toast.success("Login successful! Welcome back.");
-
       // Redirect to the original requested page or default to genzgpt
       const from = searchParams.get("from") || "/genzgpt";
       console.log("Regular login - Redirecting to:", from);
+      console.log("Current URL before redirect:", window.location.href);
+
+      // Show success toast first
+      toast.success("Login successful! Welcome back.", {
+        description: "You've been successfully logged in",
+        duration: 4000, // Show for 4 seconds
+      });
+
+      // Use Next.js router for client-side navigation (preserves React state)
       router.push(from);
     } catch (error) {
       console.error("Login error:", error);
@@ -90,11 +98,19 @@ const LoginFormWithSearchParams = () => {
 
       const token = `mock_${provider}_token`;
       login(token);
-      toast.success("Login successful! Welcome back.");
 
       // Redirect to the original requested page or default to genzgpt
       const from = searchParams.get("from") || "/genzgpt";
       console.log("Social login - Redirecting to:", from);
+      console.log("Current URL before redirect:", window.location.href);
+
+      // Show success toast first
+      toast.success("Login successful! Welcome back.", {
+        description: `Successfully logged in with ${provider}`,
+        duration: 4000, // Show for 4 seconds
+      });
+
+      // Use Next.js router for client-side navigation (preserves React state)
       router.push(from);
     } catch (error) {
       console.error(`${provider} login error:`, error);
@@ -234,6 +250,7 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const { login } = useAuth();
+  const toast = useMorphyToast();
   const registerForm = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
   });
@@ -250,7 +267,9 @@ const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
       // Use the auth context to login after registration
       login("mock_token_123");
 
-      toast.success("Account created! Welcome to GenZDealZ.");
+      toast.success("Account created! Welcome to GenZDealZ.", {
+        description: "Your account has been successfully created",
+      });
 
       // Call success callback to show OTP modal
       onSuccess();

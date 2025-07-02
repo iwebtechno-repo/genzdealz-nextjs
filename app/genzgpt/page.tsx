@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { SparkleIcon, ChatCircleIcon, GiftIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import DealsGrid from "@/components/ui/deals-grid";
+import { useMorphyToast } from "@/lib/morphy-ui/morphy";
 
 interface Message {
   id: string;
@@ -46,6 +47,8 @@ const GenZGPT = () => {
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
   const [currentChatId, setCurrentChatId] = useState("");
   const [showDealsGrid, setShowDealsGrid] = useState<React.ReactNode>(null);
+  const [hasShownWelcomeToast, setHasShownWelcomeToast] = useState(false);
+  const toast = useMorphyToast();
 
   // Load chat history from localStorage on component mount
   useEffect(() => {
@@ -89,6 +92,19 @@ const GenZGPT = () => {
           setChatHistory([defaultChat]);
           setCurrentChatId(defaultChat.id);
           saveChatHistory([defaultChat]);
+
+          // Show welcome toast for new users only once
+          if (!hasShownWelcomeToast) {
+            toast.success(
+              "Welcome to GenZGPT! Start your first conversation below.",
+              {
+                description:
+                  "Your AI assistant is ready to help with anything you need.",
+                duration: 5000,
+              }
+            );
+            setHasShownWelcomeToast(true);
+          }
         }
       } catch (error) {
         console.error("Error loading chat history:", error);
@@ -120,6 +136,20 @@ const GenZGPT = () => {
           })
         );
         setMessages(parsedMessages);
+
+        // Update chat message count when loading
+        setChatHistory((prev) => {
+          const updated = prev.map((chat) =>
+            chat.id === chatId
+              ? {
+                  ...chat,
+                  messageCount: parsedMessages.length,
+                }
+              : chat
+          );
+          saveChatHistory(updated);
+          return updated;
+        });
 
         // Check if the last assistant message has deals and recreate the grid
         const lastAssistantMessage = parsedMessages
@@ -177,7 +207,6 @@ const GenZGPT = () => {
           ? {
               ...chat,
               title: newTitle,
-              messageCount: (chat.messageCount || 0) + 1,
             }
           : chat
       );
@@ -456,6 +485,20 @@ const GenZGPT = () => {
       // Save messages to localStorage
       const updatedMessages = [...messages, userMessage, assistantMessage];
       saveMessagesForChat(currentChatId, updatedMessages);
+
+      // Update chat message count
+      setChatHistory((prev) => {
+        const updated = prev.map((chat) =>
+          chat.id === currentChatId
+            ? {
+                ...chat,
+                messageCount: updatedMessages.length,
+              }
+            : chat
+        );
+        saveChatHistory(updated);
+        return updated;
+      });
     } catch (error) {
       console.error("GenZGPT API error:", error);
       const errorMessage: Message = {
@@ -469,6 +512,20 @@ const GenZGPT = () => {
       // Save error message to localStorage
       const updatedMessages = [...messages, userMessage, errorMessage];
       saveMessagesForChat(currentChatId, updatedMessages);
+
+      // Update chat message count for error case too
+      setChatHistory((prev) => {
+        const updated = prev.map((chat) =>
+          chat.id === currentChatId
+            ? {
+                ...chat,
+                messageCount: updatedMessages.length,
+              }
+            : chat
+        );
+        saveChatHistory(updated);
+        return updated;
+      });
     } finally {
       setIsLoading(false);
     }
@@ -482,6 +539,16 @@ const GenZGPT = () => {
       firstChat.title === "New Chat" &&
       firstChat.messageCount === 0
     ) {
+      // Show info toast that there's already an empty new chat
+      toast.info(
+        "You already have an empty new chat. Use that one to start your conversation!",
+        {
+          variant: "blue-gradient",
+          description: "Switch to the existing 'New Chat' to begin.",
+          duration: 4000,
+        }
+      );
+
       // If there's already an empty "New Chat" at the top, just make it active
       setChatHistory((prev) => {
         const updated = prev.map((chat) => ({
@@ -520,9 +587,18 @@ const GenZGPT = () => {
     setMessages([]);
     setShowDealOfTheDay(false);
     setShowDealsGrid(null);
+
+    // Show success toast for new chat creation
+    toast.success("New chat created!", {
+      variant: "green-gradient",
+      description: "Start your conversation below.",
+      duration: 3000,
+    });
   };
 
   const handleSelectChat = (chatId: string) => {
+    const selectedChat = chatHistory.find((chat) => chat.id === chatId);
+
     setChatHistory((prev) => {
       const updated = prev.map((chat) => ({
         ...chat,
@@ -534,9 +610,20 @@ const GenZGPT = () => {
     setCurrentChatId(chatId);
     loadMessagesForChat(chatId);
     setShowDealOfTheDay(false);
+
+    // Show toast for chat selection (only if it's not the current chat)
+    if (currentChatId !== chatId) {
+      toast.info(`Switched to "${selectedChat?.title || "New Chat"}"`, {
+        variant: "blue-gradient",
+        description: `Loading ${selectedChat?.messageCount || 0} messages...`,
+        duration: 2000,
+      });
+    }
   };
 
   const handleDeleteChat = (chatId: string) => {
+    const chatToDelete = chatHistory.find((chat) => chat.id === chatId);
+
     setChatHistory((prev) => {
       const updated = prev.filter((chat) => chat.id !== chatId);
       saveChatHistory(updated);
@@ -554,6 +641,12 @@ const GenZGPT = () => {
         handleNewChat();
       }
     }
+
+    // Show toast for chat deletion
+    toast.warning(`Chat "${chatToDelete?.title || "New Chat"}" deleted.`, {
+      description: "The chat and its messages have been removed.",
+      duration: 3000,
+    });
   };
 
   return (

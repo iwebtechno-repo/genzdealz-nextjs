@@ -39,6 +39,9 @@ export {
   SocialIcons,
 } from "./social-icons";
 
+// Toast utilities
+export { useMorphyToast, morphyToast } from "./toast-utils";
+
 // Utilities
 export {
   gradientPresets,

@@ -9,23 +9,29 @@ const protectedRoutes = ["/genzgpt"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   // Get the token from cookies
   const token = request.cookies.get("token")?.value;
   const hasValidToken = token && token !== "" && token !== "undefined";
 
   // Check if the route is public
-  const isPublicRoute = publicRoutes.some(route => 
-    pathname === route || pathname.startsWith(route + "/")
+  const isPublicRoute = publicRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
   // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(route => 
-    pathname === route || pathname.startsWith(route + "/")
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
-  // If user is authenticated and tries to access login page, redirect to home
+  // If user is authenticated and tries to access login page, check if they have a redirect
   if (hasValidToken && pathname === "/login") {
+    const from = request.nextUrl.searchParams.get("from");
+    if (from) {
+      // If they have a redirect parameter, let them complete it
+      return NextResponse.next();
+    }
+    // Otherwise redirect to home
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -54,4 +60,4 @@ export const config = {
      */
     "/((?!api|_next/static|_next/image|favicon.ico|public|.*\\.(?:svg|png|jpg|jpeg|gif|ico|webp)$).*)",
   ],
-}; 
+};

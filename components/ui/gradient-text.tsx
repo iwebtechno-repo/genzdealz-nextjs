@@ -15,9 +15,13 @@ interface GradientTextProps {
 const gradientVariants = {
   default: `bg-gradient-to-r ${gradientPresets.primary}`,
   blue: `bg-gradient-to-r ${gradientPresets.blue}`,
+  "blue-gradient": `bg-gradient-to-r ${gradientPresets["blue-gradient"]}`,
   purple: `bg-gradient-to-r ${gradientPresets.purple}`,
+  "purple-gradient": `bg-gradient-to-r ${gradientPresets["purple-gradient"]}`,
   green: `bg-gradient-to-r ${gradientPresets.green}`,
+  "green-gradient": `bg-gradient-to-r ${gradientPresets["green-gradient"]}`,
   orange: `bg-gradient-to-r ${gradientPresets.orange}`,
+  "orange-gradient": `bg-gradient-to-r ${gradientPresets["orange-gradient"]}`,
   multi: `bg-gradient-to-r ${gradientPresets.multi}`,
   gradient: `bg-gradient-to-r ${gradientPresets.primary}`,
   link: `bg-gradient-to-r ${gradientPresets.primary}`,

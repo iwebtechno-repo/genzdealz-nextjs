@@ -4,15 +4,19 @@ import { type IconWeight } from "@phosphor-icons/react";
 // CORE DESIGN SYSTEM TYPES
 // ============================================================================
 
-// Centralized color variant type for all components
+// Enhanced color variant type with gradient variants for all colors
 export type ColorVariant =
   | "none"
   | "link"
-  | "gradient"
+  | "gradient" // Primary brand gradient
   | "blue"
+  | "blue-gradient" // Blue gradient variant
   | "purple"
+  | "purple-gradient" // Purple gradient variant
   | "green"
+  | "green-gradient" // Green gradient variant
   | "orange"
+  | "orange-gradient" // Orange gradient variant
   | "multi";
 
 // New effect type for component styling
@@ -57,18 +61,26 @@ export type ButtonVariant =
   | "link"
   | "gradient"
   | "blue"
+  | "blue-gradient"
   | "purple"
+  | "purple-gradient"
   | "green"
+  | "green-gradient"
   | "orange"
+  | "orange-gradient"
   | "multi";
 
 export type CardVariant =
   | "none"
   | "gradient"
   | "blue"
+  | "blue-gradient"
   | "purple"
+  | "purple-gradient"
   | "green"
+  | "green-gradient"
   | "orange"
+  | "orange-gradient"
   | "multi";
 
 // ============================================================================

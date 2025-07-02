@@ -81,7 +81,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
             </SidebarTrigger>
             <div className="flex items-center justify-between w-full">
               <Button
-                variant="none"
+                variant="gradient"
                 effect="glass"
                 size="lg"
                 onClick={onNewChat}
