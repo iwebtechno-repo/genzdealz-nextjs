@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { GradientText } from "@/components/ui/gradient-text";
 import {
   SparkleIcon,
@@ -12,6 +13,9 @@ import {
   ChatCircleIcon,
   HeartIcon,
   ShareIcon,
+  DeviceMobileIcon,
+  GiftIcon,
+  CreditCardIcon,
 } from "@phosphor-icons/react";
 import { InstagramIcon } from "@/lib/morphy-ui/morphy";
 
@@ -42,7 +46,7 @@ const features = [
   },
 ];
 
-const LandingPage = () => {
+const HomePage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -146,7 +150,7 @@ const LandingPage = () => {
                       username: "budget_student",
                       avatar: "💰",
                       content:
-                        "Pro tip: Always check @genzdealz_official before making any big purchases. You&apos;ll be surprised how much you can save! 💡",
+                        "Pro tip: Always check @genzdealz_official before making any big purchases. You'll be surprised how much you can save! 💡",
                       likes: 445,
                       time: "8h ago",
                     },
@@ -270,8 +274,141 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Quick Access Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container px-4 mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <GradientText variant="gradient">Get Started Today</GradientText>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Explore what GenZ loves most. From AI assistance to exclusive
+              deals.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Link href="/genzgpt">
+              <Card
+                variant="gradient"
+                effect="glass"
+                className="h-full"
+                showRipple
+                icon={{
+                  icon: DeviceMobileIcon,
+                  title: "GenZ GPT",
+                  subtitle: "AI Assistant",
+                }}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-bold text-white">GenZ GPT</h3>
+                  <p className="text-purple-100">Your AI study buddy</p>
+                </div>
+              </Card>
+            </Link>
+
+            <Link href="/recharge">
+              <Card
+                variant="blue"
+                effect="glass"
+                className="h-full"
+                showRipple
+                icon={{
+                  icon: CreditCardIcon,
+                  title: "Recharge & Bills",
+                  subtitle: "Easy payments",
+                }}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-bold text-white">
+                    Recharge & Bills
+                  </h3>
+                  <p className="text-blue-100">Mobile, DTH & more</p>
+                </div>
+              </Card>
+            </Link>
+
+            <Link href="/giftcards">
+              <Card
+                variant="green"
+                effect="glass"
+                className="h-full"
+                showRipple
+                icon={{
+                  icon: GiftIcon,
+                  title: "Gift Cards",
+                  subtitle: "Perfect gifts",
+                }}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-bold text-white">Gift Cards</h3>
+                  <p className="text-green-100">Cashback guaranteed</p>
+                </div>
+              </Card>
+            </Link>
+
+            <Link href="/shared-subscriptions">
+              <Card
+                variant="orange"
+                effect="glass"
+                className="h-full"
+                showRipple
+                icon={{
+                  icon: UsersIcon,
+                  title: "Shared Subscriptions",
+                  subtitle: "Save together",
+                }}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-bold text-white">Shared Subs</h3>
+                  <p className="text-orange-100">Split & save up to 70%</p>
+                </div>
+              </Card>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-20 bg-background">
+        <div className="container px-4 mx-auto text-center">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="text-4xl md:text-6xl font-bold">
+              <GradientText variant="gradient">Ready to Level Up?</GradientText>
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground">
+              Join thousands of students already winning with GenZDealZ.ai
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/login">
+                <Button
+                  variant="gradient"
+                  effect="fill"
+                  size="xl"
+                  showRipple
+                  icon={{ icon: SparkleIcon }}
+                >
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link href="/personalized">
+                <Button
+                  variant="blue"
+                  effect="glass"
+                  size="xl"
+                  showRipple
+                  icon={{ icon: TrendUpIcon }}
+                >
+                  See Personalized Deals
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
 
-export default LandingPage;
+export default HomePage;
