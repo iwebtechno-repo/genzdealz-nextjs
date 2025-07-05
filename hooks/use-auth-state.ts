@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 export const useAuthState = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<{ name?: string } | null>(null);
 
   const checkAuthState = useCallback(() => {
     const token = document.cookie.includes("token=");
@@ -13,6 +14,17 @@ export const useAuthState = () => {
       return prev;
     });
     setIsLoading(false);
+
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        setUser(null);
+      }
+    } else {
+      setUser(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -35,5 +47,5 @@ export const useAuthState = () => {
     };
   }, [checkAuthState]);
 
-  return { isAuthenticated, isLoading, checkAuthState };
-}; 
+  return { isAuthenticated, isLoading, checkAuthState, user };
+};

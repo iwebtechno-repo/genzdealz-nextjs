@@ -7,6 +7,10 @@ import {
   MagnifyingGlassIcon,
   HouseIcon,
   SignInIcon,
+  LightningIcon,
+  GiftIcon,
+  ShoppingBagIcon,
+  UsersThreeIcon,
 } from "@phosphor-icons/react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -63,6 +67,88 @@ export const Navbar = () => {
               weight={pathname === "/" ? "fill" : iconWeight}
             />
             <span>Home</span>
+          </Button>
+
+          <Button
+            variant="link"
+            effect="glass"
+            size="sm"
+            showRipple={false}
+            className={cn(
+              "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+              pathname === "/recharge"
+                ? "text-[#d0427f]"
+                : "text-muted-foreground"
+            )}
+            onClick={() => router.push("/recharge")}
+          >
+            <LightningIcon
+              className="h-5 w-5"
+              weight={pathname === "/recharge" ? "fill" : iconWeight}
+            />
+            <span>Recharge</span>
+          </Button>
+
+          <Button
+            variant="link"
+            effect="glass"
+            size="sm"
+            showRipple={false}
+            className={cn(
+              "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+              pathname === "/giftcards"
+                ? "text-[#d0427f]"
+                : "text-muted-foreground"
+            )}
+            onClick={() => router.push("/giftcards")}
+          >
+            <GiftIcon
+              className="h-5 w-5"
+              weight={pathname === "/giftcards" ? "fill" : iconWeight}
+            />
+            <span>Deals</span>
+          </Button>
+
+          <Button
+            variant="link"
+            effect="glass"
+            size="sm"
+            showRipple={false}
+            className={cn(
+              "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+              pathname === "/brands"
+                ? "text-[#d0427f]"
+                : "text-muted-foreground"
+            )}
+            onClick={() => router.push("/brands")}
+          >
+            <ShoppingBagIcon
+              className="h-5 w-5"
+              weight={pathname === "/brands" ? "fill" : iconWeight}
+            />
+            <span>Brands</span>
+          </Button>
+
+          <Button
+            variant="link"
+            effect="glass"
+            size="sm"
+            showRipple={false}
+            className={cn(
+              "flex flex-col items-center space-y-1 text-xs font-medium transition-colors hover:text-[#d0427f] hover:opacity-80 duration-200 min-w-0",
+              pathname === "/shared-subscriptions"
+                ? "text-[#d0427f]"
+                : "text-muted-foreground"
+            )}
+            onClick={() => router.push("/shared-subscriptions")}
+          >
+            <UsersThreeIcon
+              className="h-5 w-5"
+              weight={
+                pathname === "/shared-subscriptions" ? "fill" : iconWeight
+              }
+            />
+            <span>Shares</span>
           </Button>
 
           {isAuthenticated ? (

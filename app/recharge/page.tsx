@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+export const dynamic = "force-dynamic";
+
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -493,4 +495,10 @@ const RechargePage = () => {
   );
 };
 
-export default RechargePage;
+const RechargePageWrapper = () => (
+  <Suspense fallback={null}>
+    <RechargePage />
+  </Suspense>
+);
+
+export default RechargePageWrapper;
