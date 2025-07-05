@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { type IconWeight } from "@phosphor-icons/react";
 import {
   DeviceMobileIcon,
   TelevisionIcon,
@@ -21,7 +22,7 @@ interface ServiceOption {
   id: string;
   name: string;
   description: string;
-  icon: React.ComponentType<{ className?: string; weight?: any }>;
+  icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
   route: string;
   color: "blue" | "green" | "purple" | "orange" | "gradient";
   discount?: string;

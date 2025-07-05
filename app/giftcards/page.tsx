@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { type IconWeight } from "@phosphor-icons/react";
 import {
   GiftIcon,
   MagnifyingGlassIcon,
@@ -24,7 +25,7 @@ interface GiftCard {
   category: string;
   denominations: number[];
   discount?: number;
-  icon: React.ComponentType<{ className?: string; weight?: any }>;
+  icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
 }
 
 const GiftCardsPage = () => {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { type IconWeight } from "@phosphor-icons/react";
 import {
   DeviceMobileIcon,
   LightningIcon,
@@ -19,7 +20,7 @@ import { toast } from "sonner";
 interface QuickAction {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string; weight?: any }>;
+  icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
   route: string;
   color: string;
   inputPlaceholder: string;

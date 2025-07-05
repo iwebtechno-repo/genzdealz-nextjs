@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+export const dynamic = "force-dynamic";
+
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { type IconWeight } from "@phosphor-icons/react";
 import {
   DeviceMobileIcon,
   TelevisionIcon,
@@ -40,7 +43,7 @@ import QuickActions from "@/components/recharge/quick-actions";
 interface ServiceType {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string; weight?: any }>;
+  icon: React.ComponentType<{ className?: string; weight?: IconWeight }>;
   route: string;
   active?: boolean;
   comingSoon?: boolean;
@@ -492,4 +495,10 @@ const RechargePage = () => {
   );
 };
 
-export default RechargePage;
+const RechargePageWrapper = () => (
+  <Suspense fallback={null}>
+    <RechargePage />
+  </Suspense>
+);
+
+export default RechargePageWrapper;
