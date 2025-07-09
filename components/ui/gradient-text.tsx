@@ -5,15 +5,16 @@ import { cn } from "@/lib/utils";
 import { type ClassValue } from "clsx";
 import { type ColorVariant } from "@/lib/morphy-ui/types";
 import { gradientPresets } from "@/lib/morphy-ui/utils";
+import { Slot } from "@radix-ui/react-slot";
 
 interface GradientTextProps {
   children: React.ReactNode;
   className?: ClassValue;
   variant?: ColorVariant;
+  asChild?: boolean;
 }
 
-const gradientVariants = {
-  default: `bg-gradient-to-r ${gradientPresets.primary}`,
+const gradientVariants: Record<ColorVariant, string> = {
   blue: `bg-gradient-to-r ${gradientPresets.blue}`,
   "blue-gradient": `bg-gradient-to-r ${gradientPresets["blue-gradient"]}`,
   purple: `bg-gradient-to-r ${gradientPresets.purple}`,
@@ -26,15 +27,18 @@ const gradientVariants = {
   gradient: `bg-gradient-to-r ${gradientPresets.primary}`,
   link: `bg-gradient-to-r ${gradientPresets.primary}`,
   none: `bg-gradient-to-r ${gradientPresets.primary}`,
-} as const;
+  outline: `bg-gradient-to-r ${gradientPresets.primary}`,
+};
 
 export const GradientText = ({
   children,
   className,
   variant = "gradient",
+  asChild = false,
 }: GradientTextProps) => {
+  const Comp = asChild ? Slot : "span";
   return (
-    <span
+    <Comp
       className={cn(
         "inline-block bg-clip-text text-transparent",
         gradientVariants[variant],
@@ -42,6 +46,6 @@ export const GradientText = ({
       )}
     >
       {children}
-    </span>
+    </Comp>
   );
 };

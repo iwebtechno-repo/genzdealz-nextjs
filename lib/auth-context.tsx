@@ -6,6 +6,7 @@ import { useAuthState } from "@/hooks/use-auth-state";
 interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  user: { name?: string } | null;
   login: (token: string) => void;
   logout: () => void;
   checkAuth: () => void;
@@ -24,7 +25,7 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isAuthenticated, isLoading, checkAuthState } = useAuthState();
+  const { isAuthenticated, user, isLoading, checkAuthState } = useAuthState();
 
   const value = useMemo(() => {
     const login = (token: string) => {
@@ -40,11 +41,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return {
       isAuthenticated,
       isLoading,
+      user,
       login,
       logout,
       checkAuth: checkAuthState,
     };
-  }, [isAuthenticated, isLoading, checkAuthState]);
+  }, [isAuthenticated, user, isLoading, checkAuthState]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

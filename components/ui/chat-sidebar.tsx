@@ -8,9 +8,13 @@ import {
   PlusIcon,
   TrashIcon,
   DotsThreeOutlineIcon,
-  GiftIcon,
-  CaretLeftIcon,
+  SidebarSimpleIcon,
 } from "@phosphor-icons/react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import {
   Popover,
   PopoverTrigger,
@@ -40,22 +44,11 @@ interface ChatSidebarProps {
   onNewChat: () => void;
   onSelectChat: (id: string) => void;
   onDeleteChat: (id: string) => void;
-  onDealOfTheDay: () => void;
   className?: string;
 }
 
 const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
-  (
-    {
-      chatHistory,
-      onNewChat,
-      onSelectChat,
-      onDeleteChat,
-      onDealOfTheDay,
-      className,
-    },
-    ref
-  ) => {
+  ({ chatHistory, onNewChat, onSelectChat, onDeleteChat, className }, ref) => {
     const iconWeight = useIconWeight();
 
     return (
@@ -75,28 +68,35 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               size="icon"
               showRipple
               aria-label="Toggle sidebar"
-              className="ml-auto"
+              className="w-10 h-10 cursor-pointer group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:p-0"
             >
-              <CaretLeftIcon className="h-4 w-4" weight={iconWeight} />
+              <SidebarSimpleIcon className="h-4 w-4" weight={iconWeight} />
             </SidebarTrigger>
             <div className="flex items-center justify-between w-full">
-              <Button
-                variant="gradient"
-                effect="glass"
-                size="lg"
-                onClick={onNewChat}
-                showRipple
-                icon={{ icon: PlusIcon, title: "New Chat" }}
-                aria-label="New Chat"
-                className="w-full justify-start"
-              >
-                <span className="group-data-[collapsible=icon]:hidden flex items-center gap-2">
-                  New Chat
-                  <span className="text-xs text-muted-foreground">
-                    ({chatHistory.length})
-                  </span>
-                </span>
-              </Button>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="none"
+                    effect="glass"
+                    size="lg"
+                    onClick={onNewChat}
+                    showRipple
+                    aria-label="New Chat"
+                    className="cursor-pointer w-full justify-start group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:hover:bg-sidebar-accent/30"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                    <span className="group-data-[collapsible=icon]:hidden flex items-center gap-2 ml-2">
+                      New Chat
+                      <span className="text-xs text-muted-foreground">
+                        ({chatHistory.length})
+                      </span>
+                    </span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="select-none">
+                  New Chat ({chatHistory.length})
+                </TooltipContent>
+              </Tooltip>
             </div>
           </SidebarHeader>
           <SidebarContent className="flex-1 overflow-y-auto px-2 min-h-0">
@@ -110,7 +110,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                     variant={chat.isActive ? "outline" : "default"}
                     size="lg"
                     className={cn(
-                      "w-full text-left flex items-center p-3 rounded-lg transition-all duration-200 cursor-pointer",
+                      "cursor-pointer w-full text-left flex items-center p-3 rounded-lg transition-all duration-200",
                       chat.isActive
                         ? "bg-primary/20 border-primary/50 text-primary shadow-md hover:bg-primary/25"
                         : "hover:bg-muted/50 hover:text-foreground"
@@ -119,10 +119,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                   >
                     <span
                       className={cn(
-                        "flex items-center justify-center w-5 h-5 rounded-full text-xs font-medium flex-shrink-0",
-                        chat.isActive
-                          ? "bg-primary text-primary-foreground shadow-sm"
-                          : "bg-muted text-muted-foreground group-hover:bg-foreground/10"
+                        "flex items-center justify-center w-5 h-5 rounded-full text-xs font-medium flex-shrink-0 group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:h-full group-data-[collapsible=icon]:rounded-full group-data-[collapsible=icon]:bg-transparent bg-muted text-primary group-hover:bg-foreground/10"
                       )}
                     >
                       {chatHistory.length - index}
@@ -145,7 +142,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                     <Popover>
                       <PopoverTrigger asChild>
                         <div
-                          className="opacity-0 group-hover:opacity-100 flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
+                          className="opacity-0 group-hover:opacity-100 flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
                           onClick={(e) => e.stopPropagation()}
                           role="button"
                           tabIndex={0}
@@ -183,22 +180,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               ))}
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter className="p-4 space-y-2 flex-shrink-0">
-            <Button
-              variant="gradient"
-              effect="fill"
-              size="lg"
-              onClick={onDealOfTheDay}
-              showRipple
-              icon={{ icon: GiftIcon, title: "Deal of the Day" }}
-              aria-label="Deal of the Day"
-              className="w-full justify-start"
-            >
-              <div className="group-data-[collapsible=icon]:hidden flex-1 min-w-0 text-left">
-                <p className="text-base font-semibold">Deal of the Day</p>
-              </div>
-            </Button>
-          </SidebarFooter>
+          <SidebarFooter className="p-4 space-y-2 flex-shrink-0" />
         </Sidebar>
       </SidebarProvider>
     );

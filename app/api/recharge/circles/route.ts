@@ -48,8 +48,8 @@ function getRegionByState(stateName: string): string {
   return stateRegionMap[stateName] || "Other";
 }
 
-// Fallback data if API fails
-const fallbackCircles = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _fallbackCircles = [
   { id: "AP", name: "Andhra Pradesh" },
   { id: "AS", name: "Assam" },
   { id: "BR", name: "Bihar" },
@@ -91,11 +91,18 @@ export const GET = async () => {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store", // Disable caching to get fresh data
       }
     );
 
     if (!response.ok) {
-      throw new Error(`API response was not ok: ${response.status}`);
+      // If the API call itself fails, return an error
+      return new NextResponse(
+        JSON.stringify({
+          message: `Failed to fetch from BBPS API: ${response.statusText}`,
+        }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     const data = await response.json();
@@ -118,14 +125,24 @@ export const GET = async () => {
     const circles = Array.from(uniqueCircles.values());
 
     if (circles.length === 0) {
-      throw new Error("No circles found in API response");
+      // If no circles are found after processing, it's an issue with the data.
+      return new NextResponse(
+        JSON.stringify({ message: "No circles found in API response" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     return NextResponse.json(circles);
   } catch (error) {
-    console.error("Error fetching circles from BBPS API:", error);
+    console.error("Error in /api/recharge/circles:", error);
 
-    // Fallback to mock data if API fails
-    return NextResponse.json(fallbackCircles);
+    // General server error
+    return new NextResponse(
+      JSON.stringify({
+        message:
+          error instanceof Error ? error.message : "An unknown error occurred",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 };

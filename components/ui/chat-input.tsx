@@ -68,10 +68,13 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
     return (
       <div
         ref={ref}
-        className={cn("bg-background p-1 border-t border-border/50", className)}
+        className={cn(
+          "bg-background/80 backdrop-blur-lg border border-border/60 rounded-xl shadow-lg p-4 space-y-3",
+          className
+        )}
       >
-        {/* Quick Actions */}
-        <div className="mb-2 flex flex-wrap gap-1 sm:gap-2">
+        {/* Quick Action Suggestions */}
+        <div className="flex flex-nowrap gap-2 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-muted-foreground/30">
           {[
             "What's the latest in tech?",
             "Help me with my studies",
@@ -85,15 +88,14 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
               size="default"
               showRipple={true}
               onClick={() => onChange(suggestion)}
-              className="rounded-full border-border hover:border-primary/50 hover:bg-accent/20 cursor-pointer text-xs sm:text-sm"
+              className="rounded-full border bg-muted/40 hover:bg-accent/30 text-xs sm:text-sm whitespace-nowrap px-3 py-1"
               icon={{ icon: SparkleIcon }}
             >
               {suggestion}
             </Button>
           ))}
         </div>
-
-        <form onSubmit={handleSubmit} className="flex items-end gap-2">
+        <form onSubmit={handleSubmit} className="flex items-end gap-3">
           <div className="flex-1 flex items-end gap-2">
             <Textarea
               ref={textareaRef}
@@ -105,6 +107,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
               placeholder={placeholder}
               disabled={isLoading}
               rows={2}
+              className="border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:border-transparent resize-none"
             />
             <Tooltip>
               <TooltipTrigger asChild>
@@ -116,6 +119,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
                   icon={{ icon: PaperclipIcon }}
                   tabIndex={-1}
                   aria-label="Attach file"
+                  className="hover:bg-accent/20"
                 />
               </TooltipTrigger>
               <TooltipContent>Attach file</TooltipContent>
@@ -130,6 +134,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
                   icon={{ icon: MicrophoneIcon }}
                   tabIndex={-1}
                   aria-label="Record voice"
+                  className="hover:bg-accent/20"
                 />
               </TooltipTrigger>
               <TooltipContent>Record voice</TooltipContent>
@@ -144,7 +149,7 @@ const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
                 size="icon"
                 showRipple={true}
                 disabled={!value.trim() || isLoading}
-                className="rounded-full flex-shrink-0"
+                className="rounded-full flex-shrink-0 shadow-md"
                 aria-label="Send"
               >
                 {isLoading ? (

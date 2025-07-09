@@ -12,10 +12,11 @@ export const rippleKeyframes = `
 @keyframes ripple {
   0% {
     transform: translate(-50%, -50%) scale(0);
-    opacity: 0.8;
+    opacity: 0.5;
   }
-  40% {
-    opacity: 0.6;
+  80% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
   }
   100% {
     transform: translate(-50%, -50%) scale(1);

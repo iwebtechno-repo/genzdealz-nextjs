@@ -62,8 +62,8 @@ function getOperatorImage(operatorName: string): string {
   return "/images/operators/default.png";
 }
 
-// Fallback data if API fails
-const fallbackOperators = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _fallbackOperators = [
   {
     id: "airtel",
     name: "Airtel",
@@ -106,11 +106,17 @@ export const GET = async () => {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store",
       }
     );
 
     if (!response.ok) {
-      throw new Error(`API response was not ok: ${response.status}`);
+      return new NextResponse(
+        JSON.stringify({
+          message: `Failed to fetch from BBPS API: ${response.statusText}`,
+        }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     const data = await response.json();
@@ -143,14 +149,22 @@ export const GET = async () => {
     const operators = Array.from(uniqueOperators.values());
 
     if (operators.length === 0) {
-      throw new Error("No operators found in API response");
+      return new NextResponse(
+        JSON.stringify({ message: "No operators found in API response" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     return NextResponse.json(operators);
   } catch (error) {
-    console.error("Error fetching operators from BBPS API:", error);
+    console.error("Error in /api/recharge/operators:", error);
 
-    // Fallback to mock data if API fails
-    return NextResponse.json(fallbackOperators);
+    return new NextResponse(
+      JSON.stringify({
+        message:
+          error instanceof Error ? error.message : "An unknown error occurred",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 };
