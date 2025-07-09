@@ -1,4 +1,4 @@
-# GenZDealZ Design System (v3.1)
+# GenZDealZ Design System (v3.2)
 
 ## 🎯 Core Rules
 
@@ -26,8 +26,9 @@
 ### 4. **Effects**
 
 - Use `lib/morphy-ui/morphy.tsx` for all effects and types
+- **`variant` prop controls color, `effect` prop controls style (e.g. "glass")**
 - Use `showRipple={true}` for interactive elements
-- Apply glass effects using `variant="glass"` (always uses the new depth effect)
+- Apply glass effects using `effect="glass"`, which works with any `variant`
 - **Ripple colors automatically complement variant colors** — no manual configuration needed
 - Glass effect uses modern Tailwind approach with CSS variables
 
@@ -56,8 +57,8 @@
 // ❌ WRONG - Manual glass styling
 <Button className="bg-white/10 backdrop-blur-md border border-white/20">
 
-// ✅ CORRECT - Use glass variant
-<Button variant="glass">
+// ✅ CORRECT - Use effect prop for glass
+<Button variant="none" effect="glass">
 
 // ❌ WRONG - Manual ripple styling
 <Button className="relative overflow-hidden">
@@ -67,7 +68,8 @@
 ```
 
 - **Available morphy props to use**:
-  - `variant`: centralized `ColorVariant` (`"none"`, `"link"`, `"gradient"`, `"glass"`, `"blue"`, `"purple"`, `"green"`, `"orange"`, `"multi"`)
+  - `variant`: centralized `ColorVariant` (`"none"`, `"link"`, `"gradient"`, `"blue"`, `"purple"`, `"green"`, `"orange"`, `"multi"`)
+  - `effect`: `"fill"` (default) or `"glass"`
   - `showRipple`: boolean
   - `size`: `"sm"`, `"default"`, `"lg"`, `"xl"`, `"icon"`, `"icon-sm"`
   - `icon`: `{ icon: IconComponent, title?: string, subtitle?: string }`
@@ -129,7 +131,7 @@ import { Button } from "@/components/ui/button";
 </Button>
 
 // Social login buttons
-<Button variant="glass" showRipple>
+<Button variant="none" effect="glass" showRipple>
   <GoogleIcon className="mr-2 h-5 w-5" />
   Sign in with Google
 </Button>
@@ -168,7 +170,7 @@ import { SparkleIcon, ChatCircleIcon } from "@phosphor-icons/react";
 <InstagramIcon className="h-5 w-5" />
 
 // Icon prop system (preferred)
-<Button variant="glass" icon={{ icon: SparkleIcon, title: "Action" }}>
+<Button variant="none" effect="glass" icon={{ icon: SparkleIcon, title: "Action" }}>
   Click me
 </Button>
 ```
@@ -293,7 +295,7 @@ SocialIcons.Instagram   // InstagramIcon component
 
 ---
 
-**Remember**: Use `ColorVariant` everywhere, glass effect uses modern Tailwind with CSS variables, ripple color is derived from `ColorVariant`, and all effects are centralized in morphy-ui.
+**Remember**: Use `ColorVariant` everywhere, use `effect="glass"` for glass effects, ripple color is derived from `ColorVariant`, and all effects are centralized in morphy-ui.
 
 _Last Updated: 2024-12_
 _Version: 3.2_
@@ -317,3 +319,37 @@ _Version: 3.2_
 ```
 
 - **Use cases**: Chat titles, button labels, card titles, navigation items, any text that might overflow
+
+## 🖼️ Images & Media
+
+### 20. **Image Component Usage**
+
+- **Use standard `<img>` for external sources**: For images loaded from external URLs (e.g., from an API or a different domain), use the standard HTML `<img>` tag instead of Next.js's `<Image>` component. This avoids configuration issues with `next.config.ts` for a large number of external domains.
+- **Linter Warnings for `<img>`**: It is acceptable to have linter warnings related to using `<img>` instead of `<Image>`. These warnings can be ignored as this is an intentional choice for handling external media.
+- **Use Next.js `<Image>` for local assets**: For local images stored within the `/public` directory, continue to use the Next.js `<Image>` component to benefit from automatic optimization.
+
+**Implementation Pattern:**
+
+```tsx
+// ✅ CORRECT - For external images from an API
+<img
+  src={deal.image}
+  alt={deal.title}
+  className="object-cover w-full h-full"
+/>
+
+// ✅ CORRECT - For local static images
+import localImage from '@/public/images/local-image.png';
+<Image
+  src={localImage}
+  alt="Description of local image"
+/>
+
+// ❌ WRONG - Using Next/Image for dynamic external URLs
+<Image
+  src={deal.image} // deal.image is from an external API
+  alt={deal.title}
+  width={500}
+  height={300}
+/>
+```

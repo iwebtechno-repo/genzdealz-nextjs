@@ -28,7 +28,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <IconThemeProvider defaultWeight="regular">
             <AuthProvider>
               <main>
-                <div className="min-h-screen pb-20">{children}</div>
+                <div className="min-h-screen pb-28">{children}</div>
               </main>
               <NavbarWrapper />
             </AuthProvider>

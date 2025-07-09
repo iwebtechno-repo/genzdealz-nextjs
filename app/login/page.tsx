@@ -20,7 +20,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { FloatingInput } from "@/components/ui/floating-input";
 import { useSearchParams } from "next/navigation";
-import { GradientText } from "@/components/ui/gradient-text";
 import { useAuth } from "@/lib/auth-context";
 import { LoadingSpinner } from "@/components/ui/loading-bars";
 import { GoogleIcon, AppleIcon } from "@/lib/morphy-ui/morphy";
@@ -371,57 +370,43 @@ const LoginPage = () => {
   const [showOtpModal, setShowOtpModal] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center p-4 sm:p-6 lg:p-8">
-        <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8">
-          <div className="flex flex-col items-center justify-center text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
-              <GradientText variant="gradient">
-                Your AI-powered shopping journey begins here
-              </GradientText>
-            </h1>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="container mx-auto flex max-w-4xl flex-col items-center justify-center px-4 md:flex-row">
+        {/* Left Side: Image */}
+        <div className="relative hidden w-full md:block md:w-1/2">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#d0427f]/30 to-[#303293]/30" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center p-8">
+              {/* <h2 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                GenZDealZ.ai
+              </h2>
+              <p className="text-white/90 text-xl font-medium">
+                Your AI-powered deals platform
+              </p> */}
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='800' height='600' viewBox='0 0 800 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='600' fill='url(%23a)'/%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='800' y2='600' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23d0427f' stop-opacity='0.12'/%3E%3Cstop offset='1' stop-color='%23303293' stop-opacity='0.12'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M120 120l40-40c5-5 13-5 18 0l42 42c5 5 5 13 0 18l-40 40c-5 5-13 5-18 0l-42-42c-5-5-5-13 0-18z' fill='%23fff' fill-opacity='0.18'/%3E%3Cellipse cx='140' cy='140' rx='6' ry='6' fill='%23d0427f' fill-opacity='0.5'/%3E%3Ctext x='130' y='155' font-size='18' fill='%23d0427f' fill-opacity='0.7'%3E%25%3C/text%3E%3Crect x='600' y='100' width='60' height='60' rx='10' fill='%23fff' fill-opacity='0.18'/%3E%3Crect x='610' y='120' width='40' height='30' rx='6' fill='%23d0427f' fill-opacity='0.15'/%3E%3Cpath d='M620 120v-10a10 10 0 0120 0v10' stroke='%23d0427f' stroke-width='3' stroke-opacity='0.5'/%3E%3Ccircle cx='700' cy='500' r='36' fill='%23fff' fill-opacity='0.18'/%3E%3Ctext x='678' y='510' font-size='28' fill='%23d0427f' fill-opacity='0.7'%3E50%25%3C/text%3E%3Crect x='320' y='400' width='120' height='60' rx='12' fill='%23fff' fill-opacity='0.18'/%3E%3Crect x='340' y='420' width='80' height='30' rx='6' fill='%23303293' fill-opacity='0.15'/%3E%3Crect x='350' y='410' width='60' height='10' rx='3' fill='%23d0427f' fill-opacity='0.25'/%3E%3Ccircle cx='200' cy='500' r='8' fill='%23d0427f' fill-opacity='0.18'/%3E%3Ccircle cx='750' cy='200' r='8' fill='%23303293' fill-opacity='0.18'/%3E%3C/svg%3E")`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                opacity: 0.7,
+              }}
+            />
           </div>
-          <Card
-            variant="none"
-            showRipple={false}
-            className="bg-transparent border-0 shadow-none"
-          >
-            <AnimatedTabs onRegisterSuccess={() => setShowOtpModal(true)} />
-          </Card>
+        </div>
+
+        {/* Right Side: Form */}
+        <div className="w-full max-w-md p-4 md:w-1/2 md:p-8">
+          <AnimatedTabs onRegisterSuccess={() => setShowOtpModal(true)} />
         </div>
       </div>
-
-      {/* Right Side - Decorative */}
-      <div className="hidden lg:block lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#d0427f]/30 to-[#303293]/30" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center p-8">
-            {/* <h2 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-              GenZDealZ.ai
-            </h2>
-            <p className="text-white/90 text-xl font-medium">
-              Your AI-powered deals platform
-            </p> */}
-          </div>
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='800' height='600' viewBox='0 0 800 600' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='600' fill='url(%23a)'/%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='800' y2='600' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23d0427f' stop-opacity='0.12'/%3E%3Cstop offset='1' stop-color='%23303293' stop-opacity='0.12'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M120 120l40-40c5-5 13-5 18 0l42 42c5 5 5 13 0 18l-40 40c-5 5-13 5-18 0l-42-42c-5-5-5-13 0-18z' fill='%23fff' fill-opacity='0.18'/%3E%3Cellipse cx='140' cy='140' rx='6' ry='6' fill='%23d0427f' fill-opacity='0.5'/%3E%3Ctext x='130' y='155' font-size='18' fill='%23d0427f' fill-opacity='0.7'%3E%25%3C/text%3E%3Crect x='600' y='100' width='60' height='60' rx='10' fill='%23fff' fill-opacity='0.18'/%3E%3Crect x='610' y='120' width='40' height='30' rx='6' fill='%23d0427f' fill-opacity='0.15'/%3E%3Cpath d='M620 120v-10a10 10 0 0120 0v10' stroke='%23d0427f' stroke-width='3' stroke-opacity='0.5'/%3E%3Ccircle cx='700' cy='500' r='36' fill='%23fff' fill-opacity='0.18'/%3E%3Ctext x='678' y='510' font-size='28' fill='%23d0427f' fill-opacity='0.7'%3E50%25%3C/text%3E%3Crect x='320' y='400' width='120' height='60' rx='12' fill='%23fff' fill-opacity='0.18'/%3E%3Crect x='340' y='420' width='80' height='30' rx='6' fill='%23303293' fill-opacity='0.15'/%3E%3Crect x='350' y='410' width='60' height='10' rx='3' fill='%23d0427f' fill-opacity='0.25'/%3E%3Ccircle cx='200' cy='500' r='8' fill='%23d0427f' fill-opacity='0.18'/%3E%3Ccircle cx='750' cy='200' r='8' fill='%23303293' fill-opacity='0.18'/%3E%3C/svg%3E")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.7,
-            }}
-          />
-        </div>
-      </div>
-
       {/* OTP Modal */}
       {showOtpModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <Card variant="purple" className="max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-4">Enter OTP</h2>
-            <p className="text-muted-foreground mb-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <Card variant="purple" className="w-full max-w-md">
+            <h2 className="mb-4 text-2xl font-bold">Enter OTP</h2>
+            <p className="mb-6 text-muted-foreground">
               We&apos;ve sent a verification code to your email
             </p>
             <div className="space-y-4">
@@ -431,7 +416,7 @@ const LoginPage = () => {
                     key={i}
                     type="text"
                     maxLength={1}
-                    className="text-center h-12 w-12"
+                    className="h-12 w-12 text-center"
                   />
                 ))}
               </div>

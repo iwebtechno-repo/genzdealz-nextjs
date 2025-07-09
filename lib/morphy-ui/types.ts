@@ -17,7 +17,8 @@ export type ColorVariant =
   | "green-gradient" // Green gradient variant
   | "orange"
   | "orange-gradient" // Orange gradient variant
-  | "multi";
+  | "multi"
+  | "outline";
 
 // New effect type for component styling
 export type ComponentEffect = "fill" | "glass";

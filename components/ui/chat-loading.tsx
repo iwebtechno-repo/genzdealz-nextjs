@@ -26,7 +26,7 @@ const ChatLoading = React.forwardRef<HTMLDivElement, ChatLoadingProps>(
 
           {/* Loading Content */}
           <div className="flex-1 min-w-0">
-            <Card className="p-4 rounded-2xl bg-card border-border">
+            <Card variant="none" className="p-4 rounded-2xl">
               <div className="flex items-center gap-3">
                 <LoadingSpinner size="sm" text="" />
                 <div className="flex flex-col gap-1">

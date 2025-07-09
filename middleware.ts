@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// List of public routes that don't require authentication
-const publicRoutes = ["/", "/login", "/favicon.ico"];
+// Public routes that are always accessible without authentication
+// Everything *not* in this list (and matched by `config.matcher`) requires auth.
+const publicRoutes = [
+  "/",
+  "/login",
+  "/explore",
+  "/deal-of-the-day",
+  "/favicon.ico",
+];
 
-// List of protected routes that require authentication
-const protectedRoutes = ["/genzgpt"];
-
-export function middleware(request: NextRequest) {
+export const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   // Get the token from cookies
@@ -19,10 +23,8 @@ export function middleware(request: NextRequest) {
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(
-    (route) => pathname === route || pathname.startsWith(route + "/")
-  );
+  // Any route that is not explicitly public is considered protected.
+  const requiresAuth = !isPublicRoute;
 
   // If user is authenticated and tries to access login page, check if they have a redirect
   if (hasValidToken && pathname === "/login") {
@@ -35,8 +37,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // If user is not authenticated and tries to access protected route, redirect to login
-  if (!hasValidToken && isProtectedRoute) {
+  // If user is not authenticated and tries to access a protected route, redirect to login
+  if (!hasValidToken && requiresAuth) {
     const url = new URL("/login", request.url);
     url.searchParams.set("from", pathname);
     return NextResponse.redirect(url);
@@ -44,7 +46,7 @@ export function middleware(request: NextRequest) {
 
   // For all other cases, allow the request to proceed
   return NextResponse.next();
-}
+};
 
 // Configure which routes to run middleware on
 export const config = {

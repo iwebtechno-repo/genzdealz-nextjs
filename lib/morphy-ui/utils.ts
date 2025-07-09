@@ -39,83 +39,86 @@ export const getVariantStyles = (
   switch (variant) {
     case "gradient":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.primary} hover:from-[#d0427f]/90 hover:to-[#303293]/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.primary} hover:from-[#d0427f]/90 hover:to-[#303293]/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "blue":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.blue} hover:from-blue-500/90 hover:to-blue-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.blue} hover:from-blue-500/90 hover:to-blue-600/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "blue-gradient":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets["blue-gradient"]} hover:from-blue-400/90 hover:via-blue-500/90 hover:to-blue-700/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets["blue-gradient"]} hover:from-blue-400/90 hover:via-blue-500/90 hover:to-blue-700/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-blue-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "purple":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.purple} hover:from-purple-500/90 hover:to-purple-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.purple} hover:from-purple-500/90 hover:to-purple-600/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "purple-gradient":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets["purple-gradient"]} hover:from-purple-400/90 hover:via-purple-500/90 hover:to-purple-700/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets["purple-gradient"]} hover:from-purple-400/90 hover:via-purple-500/90 hover:to-purple-700/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-purple-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "green":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.green} hover:from-green-500/90 hover:to-green-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.green} hover:from-green-500/90 hover:to-green-600/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "green-gradient":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets["green-gradient"]} hover:from-green-400/90 hover:via-green-500/90 hover:to-green-700/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets["green-gradient"]} hover:from-green-400/90 hover:via-green-500/90 hover:to-green-700/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-green-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "orange":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.orange} hover:from-orange-500/90 hover:to-orange-600/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.orange} hover:from-orange-500/90 hover:to-orange-600/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "orange-gradient":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets["orange-gradient"]} hover:from-orange-400/90 hover:via-orange-500/90 hover:to-orange-700/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets["orange-gradient"]} hover:from-orange-400/90 hover:via-orange-500/90 hover:to-orange-700/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-orange-500/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "multi":
       if (effect === "fill") {
-        return `bg-gradient-to-r ${gradientPresets.multi} hover:from-blue-500/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white shadow-lg hover:shadow-xl transition-all duration-200`;
+        return `bg-gradient-to-r ${gradientPresets.multi} hover:from-blue-500/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white shadow-lg transition-shadow,transition-colors duration-200`;
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[#d0427f]/20 backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
 
     case "link":
       return "text-primary hover:text-primary/80 underline-offset-4 hover:underline transition-colors duration-200 bg-transparent border-none shadow-none";
+
+    case "outline":
+      return "text-primary bg-primary/10 border border-primary/30 hover:bg-primary/20 shadow-sm transition-colors duration-200";
 
     case "none":
     default:
       if (effect === "fill") {
         return "bg-background border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-200";
       } else {
-        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-all duration-200";
+        return "bg-[var(--activeGlassColor)] shadow-[0px_10px_30px_var(--activeShadowColor)] border border-[var(--fadeGrey)] backdrop-blur-[10px] hover:shadow-[0px_15px_40px_var(--activeShadowColor)] transition-shadow,transition-colors duration-200";
       }
   }
 };
@@ -202,6 +205,9 @@ export const getVariantStylesNoHover = (
     case "link":
       return "text-primary underline-offset-4 transition-colors duration-200 bg-transparent border-none shadow-none";
 
+    case "outline":
+      return "text-primary bg-primary/10 border border-primary/30 shadow-sm transition-all duration-200";
+
     case "none":
     default:
       if (effect === "fill") {
@@ -257,6 +263,9 @@ export const getIconColor = (
       }
 
     case "link":
+      return "text-primary";
+
+    case "outline":
       return "text-primary";
 
     case "none":
@@ -325,6 +334,9 @@ export const getRippleColor = (
       }
 
     case "link":
+      return "bg-primary/20";
+
+    case "outline":
       return "bg-primary/20";
 
     case "none":

@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   SparkleIcon,
-  TrendUpIcon,
   UserIcon,
   StarIcon,
   MagnifyingGlassIcon,
@@ -17,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthState } from "@/hooks/use-auth-state";
+import { useIconWeight } from "@/lib/morphy-ui/icon-theme-context";
 
 // Interface for stored procedures API response
 interface StoredProcedureDeal {
@@ -64,6 +64,7 @@ const PersonalizedDealsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const iconWeight = useIconWeight();
 
   const categories = [
     { id: "all", name: "All Categories", icon: SparkleIcon },
@@ -73,7 +74,7 @@ const PersonalizedDealsPage = () => {
     { id: "courses", name: "Courses & Learning", icon: UserIcon },
   ];
 
-  const fetchPersonalizedDeals = async () => {
+  const fetchPersonalizedDeals = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -163,11 +164,11 @@ const PersonalizedDealsPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     fetchPersonalizedDeals();
-  }, [isAuthenticated, user]);
+  }, [fetchPersonalizedDeals]);
 
   const filteredDeals = deals.filter((deal) => {
     const matchesSearch =
@@ -204,27 +205,31 @@ const PersonalizedDealsPage = () => {
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <button
+          <Button
+            variant="link"
             onClick={() => router.push("/")}
-            className="hover:text-primary transition-colors"
+            className="p-0 h-auto"
           >
             Home
-          </button>
+          </Button>
           <span>/</span>
           <span className="text-foreground">Personalized Deals</span>
         </nav>
       </div>
 
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary via-purple-600 to-blue-700 text-white">
+      <section className="py-16 bg-gradient-to-r from-[#d0427f] to-[#303293] text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
-            <SparkleIcon className="h-20 w-20 mx-auto mb-6 text-yellow-400" />
+            <SparkleIcon
+              className="h-20 w-20 mx-auto mb-6 text-yellow-300"
+              weight="fill"
+            />
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               {isAuthenticated ? `Hey ${user?.name || "there"}!` : "Your"}{" "}
               Personalized Deals
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-purple-100">
+            <p className="text-xl md:text-2xl mb-8 text-gray-200">
               {isAuthenticated
                 ? "We've curated these deals just for you based on your interests and preferences."
                 : "Discover amazing deals tailored to your interests. Sign in for personalized recommendations!"}
@@ -265,16 +270,11 @@ const PersonalizedDealsPage = () => {
               {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={selectedCategory === category.id ? "blue" : "none"}
+                  variant={selectedCategory === category.id ? "purple" : "none"}
                   size="sm"
                   showRipple
                   onClick={() => setSelectedCategory(category.id)}
-                  icon={{ icon: category.icon }}
-                  className={`transition-all duration-200 ${
-                    selectedCategory === category.id
-                      ? "ring-2 ring-primary"
-                      : ""
-                  }`}
+                  icon={{ icon: category.icon, weight: iconWeight }}
                 >
                   {category.name}
                 </Button>
@@ -333,22 +333,22 @@ const PersonalizedDealsPage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredDeals.map((deal, index) => (
+              {filteredDeals.map((deal) => (
                 <Card
-                  key={index}
+                  key={deal.title}
                   variant="none"
                   showRipple
-                  className="cursor-pointer transition-all duration-200 hover:shadow-lg group relative overflow-hidden"
+                  className="p-4 cursor-pointer transition-all duration-200 hover:shadow-lg group"
                   onClick={() => handleDealClick(deal)}
+                  title={deal.title}
                 >
-                  {/* Deal Image */}
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-t-lg">
-                    <div className="w-full h-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
+                  <div className="relative mb-4">
+                    <div className="aspect-w-1 aspect-h-1 w-full bg-muted rounded-lg overflow-hidden">
                       {deal.image ? (
                         <img
                           src={deal.image}
                           alt={deal.title}
-                          className="w-full h-full object-cover transition-transform duration-300"
+                          className="object-cover w-full h-full transition-transform duration-300"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = "none";
@@ -377,45 +377,26 @@ const PersonalizedDealsPage = () => {
                       </div>
                     )}
                   </div>
-
-                  {/* Deal Content */}
-                  <div className="p-4">
-                    <h3
-                      className="font-semibold text-lg mb-2 line-clamp-1"
-                      title={deal.title}
-                    >
-                      {deal.title}
-                    </h3>
-
-                    {deal.description && (
-                      <p
-                        className="text-sm text-muted-foreground mb-3 line-clamp-2"
-                        title={deal.description}
-                      >
-                        {deal.description}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between">
-                      {deal.category && (
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                          {deal.category}
-                        </span>
-                      )}
-                      <div className="flex items-center gap-1 text-green-600">
-                        <TrendUpIcon className="h-4 w-4" />
-                        <span className="text-sm font-medium">Trending</span>
-                      </div>
-                    </div>
-
-                    {deal.cashback && (
-                      <div className="mt-3 p-2 bg-green-50 rounded-lg border border-green-200">
-                        <div className="text-sm text-green-700 font-medium">
-                          💰 Extra {deal.cashback} Cashback
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <h3 className="text-lg font-bold truncate" title={deal.title}>
+                    {deal.title}
+                  </h3>
+                  <p
+                    className="text-sm text-muted-foreground mt-1 line-clamp-2"
+                    title={deal.description}
+                  >
+                    {deal.description}
+                  </p>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="mt-4"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDealClick(deal);
+                    }}
+                  >
+                    View Deal
+                  </Button>
                 </Card>
               ))}
             </div>

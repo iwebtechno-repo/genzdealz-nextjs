@@ -67,10 +67,7 @@ const DealsGrid = ({ deals, className }: DealsGridProps) => {
                   <img
                     src={deal.image}
                     alt={deal.brandName}
-                    className="w-full h-full object-cover transition-transform duration-300"
-                    width={400}
-                    height={225}
-                    loading="lazy"
+                    className="object-cover w-full h-full transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -133,7 +130,7 @@ const DealsGrid = ({ deals, className }: DealsGridProps) => {
                   variant="gradient"
                   size="sm"
                   showRipple
-                  className="w-full transition-transform duration-200 cursor-pointer"
+                  className="w-full transition-transform duration-200"
                   icon={{ icon: ArrowRightIcon }}
                 >
                   View Deal
