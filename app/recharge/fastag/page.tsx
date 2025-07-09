@@ -12,7 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CarIcon, ArrowLeftIcon } from "@phosphor-icons/react";
+import {
+  CarIcon,
+  ArrowLeftIcon,
+  DeviceMobileIcon,
+  TelevisionIcon,
+  LightningIcon,
+  CreditCardIcon,
+} from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ServiceNavigation from "@/components/recharge/service-navigation";
@@ -61,6 +68,50 @@ const FastagRechargePage = () => {
     },
   ];
 
+  const services = [
+    {
+      id: "mobile",
+      name: "Mobile",
+      icon: DeviceMobileIcon,
+      route: "/recharge",
+    },
+    {
+      id: "dth",
+      name: "DTH",
+      icon: TelevisionIcon,
+      route: "/recharge/dth",
+      comingSoon: true,
+    },
+    {
+      id: "electricity",
+      name: "Electricity",
+      icon: LightningIcon,
+      route: "/recharge/electricity",
+      comingSoon: true,
+    },
+    {
+      id: "fastag",
+      name: "FASTag",
+      icon: CarIcon,
+      route: "/recharge/fastag",
+      comingSoon: true,
+    },
+    {
+      id: "credit-card",
+      name: "Credit Card",
+      icon: CreditCardIcon,
+      route: "/recharge/credit-card",
+      comingSoon: true,
+    },
+  ];
+
+  const handleServiceSelect = (serviceId: string) => {
+    const service = services.find((s) => s.id === serviceId);
+    if (service && !service.comingSoon) {
+      router.push(service.route);
+    }
+  };
+
   const handleRecharge = () => {
     if (!vehicleNumber || !selectedProvider || !amount) {
       toast.error("Please fill all required fields");
@@ -90,9 +141,9 @@ const FastagRechargePage = () => {
       <div className="pt-20 pb-4">
         <div className="container mx-auto px-4">
           <ServiceNavigation
-            layout="compact"
+            services={services}
             selectedService="fastag"
-            showDescription={false}
+            onServiceSelect={handleServiceSelect}
           />
         </div>
       </div>

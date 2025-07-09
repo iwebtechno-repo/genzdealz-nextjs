@@ -18,6 +18,10 @@ import {
   MagnifyingGlassIcon,
   CalendarIcon,
   CurrencyInrIcon,
+  DeviceMobileIcon,
+  TelevisionIcon,
+  LightningIcon,
+  CarIcon,
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -63,6 +67,50 @@ const CreditCardBillPage = () => {
       image: "/images/operators/kotak-card.png",
     },
   ];
+
+  const services = [
+    {
+      id: "mobile",
+      name: "Mobile",
+      icon: DeviceMobileIcon,
+      route: "/recharge",
+    },
+    {
+      id: "dth",
+      name: "DTH",
+      icon: TelevisionIcon,
+      route: "/recharge/dth",
+      comingSoon: true,
+    },
+    {
+      id: "electricity",
+      name: "Electricity",
+      icon: LightningIcon,
+      route: "/recharge/electricity",
+      comingSoon: true,
+    },
+    {
+      id: "fastag",
+      name: "FASTag",
+      icon: CarIcon,
+      route: "/recharge/fastag",
+      comingSoon: true,
+    },
+    {
+      id: "credit-card",
+      name: "Credit Card",
+      icon: CreditCardIcon,
+      route: "/recharge/credit-card",
+      comingSoon: true,
+    },
+  ];
+
+  const handleServiceSelect = (serviceId: string) => {
+    const service = services.find((s) => s.id === serviceId);
+    if (service && !service.comingSoon) {
+      router.push(service.route);
+    }
+  };
 
   const handleCardNumberChange = (value: string) => {
     // Remove spaces and non-numeric characters
@@ -122,9 +170,9 @@ const CreditCardBillPage = () => {
       <div className="pt-20 pb-4">
         <div className="container mx-auto px-4">
           <ServiceNavigation
-            layout="compact"
+            services={services}
             selectedService="credit-card"
-            showDescription={false}
+            onServiceSelect={handleServiceSelect}
           />
         </div>
       </div>
