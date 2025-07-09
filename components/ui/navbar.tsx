@@ -9,7 +9,6 @@ import {
   WalletIcon,
   ShoppingBagIcon,
   UsersThreeIcon,
-  CompassIcon,
   DotsThreeIcon,
   GiftIcon,
   SunIcon,
@@ -102,7 +101,6 @@ export const Navbar = () => {
       label: "GenZGPT",
       protected: true,
     },
-    { href: "/explore", icon: CompassIcon, label: "Explore", protected: false },
     { href: "/recharge", icon: WalletIcon, label: "Recharge", protected: true },
     {
       href: "/giftcards",

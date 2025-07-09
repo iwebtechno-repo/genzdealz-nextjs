@@ -11,6 +11,11 @@ import {
   SidebarSimpleIcon,
 } from "@phosphor-icons/react";
 import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import {
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -63,28 +68,35 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
               size="icon"
               showRipple
               aria-label="Toggle sidebar"
-              className="group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:p-0"
+              className="w-10 h-10 cursor-pointer group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:p-0"
             >
               <SidebarSimpleIcon className="h-4 w-4" weight={iconWeight} />
             </SidebarTrigger>
             <div className="flex items-center justify-between w-full">
-              <Button
-                variant="none"
-                effect="glass"
-                size="lg"
-                onClick={onNewChat}
-                showRipple
-                aria-label="New Chat"
-                className="w-full justify-start group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:hover:bg-sidebar-accent/30"
-              >
-                <PlusIcon className="h-4 w-4" />
-                <span className="group-data-[collapsible=icon]:hidden flex items-center gap-2 ml-2">
-                  New Chat
-                  <span className="text-xs text-muted-foreground">
-                    ({chatHistory.length})
-                  </span>
-                </span>
-              </Button>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="none"
+                    effect="glass"
+                    size="lg"
+                    onClick={onNewChat}
+                    showRipple
+                    aria-label="New Chat"
+                    className="cursor-pointer w-full justify-start group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:rounded-md group-data-[collapsible=icon]:hover:bg-sidebar-accent/30"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                    <span className="group-data-[collapsible=icon]:hidden flex items-center gap-2 ml-2">
+                      New Chat
+                      <span className="text-xs text-muted-foreground">
+                        ({chatHistory.length})
+                      </span>
+                    </span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="select-none">
+                  New Chat ({chatHistory.length})
+                </TooltipContent>
+              </Tooltip>
             </div>
           </SidebarHeader>
           <SidebarContent className="flex-1 overflow-y-auto px-2 min-h-0">
@@ -98,7 +110,7 @@ const ChatSidebar = React.forwardRef<HTMLDivElement, ChatSidebarProps>(
                     variant={chat.isActive ? "outline" : "default"}
                     size="lg"
                     className={cn(
-                      "w-full text-left flex items-center p-3 rounded-lg transition-all duration-200",
+                      "cursor-pointer w-full text-left flex items-center p-3 rounded-lg transition-all duration-200",
                       chat.isActive
                         ? "bg-primary/20 border-primary/50 text-primary shadow-md hover:bg-primary/25"
                         : "hover:bg-muted/50 hover:text-foreground"

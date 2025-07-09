@@ -3,13 +3,7 @@ import type { NextRequest } from "next/server";
 
 // Public routes that are always accessible without authentication
 // Everything *not* in this list (and matched by `config.matcher`) requires auth.
-const publicRoutes = [
-  "/",
-  "/login",
-  "/explore",
-  "/deal-of-the-day",
-  "/favicon.ico",
-];
+const publicRoutes = ["/", "/login", "/deal-of-the-day", "/favicon.ico"];
 
 export const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
