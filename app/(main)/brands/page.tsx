@@ -47,7 +47,15 @@ const categories = [
 //    category?: string
 // }
 
-const mapUpstreamToBrand = (item: any): Brand => ({
+interface UpstreamBrand {
+  brand_id?: string | number;
+  brandName?: string;
+  logoURL?: string;
+  maxDiscount?: number;
+  category?: string;
+}
+
+const mapUpstreamToBrand = (item: UpstreamBrand): Brand => ({
   id: item.brand_id?.toString() ?? "",
   name: item.brandName ?? "Unknown",
   image: item.logoURL ?? "/file.svg",

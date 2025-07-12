@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
 
-interface Params {
-  params: { id: string };
-}
-
 // GET /api/brands/:id -> proxies to getBrandDetails?brand_id=<id>
-export async function GET(_req: Request, { params }: Params) {
-  const { id } = params;
+export async function GET(_request: Request, context: unknown) {
+  const { id } = (context as { params: { id: string } }).params;
 
   if (!id) {
     return NextResponse.json(
