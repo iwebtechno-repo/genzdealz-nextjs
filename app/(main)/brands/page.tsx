@@ -38,75 +38,69 @@ const categories = [
   { id: "travel", name: "Travel", icon: AirplaneIcon },
 ];
 
-const mockBrands: Brand[] = [
-  {
-    id: "1",
-    name: "Amazon",
-    image: "/file.svg",
-    cashback: "Up to 5%",
-    category: "electronics",
-    description: "Get cashback on millions of products",
-    featured: true,
-  },
-  {
-    id: "2",
-    name: "Flipkart",
-    image: "/file.svg",
-    cashback: "Up to 7%",
-    category: "electronics",
-    description: "India's leading e-commerce platform",
-    featured: true,
-  },
-  {
-    id: "3",
-    name: "Myntra",
-    image: "/file.svg",
-    cashback: "Up to 10%",
-    category: "fashion",
-    description: "Fashion and lifestyle shopping",
-    featured: true,
-  },
-  {
-    id: "4",
-    name: "Zomato",
-    image: "/file.svg",
-    cashback: "Up to 8%",
-    category: "food",
-    description: "Food delivery and dining out",
-  },
-  {
-    id: "5",
-    name: "Swiggy",
-    image: "/file.svg",
-    cashback: "Up to 6%",
-    category: "food",
-    description: "Food delivery at your doorstep",
-  },
-  {
-    id: "6",
-    name: "MakeMyTrip",
-    image: "/file.svg",
-    cashback: "Up to 12%",
-    category: "travel",
-    description: "Book flights, hotels & holidays",
-  },
-];
+// Remote API returns an array like:
+// {
+//    brand_id: string,
+//    brandName: string,
+//    logoURL: string,
+//    maxDiscount: number,
+//    category?: string
+// }
+
+const mapUpstreamToBrand = (item: any): Brand => ({
+  id: item.brand_id?.toString() ?? "",
+  name: item.brandName ?? "Unknown",
+  image: item.logoURL ?? "/file.svg",
+  cashback: `${item.maxDiscount ?? 0}% CB`,
+  category: (item.category ?? "general").toLowerCase(),
+  description: "",
+  discount: item.maxDiscount?.toString() ?? undefined,
+});
 
 const BrandsPage = () => {
   // const router = useRouter();
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const iconWeight = useIconWeight();
 
+  // Debounce search input to avoid spamming API
   useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      setBrands(mockBrands);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Fetch brands from internal API whenever the debounced search term changes
+  useEffect(() => {
+    const fetchBrands = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `/api/brands?search=${encodeURIComponent(
+            debouncedSearch
+          )}&page=1&pageSize=60`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) throw new Error("Failed to load brands");
+        const data = await res.json();
+        const parsed: Brand[] = Array.isArray(data)
+          ? data.map(mapUpstreamToBrand)
+          : [];
+        setBrands(parsed);
+      } catch (err) {
+        console.error(err);
+        toast.error("Unable to fetch brands. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, [debouncedSearch]);
 
   const handleBrandClick = (brand: Brand) => {
     toast.info(`${brand.name} clicked`);
@@ -121,7 +115,8 @@ const BrandsPage = () => {
       brand.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-  const featuredBrands = brands.filter((brand) => brand.featured);
+  // Upstream API does not flag featured brands; keep empty or implement custom rule
+  const featuredBrands: Brand[] = [];
 
   return (
     <>

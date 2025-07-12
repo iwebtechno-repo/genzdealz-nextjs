@@ -370,25 +370,45 @@ const LoginPage = () => {
   const [showOtpModal, setShowOtpModal] = useState(false);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="container mx-auto flex max-w-4xl flex-col items-center justify-center px-4 md:flex-row">
-        {/* Hero on the right (desktop) */}
-        {/* Container reverses order on md to place hero on the right */}
-        <div className="relative hidden w-full md:block md:w-1/2 overflow-hidden">
-          {/* Spinning conic gradient */}
-          <div
-            className="absolute inset-0 animate-[spin_30s_linear_infinite]"
-            style={{
-              background:
-                "conic-gradient(from 180deg at 50% 50%, #d0427f 0deg, #ff6fa7 90deg, #303293 180deg, #6a5efc 270deg, #d0427f 360deg)",
-            }}
-          />
-          {/* Soft blur overlay */}
-          <div className="absolute inset-0 backdrop-blur-2xl opacity-30" />
-        </div>
+    <div className="grid min-h-screen grid-cols-1 md:grid-cols-2 bg-background -mb-28 overflow-hidden">
+      {/* Left: Hero (desktop only) */}
+      <div className="relative hidden md:block overflow-hidden">
+        {/* Spinning conic gradient */}
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vmax] h-[150vmax] animate-[spin_30s_linear_infinite]"
+          style={{
+            background:
+              "conic-gradient(from 180deg at 50% 50%, #d0427f 0deg, #ff6fa7 90deg, #303293 180deg, #6a5efc 270deg, #d0427f 360deg)",
+          }}
+        />
+        {/* Soft blur + slight dark overlay */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-xl" />
 
-        {/* Right Side: Form */}
-        <div className="w-full max-w-md p-4 md:w-1/2 md:p-8">
+        {/* Content overlay */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center gap-8 p-10 text-center">
+          <h2 className="text-white text-4xl md:text-5xl font-extrabold drop-shadow-lg">
+            Save Smarter. Live Better.
+          </h2>
+          <p className="max-w-sm text-lg md:text-xl font-medium text-white/90">
+            Instant cashback, exclusive student deals & AI-powered picks.
+          </p>
+          <ul className="space-y-1 text-white/80 text-sm md:text-base">
+            <li className="flex items-center justify-center gap-2">
+              ✓ 1,000+ brand partners
+            </li>
+            <li className="flex items-center justify-center gap-2">
+              ✓ Up to 70% cashback
+            </li>
+            <li className="flex items-center justify-center gap-2">
+              ✓ Personalised offers
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Right: Form */}
+      <div className="flex justify-center p-6 md:py-12">
+        <div className="w-full max-w-md md:p-8">
           <AnimatedTabs onRegisterSuccess={() => setShowOtpModal(true)} />
         </div>
       </div>
